@@ -1,0 +1,148 @@
+{% extends "base.html" %}
+
+{% block page_title %}Member Center{% endblock %}
+
+{% block additional_css %}
+<style>
+article#main-content {
+  margin-top: 15px;
+  padding : 10px;
+  background-color: rgba(255, 255, 255, 0.5);
+  border-radius: 2px;
+}
+#img-up, #profile-img {
+  height: 100px;
+  width: 100px;
+}
+</style>
+{% endblock %}
+
+{% block container%}
+<article id="main-content">
+<ul class="nav nav-tabs" id="member-tab">
+  <li class="active">
+    <a href="#Account" data-toggle="tab">Account</a>
+  </li>
+  <li>
+    <a href="#Password" data-toggle="tab">Password</a>
+  </li>
+  <li>
+    <a href="#Profile"  data-toggle="tab">Profile</a>
+  </li>
+  <li>
+    <a href="#Orders"  data-toggle="tab">Orders</a>
+  </li>
+</ul>
+<div class="tab-content">
+  <div id="Account" class="tab-pane fade active in">
+    <ul id="account-info">
+      <li class="info-item item">
+        <label>User Name</label>
+        <input type="text" name="username" id="overview-username" value="{{user.username}}" />
+      </li>
+      <li class="info-item item">
+        <label>Age</label>
+        <input type="number" name="age" value="{{user.age}}" id="overview-age" />
+      </li>
+      <li class="info-item item">
+        <label>Gender</label>
+        <select name="gender" id="overview-gender">
+          <option value="0" {% if user.gender == 0 %}selected="selected"{%endif%}>Secrete</option>
+          <option value="1" {% if user.gender == 1 %}selected="selected"{%endif%}>Boy</option>
+          <option value="2" {% if user.gender == 2 %}selected="selected"{%endif%}>Girl</option>
+        </select>
+      </li>
+      <li class="info-item item">
+        <label>Email</label>
+        <input type="email" name="email" value="{{user.email}}" id="overview-email" />
+      </li>
+      <li class="info-item item">
+        <label>Address</label>
+        <input type="text" name="address" value="{{user.address}}" id="overview-address" />
+      </li>
+      <li class="info-item item">
+        <label></label>
+        <a class="edit btn btn-info">
+          <i class="icon-pencil"></i>
+          Change
+        </a>
+      </li>
+    </ul>
+  </div>
+  <div id="Password" class="tab-pane fade">
+    <ul id="password-info">
+      <li class="info-item item">
+        <label>User Name</label>
+        <input type="text" name="username" value="{{user.username}}" disabled/>
+      </li>
+      <li class="info-item item">
+        <label>Password</label>
+        <input type="password" name="password" id="psw-1" />
+      </li>
+      <li class="info-item item">
+        <label>Repeat</label>
+        <input type="password" name="password" id="psw-2" />
+      </li>
+      <li class="info-item item">
+        <label></label>
+        <a class="edit btn btn-info">
+          <i class="icon-pencil"></i>
+          Change
+        </a>
+      </li>
+    </ul>
+  </div>
+  <div id="Profile" class="tab-pane fade">
+    <img id="profile-img" src='/static/img/profile/{{user.id}}.png'/>
+    <input type="file" name="file" id="img-uploader"/>
+  </div>
+  <div id="Orders" class="tab-pane fade">
+    Orders
+  </div>
+</div>
+</article>
+{% endblock %}
+
+{% block body_script %}
+<script>
+$(document).ready(function() {
+
+$('#img-uploader').change(function() {
+  $(this).upload('/member/profile/img', function(data){
+    var img = $("#profile-img");
+    var src = img.attr('src');
+    src += '?' + new Date().getTime();
+    img.attr('src', src);
+  }, 'html');
+});
+
+$("#overview-submit").click(function() {
+  var data = {
+    username : $("#overview-username").val(),
+    age : $("#overview-age").val(),
+    gender: $("#overview-gender").val(),
+    email: $("#overview-email").val(),
+    address: $("#overview-address").val()
+  };
+  user.update({{user.id}}, data);
+});
+$("#psw-submit").click(function() {
+  var p1 = $("#psw-1").val();
+  var p2 = $("#psw-2").val();
+  if (p1 != p2) {
+    error.top_message("password not match");
+    return;
+  }
+  if (p1 == "") {
+    error.top_message("password empty");
+    return;
+  }
+  var data = {
+    password: p1 
+  };
+  user.update({{user.id}}, data);
+});
+
+});
+</script>
+{% endblock %}

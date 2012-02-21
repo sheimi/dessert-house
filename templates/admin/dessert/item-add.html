@@ -1,0 +1,44 @@
+<ul class="nav nav-tabs" id="member-tab">
+  <li class="active">
+    <a href="#Dessert" data-toggle="tab">Dessert</a>
+  </li>
+</ul>
+<div class="tab-content popup">
+  <div id="Dessert" class="tab-pane active">
+    <ul id="dessert-info">
+      <li class="info-item item">
+        <label>Dessert Name</label>
+        <input type="text" name="dessertname" id="overview-dessertname" />
+      </li>
+      <li class="info-item item">
+        <label></label>
+        <a class="btn" id="overview-submit">
+          <i class="icon-plus"></i>
+            Add Dessert
+        </a>
+      </li>
+    </ul>
+  </div>
+</div>
+</article>
+<script>
+$(document).ready(function() {
+$("#overview-submit").click(function() {
+  var data = {
+    dessert_name: $("#overview-dessertname").val()
+  };
+  dessert.create(data).done(function(json) {
+    var item = '<tr class="table-item" id="table-item-' + json.dessert.id  + '">'
+                + '<td class="item-id">' + json.dessert.id + '</td>'
+                + '<td class="item-name">' + json.dessert.dname + '</td>' 
+                + '<td class="item-img">' 
+                + '<img id="dessert-img-' + json.dessert.id + '" src="/static/img/profile/1.png"/>'
+                + '<td class="oprations"><a class="edit btn btn-info">'
+                + '<i class="icon-pencil"></i>Edit</a></td></tr>'; 
+    $("#admin-table tbody").append(item);
+    $.fancybox.close();
+  });
+
+});
+});
+</script>

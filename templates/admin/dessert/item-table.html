@@ -1,0 +1,35 @@
+<table id="admin-table" class="table table-striped">
+  <thead>
+    <tr>
+        <th class="header">#</th>
+        <th class="header">Dessert Name</th>
+        <th class="header">image</th>
+      <th class="header">Operations</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for d in dessert_list%}
+    <tr class="table-item" id="table-item-{{d.id}}">
+      <td class="item-id">{{d.id}}</td>
+      <td class="item-name">{{d.dname}}</td>
+      <td class="item-img">
+        <img id="dessert-img-{{d.id}}" src='/static/img/dessert/{{d.img}}.png'/>
+      </td>
+      <td class="oprations">
+        <a class="edit btn btn-info">
+          <i class="icon-pencil"></i>
+          Edit
+        </a>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+<script>
+$(document).ready(function() {
+$(".edit").live('click', function() {
+  var id = $(this).parents('tr').find(".item-id").text(); 
+  $.fancy_ajax('/admin/dessert/' + id);
+});
+});
+</script>

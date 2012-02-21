@@ -1,0 +1,47 @@
+<ul class="nav nav-tabs" id="member-tab">
+  <li class="active">
+    <a href="#Type" data-toggle="tab">Dessert Type</a>
+  </li>
+</ul>
+<div class="tab-content popup">
+  <div id="Type" class="tab-pane active">
+    <ul id="perm-info">
+      <li class="info-item item">
+        <label>Type Name</label>
+        <input type="text" name="typename" id="overview-typename" value="{{type.typename}}" />
+      </li>
+      </li>
+      <li class="info-item item">
+        <label></label>
+        <a class="edit btn btn-info"  id="overview-submit">
+          <i class="icon-pencil"></i>
+          Change
+        </a>
+        <a class="btn btn-danger" id="delete">
+          <i class="icon-trash icon-white"></i>
+          Delete
+        </a>
+      </li>
+    </ul>
+  </div>
+</div>
+</article>
+<script>
+$(document).ready(function() {
+$("#overview-submit").click(function() {
+  var data = {
+    typename: $("#overview-typename").val(),
+  };
+  dessert_type.update({{type.id}}, data).done(function(json) {
+    $("#table-item-{{type.id}}").find(".item-name").text(json.desserttype.typename);
+    $.fancybox.close();
+  });
+});
+$("#delete").click(function() {
+  dessert.delete({{type.id}}).done(function(json) {
+    $.fancybox.close();
+    $("#table-item-{{type.id}}").fadeOut('slow').remove();
+  });
+});
+});
+</script>

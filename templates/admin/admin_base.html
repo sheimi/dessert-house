@@ -1,0 +1,53 @@
+{% extends "base.html"%}
+
+{% block page_title %}Admin - {% block admin_title %}{% endblock %}{% endblock %}
+
+{% block additional_css %}
+<style>
+#admin-nav li {
+  font-size: 15px;
+}
+
+</style>
+{% endblock %}
+
+{% block container %}
+<div class="container-fluid">
+  <div class="row-fluid">
+    <div class="sidebar-nav well span3">
+      <ul id="admin-nav" class="nav nav-list">
+        <li class="nav-header">Admin Pages</li>
+        <li class="nav-item {% if admin_index %}active{% endif %}">
+          <a href="/admin">Index</a>
+        </li>
+        <li class="nav-item {% if admin_user%}active{% endif %}">
+          <a href="/admin/user">User</a>
+        </li>
+        <li class="nav-item {% if admin_role%}active{% endif %}">
+          <a href="/admin/role">Role</a>
+        </li>
+        <li class="nav-item {% if admin_perm%}active{% endif %}">
+          <a href="/admin/perm">Permission</a>
+        </li>
+        <li class="nav-item {% if admin_type%}active{% endif %}">
+          <a href="/admin/type">UserType</a>
+        </li>
+        <li class="nav-item {% if admin_product%}active{% endif %}">
+          <a href="/admin/product">Product</a>
+        </li>
+        <li class="nav-item {% if admin_dessert%}active{% endif %}">
+          <a href="/admin/dessert">Dessert</a>
+        </li>
+        <li class="nav-item {% if admin_dtype%}active{% endif %}">
+          <a href="/admin/dtype">Dessert Type</a>
+        </li>
+      {% block admin_side %}
+      {% endblock %}
+      </ul>
+    </div>
+    <div class="content span8">
+      {% block content %}{% endblock %}
+    </div>
+  </div>
+</div>
+{% endblock %}

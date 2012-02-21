@@ -1,0 +1,42 @@
+<ul class="nav nav-tabs" id="member-tab">
+  <li class="active">
+    <a href="#Prem" data-toggle="tab">Premission</a>
+  </li>
+</ul>
+<div class="tab-content popup">
+  <div id="Prem" class="tab-pane active">
+    <ul id="perm-info">
+      <li class="info-item item">
+        <label>Permission Name</label>
+        <input type="text" name="permname" id="overview-permname" />
+      </li>
+      <li class="info-item item">
+        <label></label>
+        <a class="btn" id="overview-submit">
+          <i class="icon-plus"></i>
+            Add Permission
+        </a>
+      </li>
+    </ul>
+  </div>
+</div>
+</article>
+<script>
+$(document).ready(function() {
+$("#overview-submit").click(function() {
+  var data = {
+    permname : $("#overview-permname").val()
+  };
+  perm.create(data).done(function(json) {
+    var item = '<tr class="table-item" id="table-item-' + json.permission.id  + '">'
+                + '<td class="item-id">' + json.permission.id + '</td>'
+                + '<td class="item-name">' + json.permission.permname + '</td>'
+                + '<td class="oprations"><a class="edit btn btn-info">'
+                + '<i class="icon-pencil"></i>Edit</a></td></tr>';
+    $("#admin-table tbody").append(item);
+    $.fancybox.close();
+  });
+
+});
+});
+</script>

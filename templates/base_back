@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+	<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>{% block page_title %}{% endblock %}</title>
+    <link type="text/css" rel="stylesheet" href="/static/bootstrap/css/bootstrap.min.css" />
+    <link type="text/css" rel="stylesheet" href="/static/css/core.css" />
+    <link type="text/css" rel="stylesheet" href="/static/css/colorbox.css" />
+    <link type="text/css" rel="stylesheet" href="/static/fb/jquery.fancybox.css" />
+    <link type="text/css" rel="stylesheet" href="/static/fb/helpers/jquery.fancybox-buttons.css" />
+    <link type="text/css" rel="stylesheet" href="/static/fb/helpers/jquery.fancybox-thumbs.css" />
+    {%block additional_css%}{% endblock %}
+    <script type="text/javascript" src="/static/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript" src="/static/js/jquery.colorbox.js"></script>
+    <script type="text/javascript" src="/static/fb/jquery.fancybox.js"></script>
+    <script type="text/javascript" src="/static/fb/helpers/jquery.fancybox-buttons.js"></script>
+    <script type="text/javascript" src="/static/fb/helpers/jquery.fancybox-thumbs.js"></script>
+    <script type="text/javascript" src="/static/js/jquery.tablesorter.min.js"></script>
+    <script type="text/javascript" src="/static/bootstrap/js/bootstrap.js"></script>
+    <script type="text/javascript" src="/static/js/jquery.upload-1.0.2.js"></script>
+    <script type="text/javascript" src="/static/js/mine/core.js"></script>
+    <script type="text/javascript" src="/static/js/mine/obj.js"></script>
+    <script type="text/javascript" src="/static/js/mine/helper.js"></script>
+    {% block additional_script %}{% endblock %}
+  </head>
+  <body>
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="brand" href="/">DHouse</a>
+          <ul class="nav">
+            <li {% if index %}class="active" {% endif %}>
+              <a href="/">
+                <i class="icon-home icon-white"></i>
+                Index
+              </a>
+            </li>
+            <li {% if member_center%}class="active" {% endif %}>
+              <a href="/member">
+                <i class="icon-user icon-white"></i>
+                Member Center
+              </a>
+            </li>
+          </ul>
+          <form class="navbar-search pull-left">
+            <input id="global_search" type="search" placeholder="Search" />
+          </form>
+          {% if user %}
+          <ul class="nav pull-right">
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                <i class="icon-cog icon-white"></i>
+                {{user.username}}
+              </a>
+              <ul class="dropdown-menu">
+                {% if user.has_perm("can_view_admin") %}
+                <li><a href="/admin">Admin</a></li>
+                {% endif %}
+                <li><a href="#">Something else here</a></li>
+                <li class="divider"></li>
+                {% if user.usertype %}
+                <li><a href="#recharge-modal" data-toggle="modal">Recharge</a></li>
+                <li class="divider"></li>
+                {% endif %}
+                <li><a href="/signout">Sign Out</a></li>
+              </ul>
+            </li>
+          </ul>
+          {% if user.usertype %}
+          <div id="recharge-modal" class="modal hide fade" style="display: block;">
+            <div class="modal-header">
+              <a class="close" data-dismiss="modal">x</a>
+              <h3>Recharge Your Membership</h3>
+            </div>
+            <div class="modal-body">
+              Recharge: &nbsp;&nbsp;&nbsp;
+              <input id="recharge-year" type="number" min="1" />
+              &nbsp;&nbsp;&nbsp;
+              X &nbsp;&nbsp;&nbsp;{{user.usertype.fee}} 
+            </div>
+            <div class="modal-footer">
+              <a href="#" class="btn primary" id="recharge">Recharge</a>
+            </div>
+          </div>
+          <script>
+            $(document).ready(function() {
+                $("#recharge").click(function() {
+                  var year = parseInt($("#recharge-year").val());
+                  if (year > 0) {
+                    user.recharge( {{user.id}}, year);
+                    $("#recharge-modal").modal('hide');
+                  }
+                });
+            });
+          </script>
+          {% endif %}
+          {% elif register %}
+          <ul class="nav pull-right">
+            <li>
+              <a href="/signin">Have an account? Sign in</a>
+            </li>
+          </ul>
+          {% elif signin %}
+          <ul class="nav pull-right">
+            <li>
+              <a href="/register"> Register </a>
+            </li>
+          </ul>
+          {% else %}
+          <ul class="nav pull-right">
+            <li><a href="/signin">Have an account? Sign in</a></li>
+            <li><a href="/register"> Register </a></li>
+          </ul>
+          {% endif %}
+          {% block topbar %}{% endblock %}
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div id="main-container" class="container">
+      {%if user and user.usertype and  user.is_expired() %}
+      <div id="expired_error" class="alert block-message">
+        <a class="close" href="#">x</a>
+        <p> 
+          <strong>Your Membership Has Expired Pless 
+            <a href="#" id="modal-press2" >Press Here</a> to Recharge  
+        </strong></p>
+      </div>
+      <script>
+        $(document).ready(function() {
+            $("#modal-press2").click(function() {
+              $("#recharge-modal").modal({
+                backdrop: true,
+                keyboard: true,
+                show: true
+              });
+            });
+        });
+      </script>
+      {% endif %}
+      {%block container%} 
+      {%endblock%}
+    </div>
+  <footer>
+    <article class="container">
+      <section class="left bre">
+        <section class="region">
+        <h4>BUY</h4>
+          <p><a href="#">Registration</a></p>
+          <p><a href="#">Buyer protection</a></p>
+          <p><a href="#">Bidding &amp; buying help</a></p>
+          <p><a href="#">Stores</a></p>
+          <p><a href="#">Top products</a></p>
+        </section>
+      </section>
+      <section class="left bre">
+        <section class="region">
+          <h4>ABOUT Dessert House</h4>
+          <p><a href="#">Company info</a></p>
+          <p><a href="#">Goverment relations</a></p>
+          <p><a href="#">Policies</a></p>
+          <p><a href="#">Contact us</a></p>
+          <p><a href="#">Tell us what you think</a></p>
+        </section>
+      </section>
+      <section class="left bre">
+        <section class="region">
+          <h4>STAY CONNECTED</h4>
+          <p><a href="#">Facebook</a></p>
+          <p><a href="#">Twitter</a></p>
+          <p><a href="#">Google+</a></p>
+         </section>
+      </section>
+      <section id="copyright" class="clear">
+        Copyright &copy; 2012 Dessert House Inc. All Rights Reserved. Designated trademarks and brands are the property of their respective owners. Use of this Web site constitutes acceptance of the Dessert House 
+      </section>
+    </article>
+  </footer>
+  {% block body_script %}{% endblock %}
+</body>
+</html>

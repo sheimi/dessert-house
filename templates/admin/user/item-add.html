@@ -1,0 +1,50 @@
+<ul class="nav nav-tabs" id="member-tab">
+  <li class="active">
+    <a href="#Account" data-toggle="tab">Account</a>
+  </li>
+</ul>
+<div class="tab-content popup">
+  <div id="Account" class="tab-pane active">
+    <ul id="account-info">
+      <li class="info-item item">
+        <label>User Name</label>
+        <input type="text" name="username" id="overview-username"/>
+      </li>
+      <li class="info-item item">
+        <label>Password</label>
+        <input type="password" name="password" id="psw" />
+      </li>
+      <li class="info-item item">
+        <label></label>
+        <a class="btn" id="overview-submit">
+          <i class="icon-plus"></i>
+            Add User
+        </a>
+      </li>
+    </ul>
+  </div>
+</div>
+</article>
+<script>
+$(document).ready(function() {
+$("#overview-submit").click(function() {
+  var data = {
+    username : $("#overview-username").val(),
+    password: $("#psw").val()
+  };
+  user.create(data).done(function(json) {
+    var item = '<tr class="table-item" id="table-item-' + json.user.id + '">'
+                + '<td class="item-id">' + json.user.id + '</td>'
+                + '<td class="item-name">' + json.user.username + '</td>'
+                + '<td class="item-active"><div class="btn-group" data-toggle="buttons-radio">'
+                + '<a class="u_active btn active btn-success'
+                + '">Active</a><a class="u_deactive btn  btn-success ">Inactive</a>';
+  
+    item += '</div></td><td class="oprations"><a class="edit btn btn-info">'
+                + '<i class="icon-pencil"></i>Edit</a></td></tr>';
+    $("#admin-table tbody").append(item);
+    $.fancybox.close();
+  });
+});
+});
+</script>

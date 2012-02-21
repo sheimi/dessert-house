@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+
+{% block page_title %}index{% endblock %}
+
+{% block additional_css %}
+<style>
+ul#dessert_ul {
+  display: block;
+  margin: 0;
+  margin-right: 3px;
+  border-top: 1px solid #c6c6c6;
+  border-bottom: 1px solid #c6c6c6;
+  
+}
+div.item-block {
+  padding: 10px;
+  width: 213px;
+  height: 200px;
+  border-bottom: 1px solid #c6c6c6;
+}
+div.hover {
+  background: rgba(220, 220, 220, 0.2);
+}
+span.item-img {
+  width: 210px;
+  height: 180px;
+  text-align: center;
+  display: table-cell;
+  border: 1px solid #ddd;
+  vertical-align: middle;
+}
+.item-img img {
+  height: 170px;
+}
+span.name {
+  padding: 5px;
+}
+.dessert-img span {
+  width: 300px;
+  height:300px;
+  text-align: center;
+  display: table-cell;
+  border: 1px solid #ddd;
+  vertical-align: middle;
+}
+.dessert-img img{
+  width: 280px;
+}
+.dessert-img {
+  width: 340px;
+}
+.dessert-info {
+  width: 260px;
+  padding: 10px;
+}
+.dessert-info label {
+  text-align: left;
+  padding: 5px;
+}
+.dessert-info li{
+  padding: 5px;
+}
+.dessert-info .btn {
+  width: 70px;
+}
+</style>
+{% endblock %}
+
+
+{% block container%}
+<section id="dessert_list">
+  <ul id="dessert_ul">
+    {% for d in dessert_list%}
+    <li class="dessert-item left">
+      <div class="item-block" id="item-{{d.id}}" item-id="{{d.id}}">
+        <span class="item-img">
+          <img id="dessert-img-{{d.id}}" src='/static/img/dessert/{{d.img}}.png'/>
+        </span>
+        <span class="name">{{d.dname}}</span>
+      </div>
+    </li> 
+    {% endfor %}
+    <li class="clear"></li>
+  </ul>
+</section>
+{% endblock %}
+
+{% block body_script %}
+<script>
+$(document).ready(function() {
+$(".item-block").hover(function() {
+  $(this).addClass("hover");
+}, function() {
+  $(this).removeClass("hover");
+});
+$(".item-block").click(function() {
+  $.fancy_ajax('/index/dessert/' + $(this).attr('item-id'));
+});
+});
+</script>
+{% endblock %}

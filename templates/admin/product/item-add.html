@@ -1,0 +1,57 @@
+<ul class="nav nav-tabs" id="member-tab">
+  <li class="active">
+    <a href="#Product" data-toggle="tab">Product</a>
+  </li>
+</ul>
+<div class="tab-content popup">
+  <div id="Product" class="tab-pane active">
+    <ul id="product-info">
+      <li class="info-item item">
+        <label>Dessert</label>
+        <select name="dessert" id="overview-dessert">
+          <option value="">--select--</option>
+          {% for dessert in dessert_list%}
+          <option value="{{dessert.id}}" id="op-{{dessert.id}}" >{{dessert.dname}}</option>
+          {% endfor %}
+        </select>
+      </li>
+      <li class="info-item item">
+        <label>Num</label>
+        <input type="number" name="num" min="0" id="overview-num" />
+      </li>
+      <li class="info-item item">
+        <label>Price</label>
+        <input type="number" min="0" name="fee" id="overview-price" />
+      </li>
+      <li class="info-item item">
+        <label></label>
+        <a class="btn" id="overview-submit">
+          <i class="icon-plus"></i>
+            Add Product
+        </a>
+      </li>
+    </ul>
+  </div>
+</div>
+</article>
+<script>
+$(document).ready(function() {
+$("#overview-submit").click(function() {
+  var data = {
+    dessert: $("#overview-dessert").val(),
+    num : $("#overview-num").val(),
+    price: $("#overview-price").val()
+  };
+  product.create(data).done(function(json) {
+    var d_name = $("#op-"+data.dessert).text();
+    var item = '<tr class="table-item" id="table-item-' + json.product.id + '">'
+                + '<td class="item-id">' + json.product.id + '</td>'
+                + '<td class="item-name">' + d_name + '</td>'
+                + '<td class="oprations"><a class="edit btn btn-info">'
+                + '<i class="icon-pencil"></i>Edit</a></td></tr>';
+    $("#admin-table tbody").append(item);
+    $.fancybox.close();
+  });
+});
+});
+</script>

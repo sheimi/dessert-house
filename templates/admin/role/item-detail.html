@@ -1,0 +1,95 @@
+<ul class="nav nav-tabs" id="member-tab">
+  <li class="active">
+    <a href="#Type" data-toggle="tab">Role</a>
+  </li>
+  <li>
+    <a href="#Perm" data-toggle="tab">Permission</a>
+  </li>
+</ul>
+<div class="tab-content popup">
+  <div id="Type" class="tab-pane active fandin">
+    <ul id="role-info">
+      <li class="info-item item">
+        <label>Role Name</label>
+        <input type="text" name="rolename" id="overview-rolename" value="{{role.rolename}}" />
+      </li>
+      <li class="info-item item">
+        <label></label>
+        <a class="edit btn btn-info" id="overview-submit">
+          <i class="icon-pencil"></i>
+          Change
+        </a>
+        <a class="btn btn-danger" id="delete">
+          <i class="icon-trash icon-white"></i>
+          Delete
+        </a>
+      </li>
+    </ul>
+  </div>
+  <div id="Perm" class="tab-pane fandin">
+    <ul id="role-info">
+      <li class="info-item item">
+        <label>Permissions</label>
+        <select size="10" multiple="multiple" name="perms" id="perm-all">
+          {% for perm in perms%}
+          <option {%if role.contains_perm(perm.permname)%} selected="selected"{% endif%} value="{{perm.id}}">{{perm.permname}}</option>
+          {% endfor %}
+        </select>
+      </li>
+      <li class="info-item item">
+        <label></label>
+        <a class="edit btn btn-info"  id="role-submit">
+          <i class="icon-pencil"></i>
+          Change
+        </a>
+      </li>
+    </ul>
+    
+  </div>
+</div>
+</article>
+<script>
+$(document).ready(function() {
+$("#overview-submit").click(function() {
+  var data = {
+    rolename : $("#overview-rolename").val()
+  };
+  role.update({{role.id}}, data).done(function(json) {
+    $("#table-item-{{role.id}}").find(".item-name").text(json.role.rolename);
+    $.fancybox.close();
+  });
+});
+$("#delete").click(function() {
+  role.delete({{role.id}}).done(function(json) {
+    $.fancybox.close();
+    $("#table-item-{{role.id}}").fadeOut('slow').remove();
+  });
+});
+$("#role-submit").click(function() {
+  var role_perm = [{% for perm in role.perms %}{{perm.id}},{% endfor %} 0]; 
+  role_perm.pop();
+  var data = {
+    perms: {
+      add:[],
+      remove:[]
+    }
+  };
+  var p_list = $("#perm-all").val();
+  for (var p in p_list) {
+    if (p == "remove")
+      continue;
+    var t = parseInt(p_list[p]);
+    var i = role_perm.indexOf(t);
+    if (i == -1) {
+      if (t != null && t != NaN)
+        data.perms.add.push(t);
+    } else {
+      role_perm.remove(i);
+    }
+  }
+  data.perms.remove = role_perm;
+  role.update({{role.id}}, data);
+  $.fancybox.close();
+});
+});
+</script>

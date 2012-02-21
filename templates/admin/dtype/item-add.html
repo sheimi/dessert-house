@@ -1,0 +1,41 @@
+<ul class="nav nav-tabs" id="member-tab">
+  <li class="active">
+    <a href="#Type" data-toggle="tab">Dessert Type</a>
+  </li>
+</ul>
+<div class="tab-content popup">
+  <div id="Type" class="tab-pane active">
+    <ul id="perm-info">
+      <li class="info-item item">
+        <label>Type Name</label>
+        <input type="text" name="typename" id="overview-typename" />
+      </li>
+      <li class="info-item item">
+        <label></label>
+        <a class="btn" id="overview-submit">
+          <i class="icon-plus"></i>
+            Add Dessert Type
+        </a>
+      </li>
+    </ul>
+  </div>
+</div>
+</article>
+<script>
+$(document).ready(function() {
+$("#overview-submit").click(function() {
+  var data = {
+    typename: $("#overview-typename").val(),
+  };
+  dessert_type.create(data).done(function(json) {
+    var item = '<tr class="table-item" id="table-item-' + json.desserttype.id + '">'
+                + '<td class="item-id">' + json.desserttype.id + '</td>'
+                + '<td class="item-name">' + json.desserttype.typename + '</td>'
+                + '<td class="oprations"><a class="edit btn btn-info">'
+                + '<i class="icon-pencil"></i>Edit</a></td></tr>';
+    $("#admin-table tbody").append(item);
+    $.fancybox.close();
+  });
+});
+});
+</script>

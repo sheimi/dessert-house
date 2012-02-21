@@ -1,0 +1,41 @@
+<ul class="nav nav-tabs" id="member-tab">
+  <li class="active">
+    <a href="#Type" data-toggle="tab">Role</a>
+  </li>
+</ul>
+<div class="tab-content popup">
+  <div id="Type" class="tab-pane active">
+    <ul id="role-info">
+      <li class="info-item item">
+        <label>Role Name</label>
+        <input type="text" name="rolename" id="overview-rolename" />
+      </li>
+      <li class="info-item item">
+        <label></label>
+        <a class="btn" id="overview-submit">
+          <i class="icon-plus"></i>
+            Add Role
+        </a>
+      </li>
+    </ul>
+  </div>
+</div>
+</article>
+<script>
+$(document).ready(function() {
+$("#overview-submit").click(function() {
+  var data = {
+    rolename : $("#overview-rolename").val()
+  };
+  role.create(data).done(function(json) {;
+    var item = '<tr class="table-item" id="table-item-' + json.role.id  + '">'
+                + '<td class="item-id">' + json.role.id + '</td>'
+                + '<td class="item-name">' + json.role.rolename + '</td>'
+                + '<td class="oprations"><a class="edit btn btn-info">'
+                + '<i class="icon-pencil"></i>Edit</a></td></tr>';
+    $("#admin-table tbody").append(item);
+    $.fancybox.close();
+  });
+});
+});
+</script>

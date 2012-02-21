@@ -1,0 +1,38 @@
+{% extends "admin/admin_base.html" %}
+
+{% block admin_title %}{{module_l}}{% endblock %}
+
+{% block admin_side %}
+<li class="nav-header">Operation</li>
+<li>
+  <div>
+  <a class="btn" id="admin-op">
+    <i class="icon-plus"></i>
+      Add {{module_l}}
+  </a>
+  </div>
+</li>
+{% endblock %}
+
+{% block content %}
+<div class="admin-content">
+  <div id="table-position">
+  </div>
+</div>
+{% endblock %}
+
+{% block body_script %}
+<script>
+$(document).ready(function() {
+
+$.get('/admin/{{module}}/table', function(data) {
+  $('#table-position').html(data);
+});
+
+
+$("#admin-op").click(function() {
+  $.fancy_ajax('/admin/{{module}}/add');
+});
+});
+</script>
+{% endblock %}

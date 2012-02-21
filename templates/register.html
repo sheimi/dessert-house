@@ -1,0 +1,29 @@
+{% extends "signin.html" %}
+{% block page_title %}Register{% endblock %}
+{% block container %}
+<div id='register'>
+  {% if error %}
+  <div id="register_error" class="alert-message block-message error fade_in">
+    <a class="close" href="#">x</a>
+    <p><strong> {{ error }} </strong></p>
+  </div>
+  {% endif %}
+  <form action="/register" method="post" id="registerform">
+    <label>Username:</label>
+    <input type="text" id="id_username" name="username"/>
+    <label>Password:</label>
+    <input type="password" id="id_password" name="password"/>
+    <label>Repeat Password:</label>
+    <input type="password" id="id_passwordr" name="passwordr"/>
+    <input type="submit" class='btn primary right' value="Register"/>
+    <div class="clear"></div>
+  </form>
+</div>
+{% endblock %}
+{% block body_script_2 %}
+<script>
+$(document).ready(function() {
+    
+});
+</script>
+{% endblock %}

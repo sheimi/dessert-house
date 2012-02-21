@@ -1,0 +1,31 @@
+<table id="admin-table" class="table table-striped">
+  <thead>
+    <tr>
+        <th class="header">#</th>
+        <th class="header">Product Name</th>
+      <th class="header">Operations</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for p in product_list%}
+    <tr class="table-item" id="table-item-{{p.id}}">
+      <td class="item-id">{{p.id}}</td>
+      <td class="item-name">{{p.dessert.dname}}</td>
+      <td class="oprations">
+        <a class="edit btn btn-info">
+          <i class="icon-pencil"></i>
+          Edit
+        </a>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+<script>
+$(document).ready(function() {
+$(".edit").live('click', function() {
+  var id = $(this).parents('tr').find(".item-id").text(); 
+  $.fancy_ajax('/admin/product/' + id);
+});
+});
+</script>

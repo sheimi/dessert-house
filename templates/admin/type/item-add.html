@@ -1,0 +1,51 @@
+<ul class="nav nav-tabs" id="member-tab">
+  <li class="active">
+    <a href="#Type" data-toggle="tab">User Type</a>
+  </li>
+</ul>
+<div class="tab-content popup">
+  <div id="Type" class="tab-pane active">
+    <ul id="type-info">
+      <li class="info-item item">
+        <label>Type Name</label>
+        <input type="text" name="typename" id="overview-typename" />
+      </li>
+      <li class="info-item item">
+        <label>Discount</label>
+        <input type="number" name="discount" max="100" id="overview-discount" />
+      </li>
+      <li class="info-item item">
+        <label>Fee</label>
+        <input type="number" min="0" name="fee" id="overview-fee" />
+      </li>
+      <li class="info-item item">
+        <label></label>
+        <a class="btn" id="overview-submit">
+          <i class="icon-plus"></i>
+            Add User Type
+        </a>
+      </li>
+    </ul>
+  </div>
+</div>
+</article>
+<script>
+$(document).ready(function() {
+$("#overview-submit").click(function() {
+  var data = {
+    typename: $("#overview-typename").val(),
+    discount: $("#overview-discount").val(),
+    fee: $("#overview-fee").val()
+  };
+  usertype.create(data).done(function(json) {
+    var item = '<tr class="table-item" id="table-item-' + json.usertype.id + '">'
+                + '<td class="item-id">' + json.usertype.id + '</td>'
+                + '<td class="item-name">' + json.usertype.typename + '</td>'
+                + '<td class="oprations"><a class="edit btn btn-info">'
+                + '<i class="icon-pencil"></i>Edit</a></td></tr>';
+    $("#admin-table tbody").append(item);
+    $.fancybox.close();
+  });
+});
+});
+</script>
