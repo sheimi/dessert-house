@@ -18,28 +18,52 @@
       <ul id="admin-nav" class="nav nav-list">
         <li class="nav-header">Admin Pages</li>
         <li class="nav-item {% if admin_index %}active{% endif %}">
-          <a href="/admin">Index</a>
+          <a href="/admin">
+            <i class="icon-home {% if admin_index %}icon-white{% endif %}"></i>
+            Index
+          </a>
         </li>
-        <li class="nav-item {% if admin_user%}active{% endif %}">
-          <a href="/admin/user">User</a>
+        <li class="nav-item {% if admin_user %}active{% endif %}">
+          <a href="/admin/user">
+            <i class="icon-user {% if admin_user %}icon-white{% endif %}"></i>
+            User
+          </a>
         </li>
-        <li class="nav-item {% if admin_role%}active{% endif %}">
-          <a href="/admin/role">Role</a>
+        <li class="nav-item {% if admin_role %}active{% endif %}">
+          <a href="/admin/role">
+            <i class="icon-leaf {% if admin_role %}icon-white{% endif %}"></i>
+            Role
+          </a>
         </li>
         <li class="nav-item {% if admin_perm%}active{% endif %}">
-          <a href="/admin/perm">Permission</a>
+          <a href="/admin/perm">
+            <i class="icon-fire {% if admin_perm %}icon-white{% endif %}"></i>
+            Permission
+          </a>
         </li>
         <li class="nav-item {% if admin_type%}active{% endif %}">
-          <a href="/admin/type">UserType</a>
+          <a href="/admin/type">
+            <i class="icon-text-width {% if admin_type %}icon-white{% endif %}"></i>
+            UserType
+          </a>
         </li>
         <li class="nav-item {% if admin_product%}active{% endif %}">
-          <a href="/admin/product">Product</a>
+          <a href="/admin/product">
+            <i class="icon-gift {% if admin_product %}icon-white{% endif %}"></i>
+            Product
+          </a>
         </li>
         <li class="nav-item {% if admin_dessert%}active{% endif %}">
-          <a href="/admin/dessert">Dessert</a>
+          <a href="/admin/dessert">
+            <i class="icon-list {% if admin_dessert %}icon-white{% endif %}"></i>
+            Dessert
+          </a>
         </li>
         <li class="nav-item {% if admin_dtype%}active{% endif %}">
-          <a href="/admin/dtype">Dessert Type</a>
+          <a href="/admin/dtype">
+            <i class="icon-tint {% if admin_dtype %}icon-white{% endif %}"></i>
+            Dessert Type
+          </a>
         </li>
       {% block admin_side %}
       {% endblock %}

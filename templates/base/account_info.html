@@ -1,0 +1,120 @@
+{% if user %}
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+    <img class="avatar left profile-img" id="top-profile-img" src='/static/img/profile/{{user.id}}.png'/>
+    {{user.username}}
+  </a>
+  <ul class="dropdown-menu">
+    {% if user.has_perm("can_view_admin") %}
+    <li>
+      <a href="/admin">
+        <i class="icon-cog"></i>
+        Admin
+      </a>
+    </li>
+    {% endif %}
+    {% if user.usertype %}
+    <li>
+      <a href="#recharge-modal" data-toggle="modal">
+        <i class="icon-plus-sign"></i>
+        Recharge
+      </a>
+    </li>
+    {% endif %}
+    <li class="divider"></li>
+    <li>
+      <a id="signout_link" href="/signout">
+        <i class="icon-off"></i>
+        Sign Out
+      </a>
+    </li>
+  </ul>
+</li>
+{% if user.usertype %}
+<div id="recharge-modal" class="modal hide fade" style="display: block;">
+  <div class="modal-header">
+    <a class="close" data-dismiss="modal">x</a>
+    <h3>Recharge Your Membership</h3>
+  </div>
+  <div class="modal-body">
+    Recharge: &nbsp;&nbsp;&nbsp;
+    <input id="recharge-year" type="number" min="1" />
+    &nbsp;&nbsp;&nbsp;
+    X &nbsp;&nbsp;&nbsp;{{user.usertype.fee}} 
+  </div>
+  <div class="modal-footer">
+  <a href="#" class="btn primary" id="recharge">
+    <i class="icon-plus-sign"></i>
+    Recharge
+  </a>
+  </div>
+</div>
+<script>
+  $(document).ready(function() {
+      $("#recharge").click(function() {
+        var year = parseInt($("#recharge-year").val());
+        if (year > 0) {
+          user.recharge( {{user.id}}, year);
+          $("#recharge-modal").modal('hide');
+        }
+      });
+  });
+</script>
+{% endif %}
+<script>
+$(document).ready(function() {
+
+  $("#signout_link").click(function(e) {
+    e.preventDefault();
+    $.get('/ajax/signout').done(function() {
+      $.get('/ajax/account').done(function(data) {
+        $("ul#top-account-info").html(data);
+      });
+    });
+  });
+
+});
+</script>
+{% elif register %}
+<li>
+  <a id="signin_link" href="/signin">
+    <i class="icon-chevron-right"></i>
+    Have an account? Sign in
+  </a>
+</li>
+{% elif signin %}
+<li>
+  <a id="register_link" href="/register">
+    <i class="icon-chevron-right"></i>
+    Register 
+  </a>
+</li>
+{% else %}
+<li>
+  <a id="signin_link" href="/signin">
+    <i class="icon-chevron-right"></i>
+    Have an account? Sign in
+  </a>
+</li>
+<li>
+  <a id="register_link" href="/register">
+    <i class="icon-chevron-right"></i>
+    Register 
+  </a>
+</li>
+<script>
+$(document).ready(function() {
+
+$("#signin_link").click(function(e) {
+  e.preventDefault();
+  $.fancy_ajax('/ajax/signin');
+});
+
+$("#register_link").click(function(e) {
+  e.preventDefault();
+  $.fancy_ajax('/ajax/register');
+});
+
+});
+</script>
+{% endif %}

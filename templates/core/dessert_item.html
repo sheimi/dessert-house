@@ -4,17 +4,19 @@
   </li>
 </ul>
 <div class="tab-content popup">
-  <div id="Overview" class="tab-pane fade active in">
-    <div class="dessert-img left">
+  <div id="Overview" class="tab-pane fade active in row">
+    <div class="dessert-img span3">
       <span><img src="/static/img/dessert/{{dessert.img}}.png" /></span>
     </div>
-    <div class="dessert-info right">
-      <h6>Dessert Name: {{dessert.dname}}</h6>
+    <div class="dessert-info span3">
       <ul class="ops">
+        <li>
+          <h6>Dessert Name: {{dessert.dname}}</h6>
+        </li>
         {% if user %}
         <li>
-          <label>Number</label>
-          <input type="number" min="0" />
+          <label>Number: </label>
+          <input class="span2" type="number" min="0" />
         </li>
         <li>
           <a class="btn btn-success" href="#">
@@ -32,10 +34,8 @@
         {% endif %}
       </ul>
     </div>
-    <div class="clear"></div>
   </div>
 </div>
-</article>
 <script>
 $(document).ready(function() {
 $("#buy-btn").click(function() {

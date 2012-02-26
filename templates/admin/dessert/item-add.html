@@ -5,19 +5,21 @@
 </ul>
 <div class="tab-content popup">
   <div id="Dessert" class="tab-pane active">
-    <ul id="dessert-info">
-      <li class="info-item item">
-        <label>Dessert Name</label>
-        <input type="text" name="dessertname" id="overview-dessertname" />
-      </li>
-      <li class="info-item item">
-        <label></label>
+    <form class="form-horizontal" id="dessert-form">
+      <div class="control-group" id="dessert-name-ctr">
+        <label for="overview-dessert" class="control-label">Dessert Name: </label>
+        <div class="controls">
+          <input type="text" id="overview-dessertname" name="dessertname" placeholder="Dessert Name"/>
+          <span class="help-inline"></span>
+        </div>
+      </div>
+      <div class="form-actions clear">
         <a class="btn" id="overview-submit">
           <i class="icon-plus"></i>
             Add Dessert
         </a>
-      </li>
-    </ul>
+      </div>
+    </form>
   </div>
 </div>
 </article>
@@ -28,6 +30,10 @@ $("#overview-submit").click(function() {
     dessert_name: $("#overview-dessertname").val()
   };
   dessert.create(data).done(function(json) {
+    $.get('/admin/dessert/table', function(data) {
+      $('#table-position').html(data);
+    });
+    /*
     var item = '<tr class="table-item" id="table-item-' + json.dessert.id  + '">'
                 + '<td class="item-id">' + json.dessert.id + '</td>'
                 + '<td class="item-name">' + json.dessert.dname + '</td>' 
@@ -36,6 +42,7 @@ $("#overview-submit").click(function() {
                 + '<td class="oprations"><a class="edit btn btn-info">'
                 + '<i class="icon-pencil"></i>Edit</a></td></tr>'; 
     $("#admin-table tbody").append(item);
+    */
     $.fancybox.close();
   });
 

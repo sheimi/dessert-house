@@ -5,23 +5,28 @@
 </ul>
 <div class="tab-content popup">
   <div id="Account" class="tab-pane active">
-    <ul id="account-info">
-      <li class="info-item item">
-        <label>User Name</label>
-        <input type="text" name="username" id="overview-username"/>
-      </li>
-      <li class="info-item item">
-        <label>Password</label>
-        <input type="password" name="password" id="psw" />
-      </li>
-      <li class="info-item item">
-        <label></label>
+    <form class="form-horizontal" id="account-form">
+      <div class="control-group" id="account_username_ctr">
+        <label for="overview-username" class="control-label">Username: </label>
+        <div class="controls">
+          <input type="text" id="overview-username" name="username" placeholder="User Name"/>
+          <span class="help-inline"></span>
+        </div>
+      </div>
+      <div class="control-group" id="passwd_ctr">
+        <label for="psw" class="control-label">Password: </label>
+        <div class="controls">
+          <input type="password" id="psw" name="password" placeholder="Password"/>
+          <span class="help-inline"></span>
+        </div>
+      </div>
+      <div class="form-actions clear">
         <a class="btn" id="overview-submit">
           <i class="icon-plus"></i>
-            Add User
+          Add User
         </a>
-      </li>
-    </ul>
+      </div>
+    </form>
   </div>
 </div>
 </article>
@@ -33,6 +38,10 @@ $("#overview-submit").click(function() {
     password: $("#psw").val()
   };
   user.create(data).done(function(json) {
+    $.get('/admin/user/table', function(data) {
+      $('#table-position').html(data);
+    });
+    /*
     var item = '<tr class="table-item" id="table-item-' + json.user.id + '">'
                 + '<td class="item-id">' + json.user.id + '</td>'
                 + '<td class="item-name">' + json.user.username + '</td>'
@@ -43,6 +52,7 @@ $("#overview-submit").click(function() {
     item += '</div></td><td class="oprations"><a class="edit btn btn-info">'
                 + '<i class="icon-pencil"></i>Edit</a></td></tr>';
     $("#admin-table tbody").append(item);
+    */
     $.fancybox.close();
   });
 });

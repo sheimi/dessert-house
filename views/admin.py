@@ -124,6 +124,7 @@ def dessert_table():
 @has_perm('can_view_admin')
 def item_add(module):
     render_argv = {
+        'dessert_list' : Dessert.get_all(),
     }
     return render('admin/%s/item-add.html' % module)(**render_argv)
 

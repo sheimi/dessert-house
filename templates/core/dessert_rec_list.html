@@ -1,0 +1,21 @@
+<div id="rec-carousel" class="carousel">
+  <div class="carousel-inner">
+    {% for item in rec_list %} 
+    <div class="span12 {% if loop.index == 1 %} active {% endif %} item">
+      <img src="/static/img/dessert/{{item.img}}.png" alt=""> 
+      <div class="carousel-caption">
+        <h4>This is Label</h4>
+        <p>description</p>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  <a class="left carousel-control" href="#rec-carousel" data-slide="prev">&lsaquo;</a>
+  <a class="right carousel-control" href="#rec-carousel" data-slide="next">&rsaquo;</a>
+</div>
+<script>
+$(document).ready(function() {
+
+
+});
+</script>

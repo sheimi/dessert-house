@@ -5,27 +5,35 @@
 </ul>
 <div class="tab-content popup">
   <div id="Product" class="tab-pane active">
-    <ul id="product-info">
-      <li class="info-item item">
-        <label>Dessert</label>
-        <select name="dessert" id="overview-dessert">
-          <option value="">--select--</option>
-          {% for dessert in dessert_list%}
+    <form class="form-horizontal" id="product-form">
+      <div class="control-group" id="dessert-ctr">
+        <label for="overview-dessert" class="control-label">Dessert: </label>
+        <div class="controls">
+          <select name="dessert" id="overview-dessert">
+            <option value="">--select--</option>
+            {% for dessert in dessert_list%}
           <option value="{{dessert.id}}" id="op-{{dessert.id}}" {%if dessert.id==product.dessert.id%}selected="selected"{%endif%}>{{dessert.dname}}</option>
-          {% endfor %}
-        </select>
-      </li>
-      <li class="info-item item">
-        <label>Num</label>
-        <input value="{{product.num}}" type="number" name="num" min="0" id="overview-num" />
-      </li>
-      <li class="info-item item">
-        <label>Price</label>
-        <input type="number" value="{{product.price}}" min="0" name="fee" id="overview-price" />
-      </li>
-      <li class="info-item item">
-        <label></label>
-        <a class="edit btn btn-info"  id="overview-submit">
+            {% endfor %}
+          </select>
+          <span class="help-inline"></span>
+        </div>
+      </div>
+      <div class="control-group" id="num-ctr">
+        <label for="overview-num" class="control-label">Num: </label>
+        <div class="controls">
+          <input value="{{product.num}}" type="number" name="num" min="0" id="overview-num" placeholder="Num" />
+          <span class="help-inline"></span>
+        </div>
+      </div>
+      <div class="control-group" id="price-ctr">
+        <label for="overview-price" class="control-label">Price: </label>
+        <div class="controls">
+          <input value="{{product.price}}" type="number" name="price" min="0" id="overview-price" placeholder="Price" />
+          <span class="help-inline"></span>
+        </div>
+      </div>
+      <div class="form-actions clear">
+        <a class="btn btn-info"  id="overview-submit">
           <i class="icon-pencil"></i>
           Change
         </a>
@@ -33,8 +41,8 @@
           <i class="icon-trash icon-white"></i>
           Delete
         </a>
-      </li>
-    </ul>
+      </div>
+    </form>
   </div>
 </div>
 </article>

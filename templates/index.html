@@ -5,97 +5,76 @@
 {% block additional_css %}
 <style>
 ul#dessert_ul {
-  display: block;
   margin: 0;
-  margin-right: 3px;
-  border-top: 1px solid #c6c6c6;
-  border-bottom: 1px solid #c6c6c6;
-  
-}
-div.item-block {
-  padding: 10px;
-  width: 213px;
-  height: 200px;
-  border-bottom: 1px solid #c6c6c6;
 }
 div.hover {
   background: rgba(220, 220, 220, 0.2);
 }
 span.item-img {
-  width: 210px;
-  height: 180px;
+  height: 270px;
+  width: 270px;
   text-align: center;
   display: table-cell;
   border: 1px solid #ddd;
   vertical-align: middle;
+  overflow: hidden;
 }
-.item-img img {
-  height: 170px;
+li.dessert-item {
+  height: 300px;
 }
-span.name {
-  padding: 5px;
+li.dessert-item img {
+  height: 270px;
+
 }
-.dessert-img span {
-  width: 300px;
+
+#rec-carousel .item {
+  height: 300px;
+}
+#rec-carousel img {
+  height: 300px;
+}
+
+.dessert-img img {
   height:300px;
-  text-align: center;
-  display: table-cell;
-  border: 1px solid #ddd;
-  vertical-align: middle;
 }
-.dessert-img img{
-  width: 280px;
+
+ul.ops {
+  margin: 0;
+  margin-top: 10px;
 }
-.dessert-img {
-  width: 340px;
+
+@media (max-width: 980px)  {
+  span.item-img,  li.dessert-item img {
+    height: 200px;
+  }
+  li.dessert-item {
+    height: 220px;
+  }
 }
-.dessert-info {
-  width: 260px;
-  padding: 10px;
-}
-.dessert-info label {
-  text-align: left;
-  padding: 5px;
-}
-.dessert-info li{
-  padding: 5px;
-}
-.dessert-info .btn {
-  width: 70px;
-}
+
 </style>
 {% endblock %}
 
 
 {% block container%}
-<section id="dessert_list">
-  <ul id="dessert_ul">
-    {% for d in dessert_list%}
-    <li class="dessert-item left">
-      <div class="item-block" id="item-{{d.id}}" item-id="{{d.id}}">
-        <span class="item-img">
-          <img id="dessert-img-{{d.id}}" src='/static/img/dessert/{{d.img}}.png'/>
-        </span>
-        <span class="name">{{d.dname}}</span>
-      </div>
-    </li> 
-    {% endfor %}
-    <li class="clear"></li>
-  </ul>
-</section>
+<div class="row" id="item-rec-list-container">
+</div>
+<div class="row" id="item-list-container">
+</div>
 {% endblock %}
 
 {% block body_script %}
 <script>
 $(document).ready(function() {
-$(".item-block").hover(function() {
-  $(this).addClass("hover");
-}, function() {
-  $(this).removeClass("hover");
+
+$.get('/index/dessert_rec_list', function(data) {
+  $("#item-rec-list-container").append(data);
 });
-$(".item-block").click(function() {
-  $.fancy_ajax('/index/dessert/' + $(this).attr('item-id'));
+
+$.get('/index/dessert_list', function(data) {
+  $("#item-list-container").append(data);
 });
+
 });
 </script>
 {% endblock %}

@@ -1,39 +1,47 @@
 <ul class="nav nav-tabs" id="member-tab">
   <li class="active">
-    <a href="#Type" data-toggle="tab">Role</a>
+    <a href="#Role" data-toggle="tab">Role</a>
   </li>
 </ul>
 <div class="tab-content popup">
-  <div id="Type" class="tab-pane active">
-    <ul id="role-info">
-      <li class="info-item item">
-        <label>Role Name</label>
-        <input type="text" name="rolename" id="overview-rolename" />
-      </li>
-      <li class="info-item item">
-        <label></label>
+  <div id="Role" class="tab-pane active">
+    <form class="form-horizontal" id="role-form">
+      <div class="control-group" id="role_name_ctr">
+        <label for="overview-rolename" class="control-label">Role Name: </label>
+        <div class="controls">
+          <input type="text" id="overview-rolename" name="rolename" placeholder="Role Name"/>
+          <span class="help-inline"></span>
+        </div>
+      </div>
+      <div class="form-actions clear">
         <a class="btn" id="overview-submit">
           <i class="icon-plus"></i>
-            Add Role
+          Add Role 
         </a>
-      </li>
-    </ul>
+      </div>
+    </form>
   </div>
 </div>
 </article>
 <script>
 $(document).ready(function() {
-$("#overview-submit").click(function() {
+$("#overview-submit").click(function(e) {
+  e.preventDefault()
   var data = {
     rolename : $("#overview-rolename").val()
   };
   role.create(data).done(function(json) {;
+    $.get('/admin/role/table', function(data) {
+      $('#table-position').html(data);
+    });
+    /*
     var item = '<tr class="table-item" id="table-item-' + json.role.id  + '">'
                 + '<td class="item-id">' + json.role.id + '</td>'
                 + '<td class="item-name">' + json.role.rolename + '</td>'
                 + '<td class="oprations"><a class="edit btn btn-info">'
                 + '<i class="icon-pencil"></i>Edit</a></td></tr>';
     $("#admin-table tbody").append(item);
+    */
     $.fancybox.close();
   });
 });

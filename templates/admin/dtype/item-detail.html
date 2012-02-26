@@ -5,15 +5,16 @@
 </ul>
 <div class="tab-content popup">
   <div id="Type" class="tab-pane active">
-    <ul id="perm-info">
-      <li class="info-item item">
-        <label>Type Name</label>
-        <input type="text" name="typename" id="overview-typename" value="{{type.typename}}" />
-      </li>
-      </li>
-      <li class="info-item item">
-        <label></label>
-        <a class="edit btn btn-info"  id="overview-submit">
+    <form class="form-horizontal" id="type-form">
+      <div class="control-group" id="type-name-ctr">
+        <label for="overview-typename" class="control-label">Type Name: </label>
+        <div class="controls">
+          <input value="{{type.typename}}" type="text" id="overview-typename" name="typename" placeholder="Type Name"/>
+          <span class="help-inline"></span>
+        </div>
+      </div>
+      <div class="form-actions clear">
+        <a class="btn btn-info"  id="overview-submit">
           <i class="icon-pencil"></i>
           Change
         </a>
@@ -21,8 +22,8 @@
           <i class="icon-trash icon-white"></i>
           Delete
         </a>
-      </li>
-    </ul>
+      </div>
+    </form>
   </div>
 </div>
 </article>

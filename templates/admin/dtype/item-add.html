@@ -5,19 +5,21 @@
 </ul>
 <div class="tab-content popup">
   <div id="Type" class="tab-pane active">
-    <ul id="perm-info">
-      <li class="info-item item">
-        <label>Type Name</label>
-        <input type="text" name="typename" id="overview-typename" />
-      </li>
-      <li class="info-item item">
-        <label></label>
+    <form class="form-horizontal" id="type-form">
+      <div class="control-group" id="type-name-ctr">
+        <label for="overview-typename" class="control-label">Type Name: </label>
+        <div class="controls">
+          <input type="text" id="overview-typename" name="typename" placeholder="Type Name"/>
+          <span class="help-inline"></span>
+        </div>
+      </div>
+      <div class="form-actions clear">
         <a class="btn" id="overview-submit">
           <i class="icon-plus"></i>
-            Add Dessert Type
+          Add Dessert Type 
         </a>
-      </li>
-    </ul>
+      </div>
+    </form>
   </div>
 </div>
 </article>

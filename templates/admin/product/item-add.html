@@ -5,32 +5,40 @@
 </ul>
 <div class="tab-content popup">
   <div id="Product" class="tab-pane active">
-    <ul id="product-info">
-      <li class="info-item item">
-        <label>Dessert</label>
-        <select name="dessert" id="overview-dessert">
-          <option value="">--select--</option>
-          {% for dessert in dessert_list%}
-          <option value="{{dessert.id}}" id="op-{{dessert.id}}" >{{dessert.dname}}</option>
-          {% endfor %}
-        </select>
-      </li>
-      <li class="info-item item">
-        <label>Num</label>
-        <input type="number" name="num" min="0" id="overview-num" />
-      </li>
-      <li class="info-item item">
-        <label>Price</label>
-        <input type="number" min="0" name="fee" id="overview-price" />
-      </li>
-      <li class="info-item item">
-        <label></label>
+    <form class="form-horizontal" id="product-form">
+      <div class="control-group" id="dessert-ctr">
+        <label for="overview-dessert" class="control-label">Dessert: </label>
+        <div class="controls">
+          <select name="dessert" id="overview-dessert">
+            <option value="">--select--</option>
+            {% for dessert in dessert_list%}
+            <option value="{{dessert.id}}" id="op-{{dessert.id}}" >{{dessert.dname}}</option>
+            {% endfor %}
+          </select>
+          <span class="help-inline"></span>
+        </div>
+      </div>
+      <div class="control-group" id="num-ctr">
+        <label for="overview-num" class="control-label">Num: </label>
+        <div class="controls">
+          <input type="number" name="num" min="0" id="overview-num" placeholder="Num" />
+          <span class="help-inline"></span>
+        </div>
+      </div>
+      <div class="control-group" id="price-ctr">
+        <label for="overview-price" class="control-label">Price: </label>
+        <div class="controls">
+          <input type="number" name="price" min="0" id="overview-price" placeholder="Price" />
+          <span class="help-inline"></span>
+        </div>
+      </div>
+      <div class="form-actions clear">
         <a class="btn" id="overview-submit">
           <i class="icon-plus"></i>
-            Add Product
+          Add Product 
         </a>
-      </li>
-    </ul>
+      </div>
+    </form>
   </div>
 </div>
 </article>
@@ -43,6 +51,10 @@ $("#overview-submit").click(function() {
     price: $("#overview-price").val()
   };
   product.create(data).done(function(json) {
+    $.get('/admin/product/table', function(data) {
+      $('#table-position').html(data);
+    });
+    /*
     var d_name = $("#op-"+data.dessert).text();
     var item = '<tr class="table-item" id="table-item-' + json.product.id + '">'
                 + '<td class="item-id">' + json.product.id + '</td>'
@@ -50,6 +62,7 @@ $("#overview-submit").click(function() {
                 + '<td class="oprations"><a class="edit btn btn-info">'
                 + '<i class="icon-pencil"></i>Edit</a></td></tr>';
     $("#admin-table tbody").append(item);
+    */
     $.fancybox.close();
   });
 });

@@ -6,50 +6,72 @@
     <a href="#Password" data-toggle="tab">Password</a>
   </li>
   <li>
-    <a href="#Profile" data-toggle="tab">Profile</a>
-  </li>
-  <li>
     <a href="#Role" data-toggle="tab">Roles</a>
   </li>
 </ul>
 <div class="tab-content popup">
   <div id="Account" class="tab-pane fade active in">
-    <ul id="account-info">
-      <li class="info-item item">
-        <label>User Name</label>
-        <input type="text" name="username" id="overview-username" value="{{user.username}}" />
-      </li>
-      <li class="info-item item">
-        <label>Age</label>
-        <input type="number" name="age" value="{{user.age}}" id="overview-age" />
-      </li>
-      <li class="info-item item">
-        <label>Gender</label>
-        <select name="gender" id="overview-gender">
-          <option value="0" {% if user.gender == 0 %}selected="selected"{%endif%}>Secrete</option>
-          <option value="1" {% if user.gender == 1 %}selected="selected"{%endif%}>Boy</option>
-          <option value="2" {% if user.gender == 2 %}selected="selected"{%endif%}>Girl</option>
-        </select>
-      </li>
-      <li class="info-item item">
-        <label>UserType</label>
-        <select name="usertype" id="overview-usertype">
-          {% for type in type_list%}
-          <option value="{{type.id}}" {% if type.id == user.usertype.id %} selected="selected" {% endif %}>{{type.typename}}</option>
-          {% endfor %}
-        </select>
-      </li>
-      <li class="info-item item">
-        <label>Email</label>
-        <input type="email" name="email" value="{{user.email}}" id="overview-email" />
-      </li>
-      <li class="info-item item">
-        <label>Address</label>
-        <input type="text" name="address" value="{{user.address}}" id="overview-address" />
-      </li>
-      <li class="info-item item">
-        <label></label>
-        <a class="edit btn btn-info"  id="overview-submit">
+    <form class="form-horizontal" id="account-form">
+      <div class="span7 left"> 
+        <div class="control-group" id="account_username_ctr">
+          <label for="overview-username" class="control-label">Username: </label>
+          <div class="controls">
+            <input type="text" id="overview-username" name="username" placeholder="User Name" value="{{user.username}}"/>
+            <span class="help-inline"></span>
+          </div>
+        </div>
+        <div class="control-group" id="account_age_ctr">
+          <label for="overview-age" class="control-label">Age: </label>
+          <div class="controls">
+            <input type="text" id="overview-age" name="age" placeholder="Age" value="{{user.age}}"/>
+            <span class="help-inline"></span>
+          </div>
+        </div>
+        <div class="control-group" id="account_gender_ctr">
+          <label for="overview-gender" class="control-label">Gender: </label>
+          <div class="controls">
+            <select name="gender" id="overview-gender">
+              <option value="0" {% if user.gender == 0 %}selected="selected"{%endif%}>Secrete</option>
+              <option value="1" {% if user.gender == 1 %}selected="selected"{%endif%}>Boy</option>
+              <option value="2" {% if user.gender == 2 %}selected="selected"{%endif%}>Girl</option>
+            </select>
+            <span class="help-inline"></span>
+          </div>
+        </div>
+        <div class="control-group" id="account_email_ctr">
+          <label for="overview-usertype" class="control-label">UserType: </label>
+          <div class="controls">
+            <select name="usertype" id="overview-usertype">
+              {% for type in type_list%}
+              <option value="{{type.id}}" {% if type.id == user.usertype.id %} selected="selected" {% endif %}>{{type.typename}}</option>
+              {% endfor %}
+            </select>
+            <span class="help-inline"></span>
+          </div>
+        </div>
+        <div class="control-group" id="account_email_ctr">
+          <label for="overview-email" class="control-label">Email: </label>
+          <div class="controls">
+            <input type="email" id="overview-email" name="email" placeholder="Email" value="{{user.email}}"/>
+            <span class="help-inline"></span>
+          </div>
+        </div>
+        <div class="control-group" id="account_Addredd_ctr">
+          <label for="overview-address" class="control-label">Address: </label>
+          <div class="controls">
+            <input type="text" id="overview-address" name="address" placeholder="Address" value="{{user.address}}"/>
+            <span class="help-inline"></span>
+          </div>
+        </div>
+      </div>
+      <div id="profile" class="left span3">
+        <div class="img-wrapper">
+          <img class="profile-img" id="profile-img" src='/static/img/profile/{{user.id}}.png'/>
+        </div>
+        <input type="file" name="file" id="img-uploader"/>
+      </div>
+      <div class="form-actions clear">
+        <a id="overview-submit" class="btn btn-info">
           <i class="icon-pencil"></i>
           Change
         </a>
@@ -57,54 +79,60 @@
           <i class="icon-trash icon-white"></i>
           Delete
         </a>
-      </li>
-    </ul>
+      </div>
+    </form>
   </div>
   <div id="Password" class="tab-pane fade">
-    <ul id="password-info">
-      <li class="info-item item">
-        <label>User Name</label>
-        <input type="text" name="username" value="{{user.username}}" disabled/>
-      </li>
-      <li class="info-item item">
-        <label>Password</label>
-        <input type="password" name="password" id="psw-1" />
-      </li>
-      <li class="info-item item">
-        <label>Repeat</label>
-        <input type="password" name="password" id="psw-2" />
-      </li>
-      <li class="info-item item">
-        <label></label>
-        <a class="edit btn btn-info" id="psw-submit">
+    <form class="form-horizontal" id="passwd-form">
+      <div class="control-group" id="passwd_username_ctr">
+        <label class="control-label">Username: </label>
+        <div class="controls">
+          <input type="text" name="username" value="{{user.username}}" disabled/>
+          <span class="help-inline"></span>
+        </div>
+      </div>
+      <div class="control-group" id="passwd_ctr">
+        <label for="psw-1" class="control-label">Password: </label>
+        <div class="controls">
+          <input type="password" id="psw-1" name="password" placeholder="Password"/>
+          <span class="help-inline"></span>
+        </div>
+      </div>
+      <div class="control-group" id="passwd_ctr">
+        <label for="psw-2" class="control-label">Repeat: </label>
+        <div class="controls">
+          <input type="password" id="psw-2" name="passwordr" placeholder="Repeat"/>
+          <span class="help-inline"></span>
+        </div>
+      </div>
+      <div class="form-actions">
+        <a id="psw-submit" class="btn btn-info">
           <i class="icon-pencil"></i>
           Change
         </a>
-      </li>
-    </ul>
-  </div>
-  <div id="Profile" class="tab-pane fade">
-    Profile
+      </div>
+    </form>
   </div>
   <div id="Role" class="tab-pane fade">
-    <ul id="role-info">
-      <li class="info-item item">
-        <label>Roles</label>
-        <select size="10" multiple="multiple" name="roles" id="role-all">
-          {% for role in roles %}
-          <option {%if user.contains_role(role.rolename)%} selected="selected"{% endif%} value="{{role.id}}">{{role.rolename}}</option>
-          {% endfor %}
-        </select>
-      </li>
-      <li class="info-item item">
-        <label></label>
-        <a class="edit btn btn-info" id="role-submit">
+    <form class="form-horizontal" id="role-info-form">
+      <div class="control-group" id="role-info-ctr">
+        <label class="control-label">Roles: </label>
+        <div class="controls">
+          <select size="10" multiple="multiple" name="roles" id="role-all">
+            {% for role in roles %}
+            <option {%if user.contains_role(role.rolename)%} selected="selected"{% endif%} value="{{role.id}}">{{role.rolename}}</option>
+            {% endfor %}
+          </select>
+          <span class="help-inline"></span>
+        </div>
+      </div>
+      <div class="form-actions">
+        <a id="role-submit" class="btn btn-info">
           <i class="icon-pencil"></i>
           Change
         </a>
-      </li>
-    </ul>
-    
+      </div>
+    </form> 
   </div>
 </div>
 </article>
@@ -171,6 +199,16 @@ $("#delete").click(function() {
     $.fancybox.close();
     $("#table-item-{{user.id}}").fadeOut('slow').remove();
   });
+});
+$('#img-uploader').change(function() {
+  $(this).upload('/member/profile/img', function(data){
+    var img = $(".profile-img");
+    $(img).each(function() { 
+      var src = $(this).attr('src');
+      src += '?' + new Date().getTime();
+      $(this).attr('src', src);
+    });
+  }, 'html');
 });
 });
 </script>

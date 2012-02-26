@@ -5,14 +5,16 @@
 </ul>
 <div class="tab-content popup">
   <div id="Prem" class="tab-pane active">
-    <ul id="perm-info">
-      <li class="info-item item">
-        <label>Permission Name</label>
-        <input type="text" name="rolename" id="overview-permname" value="{{perm.permname}}" />
-      </li>
-      <li class="info-item item">
-        <label></label>
-        <a class="edit btn btn-info"  id="overview-submit">
+    <form class="form-horizontal" id="perm-form">
+      <div class="control-group" id="perm_name_ctr">
+        <label for="overview-permname" class="control-label">Permname: </label>
+        <div class="controls">
+          <input type="text" id="overview-permname" name="permname" placeholder="Perm Name" value="{{perm.permname}}"/>
+          <span class="help-inline"></span>
+        </div>
+      </div>
+      <div class="form-actions clear">
+        <a class="btn btn-info"  id="overview-submit">
           <i class="icon-pencil"></i>
           Change
         </a>
@@ -20,8 +22,8 @@
           <i class="icon-trash icon-white"></i>
           Delete
         </a>
-      </li>
-    </ul>
+      </div>
+    </form>
   </div>
 </div>
 </article>
@@ -33,6 +35,9 @@ $("#overview-submit").click(function() {
   };
   perm.update({{perm.id}}, data).done(function(json) {
     $("#table-item-{{perm.id}}").find(".item-name").text(json.permission.permname);
+    $.get('/admin/perm/table', function(data) {
+      $('#table-position').html(data);
+    });
     $.fancybox.close();
   });
 });

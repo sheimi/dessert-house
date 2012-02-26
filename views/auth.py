@@ -8,17 +8,32 @@ def index():
     render_info = {
         'user'          :   request.user,
         'index'         :   True,
-        'dessert_list'  :   Dessert.get_all(),
     }
     return render('index.html')(**render_info) 
 
 @app.get('/index/dessert/<dessert_id:int>')
-def index(dessert_id):
+def index_item(dessert_id):
     render_info = {
         'user'    :   request.user,
         'dessert' :   Dessert.get(dessert_id),
     }
     return render('core/dessert_item.html')(**render_info)
+
+@app.get('/index/dessert_list')
+def index_item_list():
+    render_info = {
+        'user'    :   request.user,
+        'dessert_list' : Dessert.get_all(),
+    }
+    return render('core/dessert_list.html')(**render_info) 
+
+@app.get('/index/dessert_rec_list')
+def index_rec_list():
+    render_info = {
+        'user'    :   request.user,
+        'rec_list' : Dessert.get_all(),
+    }
+    return render('core/dessert_rec_list.html')(**render_info) 
 
 @app.post('/index/dessert/<dessert_id:int>/buy')
 def index(dessert_id):

@@ -1,0 +1,139 @@
+<ul class="nav nav-tabs" id="member-tab">
+  <li class="active">
+    <a href="#Account" data-toggle="tab">Account</a>
+  </li>
+  <li>
+    <a href="#Password" data-toggle="tab">Password</a>
+  </li>
+</ul>
+<div class="tab-content">
+  <div id="Account" class="tab-pane fade active in">
+    <form class="form-horizontal" id="account-form">
+      <div class="span7 left"> 
+        <div class="control-group" id="account_username_ctr">
+          <label for="overview-username" class="control-label">Username: </label>
+          <div class="controls">
+            <input type="text" id="overview-username" name="username" placeholder="User Name" value="{{user.username}}"/>
+            <span class="help-inline"></span>
+          </div>
+        </div>
+        <div class="control-group" id="account_age_ctr">
+          <label for="overview-age" class="control-label">Age: </label>
+          <div class="controls">
+            <input type="text" id="overview-age" name="age" placeholder="Age" value="{{user.age}}"/>
+            <span class="help-inline"></span>
+          </div>
+        </div>
+        <div class="control-group" id="account_gender_ctr">
+          <label for="overview-gender" class="control-label">Gender: </label>
+          <div class="controls">
+            <select name="gender" id="overview-gender">
+              <option value="0" {% if user.gender == 0 %}selected="selected"{%endif%}>Secrete</option>
+              <option value="1" {% if user.gender == 1 %}selected="selected"{%endif%}>Boy</option>
+              <option value="2" {% if user.gender == 2 %}selected="selected"{%endif%}>Girl</option>
+            </select>
+            <span class="help-inline"></span>
+          </div>
+        </div>
+        <div class="control-group" id="account_email_ctr">
+          <label for="overview-email" class="control-label">Email: </label>
+          <div class="controls">
+            <input type="email" id="overview-email" name="email" placeholder="Email" value="{{user.email}}"/>
+            <span class="help-inline"></span>
+          </div>
+        </div>
+        <div class="control-group" id="account_Addredd_ctr">
+          <label for="overview-address" class="control-label">Address: </label>
+          <div class="controls">
+            <input type="text" id="overview-address" name="address" placeholder="Address" value="{{user.address}}"/>
+            <span class="help-inline"></span>
+          </div>
+        </div>
+      </div>
+      <div id="profile" class="left span3">
+        <div class="img-wrapper">
+          <img id="profile-img" src='/static/img/profile/{{user.id}}.png'/>
+        </div>
+        <input type="file" name="file" id="img-uploader"/>
+      </div>
+      <div class="form-actions clear">
+        <a id="overview-submit" class="edit btn btn-info">
+          <i class="icon-pencil"></i>
+          Change
+        </a>
+      </div>
+    </form>
+  </div>
+  <div id="Password" class="tab-pane fade">
+    <form class="form-horizontal" id="passwd-form">
+      <div class="control-group" id="passwd_username_ctr">
+        <label class="control-label">Username: </label>
+        <div class="controls">
+          <input type="text" name="username" value="{{user.username}}" disabled/>
+          <span class="help-inline"></span>
+        </div>
+      </div>
+      <div class="control-group" id="passwd_ctr">
+        <label for="psw-1" class="control-label">Password: </label>
+        <div class="controls">
+          <input type="password" id="psw-1" name="password" placeholder="Password"/>
+          <span class="help-inline"></span>
+        </div>
+      </div>
+      <div class="control-group" id="passwd_ctr">
+        <label for="psw-2" class="control-label">Repeat: </label>
+        <div class="controls">
+          <input type="password" id="psw-2" name="passwordr" placeholder="Repeat"/>
+          <span class="help-inline"></span>
+        </div>
+      </div>
+      <div class="form-actions">
+        <a id="psw-submit" class="edit btn btn-info">
+          <i class="icon-pencil"></i>
+          Change
+        </a>
+      </div>
+    </form>
+  </div>
+</div>
+<script>
+$(document).ready(function() {
+
+$('#img-uploader').change(function() {
+  $(this).upload('/member/profile/img', function(data){
+    var img = $("#profile-img");
+    var src = img.attr('src');
+    src += '?' + new Date().getTime();
+    img.attr('src', src);
+  }, 'html');
+});
+
+$("#overview-submit").click(function() {
+  var data = {
+    username : $("#overview-username").val(),
+    age : $("#overview-age").val(),
+    gender: $("#overview-gender").val(),
+    email: $("#overview-email").val(),
+    address: $("#overview-address").val()
+  };
+  user.update({{user.id}}, data);
+});
+$("#psw-submit").click(function() {
+  var p1 = $("#psw-1").val();
+  var p2 = $("#psw-2").val();
+  if (p1 != p2) {
+    error.top_message("password not match");
+    return;
+  }
+  if (p1 == "") {
+    error.top_message("password empty");
+    return;
+  }
+  var data = {
+    password: p1 
+  };
+  user.update({{user.id}}, data);
+});
+
+});
+</script>

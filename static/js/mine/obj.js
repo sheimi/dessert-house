@@ -124,5 +124,6 @@ window.order = order;
 window.order_item = order_item
 window.reservation = reservation;
 window.reservation_item = reservation_item;
+window.send_json = send_json;
 
 })(window);

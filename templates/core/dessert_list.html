@@ -1,0 +1,30 @@
+<div id="dessert_list"> 
+  <ul id="dessert_ul">
+    {% for d in dessert_list%}
+    <li class="dessert-item left">
+      <div class="item-block span3" id="item-{{d.id}}" item-id="{{d.id}}">
+        <span class="item-img">
+          <img id="dessert-img-{{d.id}}" src='/static/img/dessert/{{d.img}}.png'/>
+        </span>
+        <span class="name">{{d.dname}}</span>
+      </div>
+    </li> 
+    {% endfor %}
+    <div class="clear"></div>
+  </ul>
+</div>
+
+<script>
+$(document).ready(function() {
+
+$(".item-block").hover(function() {
+  $(this).addClass("hover");
+}, function() {
+  $(this).removeClass("hover");
+});
+$(".item-block").click(function() {
+  $.fancy_ajax('/index/dessert/' + $(this).attr('item-id'));
+});
+
+});
+</script>

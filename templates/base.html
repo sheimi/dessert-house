@@ -2,22 +2,22 @@
 <html>
 	<head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block page_title %}{% endblock %}</title>
     <link type="text/css" rel="stylesheet" href="/static/bootstrap/css/bootstrap.min.css" />
+    <link type="text/css" rel="stylesheet" href="/static/bootstrap/css/bootstrap-responsive.min.css" />
     <link type="text/css" rel="stylesheet" href="/static/css/core.css" />
-    <link type="text/css" rel="stylesheet" href="/static/css/colorbox.css" />
     <link type="text/css" rel="stylesheet" href="/static/fb/jquery.fancybox.css" />
     <link type="text/css" rel="stylesheet" href="/static/fb/helpers/jquery.fancybox-buttons.css" />
     <link type="text/css" rel="stylesheet" href="/static/fb/helpers/jquery.fancybox-thumbs.css" />
     {%block additional_css%}{% endblock %}
     <script type="text/javascript" src="/static/js/jquery-1.7.1.js"></script>
-    <script type="text/javascript" src="/static/js/jquery.colorbox.js"></script>
     <script type="text/javascript" src="/static/fb/jquery.fancybox.js"></script>
+    <script type="text/javascript" src="/static/js/jquery.upload-1.0.2.js"></script>
     <script type="text/javascript" src="/static/fb/helpers/jquery.fancybox-buttons.js"></script>
     <script type="text/javascript" src="/static/fb/helpers/jquery.fancybox-thumbs.js"></script>
     <script type="text/javascript" src="/static/js/jquery.tablesorter.min.js"></script>
     <script type="text/javascript" src="/static/bootstrap/js/bootstrap.js"></script>
-    <script type="text/javascript" src="/static/js/jquery.upload-1.0.2.js"></script>
     <script type="text/javascript" src="/static/js/mine/core.js"></script>
     <script type="text/javascript" src="/static/js/mine/obj.js"></script>
     <script type="text/javascript" src="/static/js/mine/helper.js"></script>
@@ -27,98 +27,51 @@
     <div class="navbar navbar-fixed-top">
       <div class="navbar-inner">
         <div class="container">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
           <a class="brand" href="/">DHouse</a>
-          <ul class="nav">
-            <li {% if index %}class="active" {% endif %}>
-              <a href="/">
-                <i class="icon-home icon-white"></i>
-                Index
-              </a>
-            </li>
-            <li {% if member_center%}class="active" {% endif %}>
-              <a href="/member">
-                <i class="icon-user icon-white"></i>
-                Member Center
-              </a>
-            </li>
-          </ul>
-          <form class="navbar-search pull-left">
-            <input id="global_search" type="search" placeholder="Search" />
-          </form>
-          {% if user %}
-          <ul class="nav pull-right">
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                <i class="icon-cog icon-white"></i>
-                {{user.username}}
-              </a>
-              <ul class="dropdown-menu">
-                {% if user.has_perm("can_view_admin") %}
-                <li><a href="/admin">Admin</a></li>
+          <div class="nav-collapse">
+            <ul class="nav">
+              <li {% if index %}class="active" {% endif %}>
+                <a href="/">
+                  <i class="icon-home"></i>
+                  Index
+                </a>
+              </li>
+              <li {% if member_center%}class="active" {% endif %}>
+                <a href="/member">
+                  <i class="icon-user"></i>
+                  Member Center
+                </a>
+              </li>
+            </ul>
+            <form class="navbar-search pull-left">
+              <input id="global_search" type="search" placeholder="Search" />
+            </form>
+            <ul id="top-account-info" class="nav pull-right">
+            </ul>
+            <script>
+              $(document).ready(function() {
+                var url = '/ajax/account';
+                {% if signin %}
+                url += '?signin=true';
+                {% elif register %}
+                url += '?register=true';
                 {% endif %}
-                <li><a href="#">Something else here</a></li>
-                <li class="divider"></li>
-                {% if user.usertype %}
-                <li><a href="#recharge-modal" data-toggle="modal">Recharge</a></li>
-                <li class="divider"></li>
-                {% endif %}
-                <li><a href="/signout">Sign Out</a></li>
-              </ul>
-            </li>
-          </ul>
-          {% if user.usertype %}
-          <div id="recharge-modal" class="modal hide fade" style="display: block;">
-            <div class="modal-header">
-              <a class="close" data-dismiss="modal">x</a>
-              <h3>Recharge Your Membership</h3>
-            </div>
-            <div class="modal-body">
-              Recharge: &nbsp;&nbsp;&nbsp;
-              <input id="recharge-year" type="number" min="1" />
-              &nbsp;&nbsp;&nbsp;
-              X &nbsp;&nbsp;&nbsp;{{user.usertype.fee}} 
-            </div>
-            <div class="modal-footer">
-              <a href="#" class="btn primary" id="recharge">Recharge</a>
-            </div>
-          </div>
-          <script>
-            $(document).ready(function() {
-                $("#recharge").click(function() {
-                  var year = parseInt($("#recharge-year").val());
-                  if (year > 0) {
-                    user.recharge( {{user.id}}, year);
-                    $("#recharge-modal").modal('hide');
-                  }
+                $.get(url).done(function(data) {
+                  $("ul#top-account-info").html(data);
                 });
-            });
-          </script>
-          {% endif %}
-          {% elif register %}
-          <ul class="nav pull-right">
-            <li>
-              <a href="/signin">Have an account? Sign in</a>
-            </li>
-          </ul>
-          {% elif signin %}
-          <ul class="nav pull-right">
-            <li>
-              <a href="/register"> Register </a>
-            </li>
-          </ul>
-          {% else %}
-          <ul class="nav pull-right">
-            <li><a href="/signin">Have an account? Sign in</a></li>
-            <li><a href="/register"> Register </a></li>
-          </ul>
-          {% endif %}
-          {% block topbar %}{% endblock %}
-          </ul>
+              });
+            </script>
+          </div>
         </div>
       </div>
     </div>
     <div id="main-container" class="container">
-      {%if user and user.usertype and  user.is_expired() %}
+      {%if user and  user.is_expired()  %}
       <div id="expired_error" class="alert block-message">
         <a class="close" href="#">x</a>
         <p> 

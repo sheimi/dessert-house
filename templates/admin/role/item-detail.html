@@ -1,21 +1,23 @@
 <ul class="nav nav-tabs" id="member-tab">
   <li class="active">
-    <a href="#Type" data-toggle="tab">Role</a>
+    <a href="#Role" data-toggle="tab">Role</a>
   </li>
   <li>
     <a href="#Perm" data-toggle="tab">Permission</a>
   </li>
 </ul>
 <div class="tab-content popup">
-  <div id="Type" class="tab-pane active fandin">
-    <ul id="role-info">
-      <li class="info-item item">
-        <label>Role Name</label>
-        <input type="text" name="rolename" id="overview-rolename" value="{{role.rolename}}" />
-      </li>
-      <li class="info-item item">
-        <label></label>
-        <a class="edit btn btn-info" id="overview-submit">
+  <div id="Role" class="tab-pane active fandin">
+    <form class="form-horizontal" id="role-form">
+      <div class="control-group" id="role_name_ctr">
+        <label for="overview-rolename" class="control-label">Role name: </label>
+        <div class="controls">
+          <input type="text" value="{{role.rolename}}" id="overview-rolename" name="rolename" placeholder="Role Name"/>
+          <span class="help-inline"></span>
+        </div>
+      </div>
+      <div class="form-actions clear">
+        <a class="btn btn-info" id="overview-submit">
           <i class="icon-pencil"></i>
           Change
         </a>
@@ -23,28 +25,29 @@
           <i class="icon-trash icon-white"></i>
           Delete
         </a>
-      </li>
-    </ul>
+      </div>
+    </form>
   </div>
   <div id="Perm" class="tab-pane fandin">
-    <ul id="role-info">
-      <li class="info-item item">
-        <label>Permissions</label>
-        <select size="10" multiple="multiple" name="perms" id="perm-all">
-          {% for perm in perms%}
-          <option {%if role.contains_perm(perm.permname)%} selected="selected"{% endif%} value="{{perm.id}}">{{perm.permname}}</option>
-          {% endfor %}
-        </select>
-      </li>
-      <li class="info-item item">
-        <label></label>
-        <a class="edit btn btn-info"  id="role-submit">
+    <form class="form-horizontal" id="perm-info-form">
+      <div class="control-group" id="perm-info-ctr">
+        <label class="control-label">Perms: </label>
+        <div class="controls">
+          <select size="10" multiple="multiple" name="perms" id="perm-all">
+            {% for perm in perms%}
+            <option {%if role.contains_perm(perm.permname)%} selected="selected"{% endif%} value="{{perm.id}}">{{perm.permname}}</option>
+            {% endfor %}
+          </select>
+          <span class="help-inline"></span>
+        </div>
+      </div>
+      <div class="form-actions">
+        <a id="role-submit" class="btn btn-info">
           <i class="icon-pencil"></i>
           Change
         </a>
-      </li>
-    </ul>
-    
+      </div>
+    </form> 
   </div>
 </div>
 </article>
@@ -56,6 +59,9 @@ $("#overview-submit").click(function() {
   };
   role.update({{role.id}}, data).done(function(json) {
     $("#table-item-{{role.id}}").find(".item-name").text(json.role.rolename);
+    $.get('/admin/role/table', function(data) {
+      $('#table-position').html(data);
+    });
     $.fancybox.close();
   });
 });

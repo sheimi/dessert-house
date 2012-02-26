@@ -1,0 +1,97 @@
+<div id='register'>
+  {% if error %}
+  <div id="register_error" class="alert-message block-message error fade_in">
+    <a class="close" href="#">x</a>
+    <p><strong> {{ error }} </strong></p>
+  </div>
+  {% endif %}
+  <form class="form-horizontal" id="registerform">
+    <div class="control-group" id="username_ctr">
+      <label for="id_username" class="control-label">Username: </label>
+      <div class="controls">
+        <input type="text" id="id_username" name="username" placeholder="User Name"/>
+        <span class="help-inline"></span>
+      </div>
+    </div>
+    <div class="control-group" id="password_ctr">
+      <label for="id_password" class="control-label">Password: </label>
+      <div class="controls">
+        <input type="password" id="id_password" name="password" placeholder="Password"/>
+        <span class="help-inline"></span>
+      </div>
+    </div>
+    <div class="control-group" id="passwordr_ctr">
+      <label for="id_passwordr" class="control-label">Repeat Password: </label>
+      <div class="controls">
+        <input type="password" id="id_passwordr" name="passwordr" placeholder="Repeat Password"/>
+        <span class="help-inline"></span>
+      </div>
+    </div>
+    <a id="register-submit" type="submit" class='btn primary right'>
+      <i class="icon-leaf"></i>
+      Register
+    </a>
+    <div class="clear"></div>
+  </form>
+</div>
+<script>
+$(document).ready(function() {
+
+$('#register-submit').click(function(e) {
+  e.preventDefault();
+
+  var username = $("#id_username").val();
+  var password = $("#id_password").val();
+  var passwordr = $("#id_passwordr").val();
+  if (!username) {
+    $("#username_ctr").addClass("error");
+    $("#id_username").attr("placeholder", "Can't be empty");  
+    return;
+  }
+
+  if (!password) {
+    $("#password_ctr").addClass("error");
+    $("#id_password").attr("placeholder", "Can't be empty");  
+    return;
+  }
+
+  if (!passwordr) {
+    $("#passwordr_ctr").addClass("error");
+    $("#id_passwordr").attr("placeholder", "Can't be empty");  
+    return;
+  }
+
+  if (password != passwordr) {
+    $("#passwordr_ctr").addClass("error");
+    $("#id_passwordr").attr("placeholder", "Password not equal");  
+    $("#id_passwordr").val("");
+    return;
+  }
+
+  send_json({
+    url: '/ajax/register',
+    data:{username: $("#id_username").val(), password: $("#id_password").val()},
+    method: 'POST'
+  }).done(function(result) {
+    if (result.success) {
+      $.get('/ajax/account').done(function(data) {
+        $("ul#top-account-info").html(data);
+      });
+      $.fancybox.close();
+    } else {
+      $(".control-group").each(function() {
+        $(this).addClass("error");
+      });
+      $("#id_username").attr("placeholder", "ERROR");
+      $("#id_username").val("");
+      $("#id_password").attr("placeholder", "ERROR");
+      $("#id_password").val("");
+      $("#id_passwordr").attr("placeholder", "ERROR");
+      $("#id_passwordr").val("");
+    }
+  });
+});
+
+});
+</script>
+</script>

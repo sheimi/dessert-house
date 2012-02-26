@@ -5,19 +5,21 @@
 </ul>
 <div class="tab-content popup">
   <div id="Prem" class="tab-pane active">
-    <ul id="perm-info">
-      <li class="info-item item">
-        <label>Permission Name</label>
-        <input type="text" name="permname" id="overview-permname" />
-      </li>
-      <li class="info-item item">
-        <label></label>
+    <form class="form-horizontal" id="perm-form">
+      <div class="control-group" id="perm_name_ctr">
+        <label for="overview-permname" class="control-label">Permname: </label>
+        <div class="controls">
+          <input type="text" id="overview-permname" name="permname" placeholder="Perm Name"/>
+          <span class="help-inline"></span>
+        </div>
+      </div>
+      <div class="form-actions clear">
         <a class="btn" id="overview-submit">
           <i class="icon-plus"></i>
-            Add Permission
+          Add Permission 
         </a>
-      </li>
-    </ul>
+      </div>
+    </form>
   </div>
 </div>
 </article>
@@ -28,12 +30,17 @@ $("#overview-submit").click(function() {
     permname : $("#overview-permname").val()
   };
   perm.create(data).done(function(json) {
+    $.get('/admin/perm/table', function(data) {
+      $('#table-position').html(data);
+    });
+    /*
     var item = '<tr class="table-item" id="table-item-' + json.permission.id  + '">'
                 + '<td class="item-id">' + json.permission.id + '</td>'
                 + '<td class="item-name">' + json.permission.permname + '</td>'
                 + '<td class="oprations"><a class="edit btn btn-info">'
                 + '<i class="icon-pencil"></i>Edit</a></td></tr>';
     $("#admin-table tbody").append(item);
+    */
     $.fancybox.close();
   });
 

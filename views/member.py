@@ -14,11 +14,18 @@ def member_center():
   return render('member/index.html')(**render_argv)
 
 
+@app.get('/member/index/stuff')
+@signin_required
+def member_center_stuff():
+  return render('member/stuff.html')(user=request.user)
+
+
 @app.post('/member/profile/img')
 def up_load_image():
   datafile = request.POST.get('file')
   with open('./static/img/profile/%d.png' % request.user.id, 'w') as f :
     f.write(datafile.file.read())
+  print "hello"
   return {"result": "success"} 
 
 @app.post('/admin/dessert/upload/<dessert_id:int>')

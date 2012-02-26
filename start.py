@@ -63,7 +63,7 @@ def testdb():
     Session.query(member.User).all()
 
 def run():
-    from views import auth, user, rest, member, admin
+    from views import auth, user, rest, member, admin, base
     from util.plugins import set_user
     from bottle import install 
 
@@ -76,10 +76,13 @@ def run():
 
     bottle.install(set_user)
     bottle.debug(True)
-    bottle.run(app=sapp, reloader=True, server='tornado', host='localhost', port=8080)
+    bottle.run(app=sapp, reloader=True, server='tornado', host='0.0.0.0', port=8080)
 
 if __name__ == '__main__':
     import sys
-    cmd = sys.argv[1]
-    globals()[cmd]()
+    try:
+        cmd = sys.argv[1]
+        globals()[cmd]()
+    except:
+        run()
   
