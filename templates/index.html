@@ -2,64 +2,10 @@
 
 {% block page_title %}index{% endblock %}
 
-{% block additional_css %}
-<style>
-ul#dessert_ul {
-  margin: 0;
-}
-div.hover {
-  background: rgba(220, 220, 220, 0.2);
-}
-span.item-img {
-  height: 270px;
-  width: 270px;
-  text-align: center;
-  display: table-cell;
-  border: 1px solid #ddd;
-  vertical-align: middle;
-  overflow: hidden;
-}
-li.dessert-item {
-  height: 300px;
-}
-li.dessert-item img {
-  height: 270px;
-
-}
-
-#rec-carousel .item {
-  height: 300px;
-}
-#rec-carousel img {
-  height: 300px;
-}
-
-.dessert-img img {
-  height:300px;
-}
-
-ul.ops {
-  margin: 0;
-  margin-top: 10px;
-}
-
-@media (max-width: 980px)  {
-  span.item-img,  li.dessert-item img {
-    height: 200px;
-  }
-  li.dessert-item {
-    height: 220px;
-  }
-}
-
-</style>
-{% endblock %}
-
-
 {% block container%}
 <div class="row" id="item-rec-list-container">
 </div>
-<div class="row" id="item-list-container">
+<div class="well" id="item-list-container">
 </div>
 {% endblock %}
 
@@ -67,14 +13,25 @@ ul.ops {
 <script>
 $(document).ready(function() {
 
+!function(order) {
+  order.refresh_cart = function() {
+    $("#cart").remove()
+    $.get('/ajax/cart', function(data) {
+      $("body").append(data)
+    })
+  }
+}(order);
+
+order.refresh_cart()
+
 $.get('/index/dessert_rec_list', function(data) {
-  $("#item-rec-list-container").append(data);
-});
+  $("#item-rec-list-container").append(data)
+})
 
 $.get('/index/dessert_list', function(data) {
-  $("#item-list-container").append(data);
-});
+  $("#item-list-container").append(data)
+})
 
-});
+})
 </script>
 {% endblock %}

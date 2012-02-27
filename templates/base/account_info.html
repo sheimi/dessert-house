@@ -70,6 +70,7 @@ $(document).ready(function() {
       $.get('/ajax/account').done(function(data) {
         $("ul#top-account-info").html(data);
       });
+      success.top_message('Logout Success')
     });
   });
 

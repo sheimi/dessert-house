@@ -25,20 +25,20 @@
 $(document).ready(function() {
 
 $('#signin-submit').click(function(e) {
-  e.preventDefault();
+  e.preventDefault()
 
-  var username = $("#id_username").val();
-  var password = $("#id_password").val();
+  var username = $("#id_username").val()
+  var password = $("#id_password").val()
   if (!username) {
-    $("#username_ctr").addClass("error");
-    $("#id_username").attr("placeholder", "Can't be empty");  
-    return;
+    $("#username_ctr").addClass("error")
+    $("#id_username").attr("placeholder", "Can't be empty")  
+    return
   }
 
   if (!password) {
-    $("#password_ctr").addClass("error");
-    $("#id_password").attr("placeholder", "Can't be empty");  
-    return;
+    $("#password_ctr").addClass("error")
+    $("#id_password").attr("placeholder", "Can't be empty")  
+    return
   }
 
   send_json({
@@ -48,20 +48,23 @@ $('#signin-submit').click(function(e) {
   }).done(function(result) {
     if (result.success) {
       $.get('/ajax/account').done(function(data) {
-        $("ul#top-account-info").html(data);
-      });
-      $.fancybox.close();
+        $("ul#top-account-info").html(data)
+      })
+      success.top_message('Login Success')
+      order.refresh_cart()
+      $.fancybox.close()
     } else {
       $(".control-group").each(function() {
-        $(this).addClass("error");
-      });
-      $("#id_username").attr("placeholder", "ERROR");
-      $("#id_username").val("");
-      $("#id_password").attr("placeholder", "ERROR");
-      $("#id_password").val("");
+        $(this).addClass("error")
+      })
+      error.top_message('Login Error')
+      $("#id_username").attr("placeholder", "ERROR")
+      $("#id_username").val("")
+      $("#id_password").attr("placeholder", "ERROR")
+      $("#id_password").val("")
     }
-  });
-});
+  })
+})
 
-});
+})
 </script>

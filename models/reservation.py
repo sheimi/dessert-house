@@ -59,6 +59,7 @@ class Reservation(Base):
 
     def delete(self):
         session.delete(self)
+        session.commit()
 
     def update(self, **argv):
         self.user_id = argv.get('user', self.user_id)
@@ -113,6 +114,7 @@ class ReservationItem(Base):
 
     def delete(self):
         session.delete(self)
+        session.commit()
 
     def update(self, **argv):
         self.num = argv.get('num', self.num)

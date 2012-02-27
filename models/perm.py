@@ -52,6 +52,7 @@ class Permission(Base):
 
     def delete(self):
         session.delete(self)
+        session.commit()
 
     def update(self, **argv):
         self.permname = argv.get('permname', self.permname)

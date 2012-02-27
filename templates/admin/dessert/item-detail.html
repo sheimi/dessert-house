@@ -8,9 +8,16 @@
     <form class="form-horizontal" id="dessert-form">
       <div class="left span6">
         <div class="control-group" id="dessert-name-ctr">
-          <label for="overview-dessert" class="control-label">Dessert Name: </label>
+          <label for="overview-dessertname" class="control-label">Dessert Name: </label>
           <div class="controls">
-            <input value={{dessert.dname}} type="text" id="overview-dessertname" name="dessertname" placeholder="Dessert Name"/>
+            <input value="{{dessert.dname}}" type="text" id="overview-dessertname" name="dessertname" placeholder="Dessert Name"/>
+            <span class="help-inline"></span>
+          </div>
+        </div>
+        <div class="control-group" id="dessert-des-ctr">
+          <label for="overview-des" class="control-label">Description: </label>
+          <div class="controls">
+            <textarea id="overview-des" name=dessert-des" placeholder="Description">{{dessert.des}}</textarea>
             <span class="help-inline"></span>
           </div>
         </div>
@@ -28,8 +35,8 @@
         </div>
       </div>
       <div id="profile" class="left span3">
-        <div class="img-wrapper">
-          <img id="dessert-img" src='/static/img/dessert/{{dessert.img}}.png' style="width:100px; height:100px;"/>
+        <div class="img-wrapper span2">
+          <img id="dessert-img" src="/static/img/dessert/{{dessert.img}}.png"/>
         </div>
         <input type="file" name="file" id="img-uploader"/>
       </div>
@@ -61,9 +68,13 @@ $('#img-uploader').change(function() {
 $("#overview-submit").click(function() {
   var data = {
     dessert_name : $("#overview-dessertname").val(),
-    type : $("#overview-dtype").val()
+    type : $("#overview-dtype").val(),
+    des  : $("#overview-des").val()
   };
   dessert.update({{dessert.id}}, data).done(function(json) {
+    $.get('/admin/dessert/table', function(data) {
+      $('#table-position').html(data);
+    });
     $("#table-item-{{dessert.id}}").find(".item-name").text(json.dessert.dname);
     $.fancybox.close();
   });

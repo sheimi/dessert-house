@@ -30,12 +30,14 @@ $("#overview-submit").click(function() {
     typename: $("#overview-typename").val(),
   };
   dessert_type.create(data).done(function(json) {
+    /*
     var item = '<tr class="table-item" id="table-item-' + json.desserttype.id + '">'
                 + '<td class="item-id">' + json.desserttype.id + '</td>'
                 + '<td class="item-name">' + json.desserttype.typename + '</td>'
                 + '<td class="oprations"><a class="edit btn btn-info">'
                 + '<i class="icon-pencil"></i>Edit</a></td></tr>';
     $("#admin-table tbody").append(item);
+    */
     $.fancybox.close();
   });
 });

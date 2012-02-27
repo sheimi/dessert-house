@@ -55,6 +55,7 @@ class UserType(Base):
 
     def delete(self):
         session.delete(self)
+        session.commit()
 
     def update(self, **argv):
         self.typename = argv.get('typename', self.typename)

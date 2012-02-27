@@ -51,6 +51,7 @@ class DessertType(Base):
 
     def delete(self):
         session.delete(self)
+        session.commit()
 
     def update(self, **argv):
         self.typename = argv.get('typename', self.typename)
@@ -67,6 +68,7 @@ class Dessert(Base):
 
     id = Column(Integer, primary_key=True)
     dname = Column(String)
+    des = Column(String)
     img = Column(String)
     type_id = Column(Integer, ForeignKey('dtype.id'))
 
@@ -107,10 +109,12 @@ class Dessert(Base):
 
     def delete(self):
         session.delete(self)
+        session.commit()
 
     def update(self, **argv):
         self.dname = argv.get('dessert_name', self.dname)
         self.type_id = argv.get('type', self.type_id)
+        self.des = argv.get('des', self.des)
         session.commit()
 
 class Product(Base):
@@ -136,7 +140,7 @@ class Product(Base):
         self.dessert_id = dessert
 
     def __repr__(self):
-        return "<Product of (%s)" %s (self.dessert.dname)
+        return "<Product of (%s)" % (self.dessert.dname)
 
     def to_dict(self):
         td = obj2dict(self)
@@ -167,6 +171,7 @@ class Product(Base):
 
     def delete(self):
         session.delete(self)
+        session.commit()
 
     def update(self, **argv):
         self.num = argv.get('num', self.num)

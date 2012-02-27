@@ -34,12 +34,15 @@ $("#overview-submit").click(function() {
     typename: $("#overview-typename").val(),
   };
   dessert_type.update({{type.id}}, data).done(function(json) {
+    $.get('/admin/dtype/table', function(data) {
+      $('#table-position').html(data);
+    });
     $("#table-item-{{type.id}}").find(".item-name").text(json.desserttype.typename);
     $.fancybox.close();
   });
 });
 $("#delete").click(function() {
-  dessert.delete({{type.id}}).done(function(json) {
+  dessert_type.delete({{type.id}}).done(function(json) {
     $.fancybox.close();
     $("#table-item-{{type.id}}").fadeOut('slow').remove();
   });

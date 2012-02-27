@@ -55,7 +55,47 @@ def syncdb():
     nuser.roles.append(role_mem)
     nuser.usertype = utypea
     session.commit()
-  
+    
+    dt1 = DessertType('Cake')
+    dt2 = DessertType('Ice Cream')
+    dt3 = DessertType('Fruit')
+    session.add_all([dt1, dt2, dt3])
+    session.commit()
+
+    d0 = Dessert('Goblet')
+    d1 = Dessert('Lemon')
+    d2 = Dessert('Buttermilk')
+    d3 = Dessert('Chocolate')
+    d4 = Dessert('Fruit')
+    d5 = Dessert('Valentine')
+    d6 = Dessert('Lemon Cake')
+    d7 = Dessert('Exotic Fruits')
+    d8 = Dessert('Fresh Fruit')
+    d9 = Dessert('Chocolate Ice')
+
+    d0.des, d0.type_id = 'This is Description ~~~~~~~', 2
+    d1.des, d1.type_id = 'This is Description ~~~~~~~', 3
+    d2.des, d2.type_id = 'This is Description ~~~~~~~', 1
+    d3.des, d3.type_id = 'This is Description ~~~~~~~', 1
+    d4.des, d4.type_id = 'This is Description ~~~~~~~', 3
+    d5.des, d5.type_id = 'This is Description ~~~~~~~', 1
+    d6.des, d6.type_id = 'This is Description ~~~~~~~', 1
+    d7.des, d7.type_id = 'This is Description ~~~~~~~', 3
+    d8.des, d8.type_id = 'This is Description ~~~~~~~', 3
+    d9.des, d9.type_id = 'This is Description ~~~~~~~', 2
+
+    d0.img = '13569b64-b9e3-4c3a-8a1d-5f794a723d8c'
+    d1.img = '83289d63-b49b-4d70-b47a-08d43cdd940e'
+    d2.img = 'adc15f11-3f8c-4e33-aba3-a199d2d47da9'
+    d3.img = '3426bba5-03e2-4c46-bbd3-dfc7afdbe372'
+    d4.img = '4ddc429e-c202-4fbe-8481-59738bc29a88'
+    d5.img = '359e9e89-a6f9-44ca-bbef-46e49a490d5a'
+    d6.img = '59465deb-26e8-493c-ba40-5c4b96362594'
+    d7.img = '59e46ac2-0193-4f57-ae10-3c00a1bf2d3b'
+    d8.img = 'c549125d-0f4f-417a-9813-7ea208573681'
+    d9.img = '2c70a62e-a09c-4b55-906b-ba7f4bba04e8'
+    session.add_all([d0, d1, d2, d3, d4, d5, d6, d7, d8, d9])
+    session.commit()
 
 def testdb():
     from models import member

@@ -1,30 +1,72 @@
 <div id="dessert_list"> 
-  <ul id="dessert_ul">
-    {% for d in dessert_list%}
-    <li class="dessert-item left">
-      <div class="item-block span3" id="item-{{d.id}}" item-id="{{d.id}}">
-        <span class="item-img">
+  {% for d in dessert_list%}
+  <div class="row dessert-item">
+    <div class="dessert-img span3" id="item-{{d.id}}" data-id="{{d.id}}">
+      <span class="item-img">
+        <a class="thumbnail">
           <img id="dessert-img-{{d.id}}" src='/static/img/dessert/{{d.img}}.png'/>
-        </span>
-        <span class="name">{{d.dname}}</span>
+        </a>
+      </span>
+    </div>
+    <div class="span5">
+      <h6>Dessert Name: <b>{{d.dname}}</b></h6>
+      <hr/>
+      <p>
+      {{d.des}}
+      </p>
+      <hr/>
+      Price: <b>${{d.price}}</b>
+    </div>
+    <div class="dessert-op span3">
+      {% if user %}
+      <div class="control-group" id="account_username_ctr">
+        <label for="num" class="control-label">Number: </label>
+        <div class="controls">
+          <input type="number" id="num-{{d.id}}" name="num" placeholder="Number"/>
+          <span class="help-inline"></span>
+        </div>
       </div>
-    </li> 
-    {% endfor %}
-    <div class="clear"></div>
-  </ul>
+      <div class="form-actions clear">
+        <a class="btn btn-success btn-buy" data-id="{{d.id}}">
+          <i class="icon-shopping-cart icon-white"></i> 
+          Buy
+        </a>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <a class="btn btn-info btn-reserve" data-id="{{d.id}}">
+          <i class="icon-inbox icon-white"></i> 
+          Reserve
+        </a>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+  {% if not loop.last %}
+  <hr/>
+  {% endif %}
+  {% endfor %}
 </div>
 
 <script>
 $(document).ready(function() {
 
-$(".item-block").hover(function() {
+$(".dessert-item").hover(function() {
   $(this).addClass("hover");
 }, function() {
   $(this).removeClass("hover");
 });
-$(".item-block").click(function() {
-  $.fancy_ajax('/index/dessert/' + $(this).attr('item-id'));
+$(".dessert-img").click(function() {
+  $.fancy_ajax('/index/dessert/' + $(this).attr('data-id'));
 });
+$(".btn-buy").click(function() {
+  var id = $(this).attr("data-id")
+  var num = $("#num-"+id).val()
+  if (!num)
+    return
+  num = parseInt(num)
+  id = parseInt(id)
+  order_item.create({num: num, product:id, order: order.id})
+  order.refresh_cart()
+})
 
 });
 </script>

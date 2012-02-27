@@ -1,8 +1,9 @@
 body {
-  background-image: url(../img/background.gif);
+  background-image: url(../img/background/furley_bg.png);
+  background-attachment: fixed;
 }
 body {
-  padding-top: 40px;
+  padding-top: 50px;
 }
 
 @media (max-width: 980px)  {
@@ -13,6 +14,10 @@ body {
 
 .modal-backdrop {
   z-index: 1000;
+}
+
+#fancybox-overlay {
+  background: #777 !important;
 }
 
 .left {
@@ -26,9 +31,8 @@ body {
 .clear {
   clear: both;
 }
-
-#global_search {
-  padding: 3px;
+.navbar-search {
+  margin-top: 3px;
 }
 
 .sidebar-nav, .content {
@@ -54,40 +58,25 @@ li {
   list-style: none;
 }
 
-li label {
-  float: left;
-  width: 100px;
-  padding: 4px;
-}
-
-.item {
-  padding: 10px;
-}
-.item label {
-  text-align: right;
-}
-.item label {
-  margin-right: 20px;
-}
-.item select {
-  width: 220px;
-}
-
-
 /**---top message---**/
 div.notif {
-  padding: 3px 10px 3px 10px;
-  background: orange;
+  padding: 5px 10px 5px 10px;
+  background: #F89406;
   color: #fff;
-  font-size: 1 em; 
-  opacity: .5; 
+  font-size: 16px; 
   border-bottom-left-radius: 2px;
   border-bottom-right-radius: 2px;  
   z-index: 100000;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+  -moz-box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+  -webkit-box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+  -ms-box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+  -o-box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
 }
 
 div.notif.top-success {
-  background: lime;
+  background: #4EB1FF;
+  border-color: #4D90F0;
 }
 
 div.notif.top-error {
@@ -101,11 +90,6 @@ div#expired_error {
 
 .popup label {
   width: 100px;
-}
-
-.table-item img {
-  width: 100px;
-  height: 100px;
 }
 
 /**--header--**/
@@ -144,13 +128,24 @@ div#main-content {
   height: 20px;
   margin-right: 5px;
 }
-
+/*
 div.navbar-inner {
   background-image: -webkit-linear-gradient(top, rgba(221, 221, 221, 0.5), rgba(204, 204, 204, 0.5));
   background-image: -o-linear-gradient(top, rgba(221, 221, 221, 0.5), rgba(204, 204, 204, 0.5));
   background-image: -ms-linear-gradient(top, rgba(221, 221, 221, 0.5), rgba(204, 204, 204, 0.5));
   background-image: -moz-linear-gradient(top, rgba(221, 221, 221, 0.5), rgba(204, 204, 204, 0.5));
   background-image: linear-gradient(top, rgba(221, 221, 221, 0.5), rgba(204, 204, 204, 0.5));
+  background-color: rgba(0, 0, 0, 0);
+}
+  */
+
+
+div.navbar-inner {
+  background-image: -webkit-linear-gradient(top, rgba(221, 156, 0, 0.5), rgba(204, 156, 0, 0.5));
+  background-image: -o-linear-gradient(top, rgba(221, 156, 0, 0.5), rgba(204, 156, 0, 0.5));
+  background-image: -ms-linear-gradient(top, rgba(221, 156, 0, 0.5), rgba(204, 156, 0, 0.5));
+  background-image: -moz-linear-gradient(top, rgba(221, 156, 0, 0.5), rgba(204, 156, 0, 0.5));
+  background-image: linear-gradient(top, rgba(221, 156, 0, 0.5), rgba(204, 156, 0, 0.5));
   background-color: rgba(0, 0, 0, 0);
 }
 
@@ -164,3 +159,14 @@ div.navbar .nav .active > a, div.navbar .nav .active > a:hover {
   background-color: rgba(255, 255, 255, 0.8);
   color: black;
 }
+
+span.item-img {
+  display: table-cell;
+}
+
+.well {
+  box-shadow: inset 1px 1px 4px rgba(0, 0, 0, 0.1);
+  -webkit-box-shadow: inset 1px 1px 4px rgba(0, 0, 0, 0.1);
+  -moz-box-shadow: inset 1px 1px 4px rgba(0, 0, 0, 0.1)
+}
+

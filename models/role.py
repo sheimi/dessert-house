@@ -58,6 +58,7 @@ class Role(Base):
 
     def delete(self):
         session.delete(self)
+        session.commit()
  
     def add(self):
         session.add(self)

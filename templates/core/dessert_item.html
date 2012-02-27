@@ -6,33 +6,33 @@
 <div class="tab-content popup">
   <div id="Overview" class="tab-pane fade active in row">
     <div class="dessert-img span3">
-      <span><img src="/static/img/dessert/{{dessert.img}}.png" /></span>
+      <a class="thumbnail">
+        <img src="/static/img/dessert/{{dessert.img}}.png" />
+      </a>
     </div>
     <div class="dessert-info span3">
-      <ul class="ops">
-        <li>
-          <h6>Dessert Name: {{dessert.dname}}</h6>
-        </li>
-        {% if user %}
-        <li>
-          <label>Number: </label>
-          <input class="span2" type="number" min="0" />
-        </li>
-        <li>
-          <a class="btn btn-success" href="#">
-            <i class="icon-shopping-cart icon-white"></i> 
-            Buy
-          </a>
-          &nbsp;&nbsp;&nbsp;
-          <a class="btn btn-info" href="#">
-            <i class="icon-inbox icon-white"></i> 
-            Reserve
-          </a>
-        </li>
-        {% else %}
-        <li>Please <a href="/signin">press here</a> to sign in, and buy desserts</li>
-        {% endif %}
-      </ul>
+      <h6>Dessert Name: {{dessert.dname}}</h6>
+      {% if user %}
+      <div class="control-group" id="account_username_ctr">
+        <label for="num" class="control-label">Number: </label>
+        <div class="controls">
+          <input type="number" id="num" name="num" placeholder="Number"/>
+          <span class="help-inline"></span>
+        </div>
+      </div>
+      <div class="form-actions clear">
+        <a class="btn btn-success" href="#">
+          <i class="icon-shopping-cart icon-white"></i> 
+          Buy
+        </a>
+        <a class="btn btn-info" href="#">
+          <i class="icon-inbox icon-white"></i> 
+          Reserve
+        </a>
+      </div>
+      {% else %}
+      <p>Please <a href="/signin">press here</a> to sign in, and buy desserts</p>
+      {% endif %}
     </div>
   </div>
 </div>

@@ -1,0 +1,19 @@
+<div id="cart" style="position: fixed; right: -50px; top: 100px;padding: 7px; font-size: 13px; border: solid #D2D2D2 1px; border-radius: 2px 0 0 2px; box-shadow: rgba(0, 0, 0, 0.0976563) 0px 0px 5px 0px;background-color:whiteSmoke;cursor:pointer;">
+    {{num}} dessert(s) in <i class="icon-shopping-cart"></i> 
+    <hr style="margin-top: 10px; margin-bottom: 3px;"/>
+    <a> Go to check out</a>
+</div>
+<script>
+!function(order) {
+  order.id = {{user.cart.id}}
+}(order);
+$("#cart").hover(function() {
+      $(this).animate({ right: '+=50'}, 500)
+    }, function() {
+      $(this).animate({ right: '-=50'}, 500)
+})
+
+$("#cart").click(function() {
+    $.fancy_ajax_g({url: '/ajax/buy/' + order.id, width: 1600, height: 400})
+})
+</script>

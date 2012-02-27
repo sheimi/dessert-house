@@ -51,3 +51,34 @@ def sign_out():
     s = request.environ.get('beaker.session')
     s.delete()
     return {"success" : True}
+
+@app.route('/ajax/cart')
+def user_cart():
+    if not request.user:
+        return ""
+    user = request.user  
+    orders = user.orders
+    order = [ x for x in orders if not x.is_complete]
+    if order:
+        order = order[0]
+    else:
+        order = Order(user.id)
+        order.add()
+    user.cart = order
+    return render('base/cart.html')(user=user, num=len(order.order_items))
+
+@app.get('/ajax/buy/<order_id:int>')
+def check_out(order_id):
+    user = request.user
+    order = Order.get(order_id)
+    return render('base/order_confirm.html')(user=user, order=order)
+
+@app.post('/ajax/buy/<order_id:int>')
+def check_out_post(order_id):
+    order = Order.get(order_id)
+    print order.is_complete
+    if not order.order_items:
+        return { "success": False}
+    order.update(is_complete=True)
+    print order.is_complete
+    return {"success": True}

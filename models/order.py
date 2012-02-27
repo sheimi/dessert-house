@@ -15,6 +15,7 @@ class Order(Base):
     o_time = Column(DateTime)
     user_id = Column(Integer, ForeignKey('user.id'))
     discount = Column(Integer)
+    is_complete = Column(Boolean)
 
     user = relation(User, backref='orders')
 
@@ -22,6 +23,7 @@ class Order(Base):
         self.o_time = dt.now()
         self.user_id = user
         self.discount = discount
+        self.is_complete = False
 
     def __repr__(self):
         return "<Order %d>" % self.id
@@ -55,10 +57,12 @@ class Order(Base):
 
     def delete(self):
         session.delete(self)
+        session.commit()
 
     def update(self, **argv):
         self.user_id = argv.get('user', self.user_id)
         self.discount = argv.get('discount', self.discount)
+        self.is_complete= argv.get('is_complete', self.is_complete)
         session.commit()
 
 
@@ -109,6 +113,7 @@ class OrderItem(Base):
 
     def delete(self):
         session.delete(self)
+        session.commit()
 
     def update(self, **argv):
         self.num = argv.get('num', self.num)
