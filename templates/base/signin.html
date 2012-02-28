@@ -52,6 +52,7 @@ $('#signin-submit').click(function(e) {
       })
       success.top_message('Login Success')
       order.refresh_cart()
+      reservation.refresh_r()
       $.fancybox.close()
     } else {
       $(".control-group").each(function() {

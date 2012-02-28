@@ -19,11 +19,10 @@
     </div>
     <div class="dessert-op span3">
       {% if user %}
-      <div class="control-group" id="account_username_ctr">
-        <label for="num" class="control-label">Number: </label>
+      <div class="control-group">
+        <label for="num-{{d.id}}" class="control-label">Number: </label>
         <div class="controls">
           <input type="number" id="num-{{d.id}}" name="num" placeholder="Number"/>
-          <span class="help-inline"></span>
         </div>
       </div>
       <div class="form-actions clear">
@@ -32,7 +31,7 @@
           Buy
         </a>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <a class="btn btn-info btn-reserve" data-id="{{d.id}}">
+        <a class="btn-reserve btn btn-info btn-reserve" data-id="{{d.id}}">
           <i class="icon-inbox icon-white"></i> 
           Reserve
         </a>
@@ -50,23 +49,45 @@
 $(document).ready(function() {
 
 $(".dessert-item").hover(function() {
-  $(this).addClass("hover");
+  $(this).addClass("hover")
 }, function() {
-  $(this).removeClass("hover");
-});
+  $(this).removeClass("hover")
+})
+
 $(".dessert-img").click(function() {
-  $.fancy_ajax('/index/dessert/' + $(this).attr('data-id'));
-});
+  $.fancy_ajax('/index/dessert/' + $(this).attr('data-id'))
+})
+
 $(".btn-buy").click(function() {
   var id = $(this).attr("data-id")
   var num = $("#num-"+id).val()
-  if (!num)
+  if (!num) {
+    error.top_message('No Dessert Number')
     return
+  }
   num = parseInt(num)
   id = parseInt(id)
   order_item.create({num: num, product:id, order: order.id})
   order.refresh_cart()
+  $("#num-"+id).val("")
+  success.top_message('Dessert Added To Your Cart')
 })
 
-});
+
+$(".btn-reserve").click(function() {
+  var id = $(this).attr("data-id")
+  var num = $("#num-"+id).val()
+  if (!num) {
+    error.top_message('No Dessert Number')
+    return
+  }
+  num = parseInt(num)
+  id = parseInt(id)
+  reservation_item.create({num: num, product:id, reservation: reservation.id})
+  reservation.refresh_r()
+  $("#num-"+id).val("")
+  success.top_message('Dessert Added To Your Reservation')
+})
+
+})
 </script>

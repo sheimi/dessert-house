@@ -22,7 +22,21 @@ $(document).ready(function() {
   }
 }(order);
 
-order.refresh_cart()
+!function(reservation) {
+  reservation.refresh_r = function() {
+    $("#reservation-block").remove()
+    $.get('/ajax/reserve', function(data) {
+      $("body").append(data)
+    })
+  }
+}(reservation)
+
+window.refresh_sidetool = function() {
+  order.refresh_cart()
+  reservation.refresh_r()
+}
+
+refresh_sidetool()
 
 $.get('/index/dessert_rec_list', function(data) {
   $("#item-rec-list-container").append(data)

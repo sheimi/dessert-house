@@ -31,6 +31,7 @@ class Order(Base):
     def to_dict(self):
         td = obj2dict(self)
         td['o_time'] = str(self.o_time)
+        td['total_price'] = self.total_price()
         return td
 
     @staticmethod
@@ -65,6 +66,9 @@ class Order(Base):
         self.is_complete= argv.get('is_complete', self.is_complete)
         session.commit()
 
+    def total_price(self):
+        return sum([x.total_price() for x in self.order_items])
+
 
 class OrderItem(Base):
     __tablename__ = 'order_item'
@@ -87,6 +91,7 @@ class OrderItem(Base):
 
     def to_dict(self):
         td = obj2dict(self)
+        td['order_total_price'] = self.order.total_price() 
         return td
 
     @staticmethod
@@ -121,3 +126,5 @@ class OrderItem(Base):
         self.order_id = argv.get('order', self.order_id)
         session.commit()
 
+    def total_price(self):
+        return self.num * self.product.price

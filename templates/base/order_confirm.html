@@ -1,6 +1,7 @@
 <div>
   <div class="page-header">
     <h6>Comfirm Your Order</h6>
+    <h6 class="right">Total Price<span id="order-total-price"> &nbsp; &nbsp; <b><i></i></b></span></h6>
   </div>
   {% for oi in order.order_items %}
   <div class="row">
@@ -15,7 +16,7 @@
     <div class="span4">
       Dessert Name: <b>{{oi.product.dessert.dname}}</b>
       <hr/>
-      <input type="number" value="{{oi.product.num}}" data-id="{{oi.id}}" class="order-item"/> &times;<b><i>${{oi.product.price}}</i></b>
+      <input type="number" value="{{oi.num}}" data-id="{{oi.id}}" class="order-item-num"/> &times;<b><i>${{oi.product.price}}</i></b>
     </div>
   </div>
   <hr id="hr-{{oi.id}}"/>
@@ -28,6 +29,16 @@
   </div>
 </div>
 <script>
+$(document).ready(function() {
+  function show_price(total_price) {
+    $("#order-total-price i").html('$' + total_price)
+  }
+  show_price({{order.total_price()}})
+  $(".order-item-num").change(function() {
+    order_item.update(parseInt($(this).attr('data-id')), {num: parseInt($(this).val())}).done(function(data) {
+      show_price(data.orderitem.order_total_price)
+    })
+  })
   $(".close").click(function() {
       var id = $(this).attr("data-id") 
       $('#hr-'+id).fadeOut()
@@ -38,7 +49,7 @@
   $("#confirm").click(function() {
       $.post('/ajax/buy/{{order.id}}', 'json').done(function(data) {
         if (data.success) {
-          success.top_message('Your Order Have Send')  
+          success.top_message('Your Order Have Been Sent')  
           order.refresh_cart()
         } else {
           error.top_message('Order have no item')
@@ -46,4 +57,5 @@
         $.fancybox.close()
       })
   })
+})
 </script>

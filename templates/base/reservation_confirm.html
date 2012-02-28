@@ -1,0 +1,85 @@
+<div>
+  <div class="page-header">
+    <h6>Comfirm Your Reservation</h6>
+    <h6 class="right">Total Price<span id="res-total-price"> &nbsp; &nbsp; <b><i></i></b></span></h6>
+  </div>
+  <form class="form-horizontal">
+    <div class="control-group" id="res-date-ctr">
+      <label for="res-date" class="control-label">Date: </label>
+      <div class="controls">
+        <input type="text" data-datepicker="datepicker" class="date" id="res-date" value="{{o_time}}" name="date" placeholder="Reserve date"/>
+      </div>
+    </div>
+  </div>
+  <hr/>
+  {% for re in res.reservation_items %}
+  <div class="row">
+    <a class="close" data-id="{{re.id}}">
+      &times; 
+    </a>
+    <div class="span2">
+      <a class="thumbnail">
+        <img id="dessert-img-{{re.id}}" src='/static/img/dessert/{{re.product.dessert.img}}.png'/>
+      </a>
+    </div>
+    <div class="span4">
+      Dessert Name: <b>{{re.product.dessert.dname}}</b>
+      <hr/>
+      <input type="number" value="{{re.num}}" data-id="{{re.id}}" class="res-item-num"/> &times;<b><i>${{re.product.price}}</i></b>
+    </div>
+  </div>
+  <hr id="hr-{{re.id}}"/>
+  {% endfor %}
+  <div class="row">
+    <a id="confirm" class='btn span6 white btn-warning'>
+      <i class="icon-leaf icon-white"></i>
+        Confirm
+    </a>
+  </div>
+</div>
+<script>
+$(document).ready(function() {
+  function show_price(total_price) {
+    $("#res-total-price i").html('$' + total_price)
+  }
+  show_price({{res.total_price()}})
+
+  $(".res-item-num").change(function() {
+    reservation_item.update(parseInt($(this).attr('data-id')), {num: parseInt($(this).val())}).done(function(data) {
+      show_price(data.reservationitem.res_total_price)
+    })
+  })
+
+  $(".close").click(function() {
+      var id = $(this).attr("data-id") 
+      $('#hr-'+id).fadeOut()
+      $(this).parent().fadeOut()
+      reservation_item.delete(parseInt(id))
+      reservation.refresh_cart()
+  })
+  var pattern = /^[01][0-9]\/[0-3][0-9]\/[0-9]{4}$/
+  $("#confirm").click(function() {
+      if (!pattern.exec($("#res-date").val())) {
+        error.top_message('Please input a correct date')
+        return
+      }
+      $.post('/ajax/reserve/{{res.id}}', 'json').done(function(data) {
+        if (data.success) {
+          success.top_message('Your Reservation Have Been Sent')  
+          reservation.refresh_r()
+        } else {
+          error.top_message('Reservation have no item')
+        } 
+        $.fancybox.close()
+      })
+  })
+
+  $('.date').datepicker()
+  $('#res-date').change(function() {
+      if (!pattern.exec($(this).val())) {
+        error.top_message('Please input a correct date')
+      }
+      reservation.update({{res.id}}, {o_time: $(this).val()})
+  })
+})
+</script>

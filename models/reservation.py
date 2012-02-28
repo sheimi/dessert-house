@@ -16,13 +16,15 @@ class Reservation(Base):
     o_time = Column(DateTime)
     discount = Column(Integer)
     is_complete = Column(Boolean)
+    is_finished = Column(Boolean)
     user_id = Column(Integer, ForeignKey('user.id'))
 
     user = relation(User, backref='reservations')
 
-    def __init__(self, user, discount):
+    def __init__(self, user, discount=100):
         self.r_time = dt.now()
         self.is_complete = False
+        self.is_finished = False
         self.user_id = user
         self.discount = discount
 
@@ -33,6 +35,7 @@ class Reservation(Base):
         td = obj2dict(self)
         td['r_time'] = str(self.r_time)
         td['o_time'] = str(self.o_time)
+        td['total_price'] = self.total_price()
         return td
 
     @staticmethod
@@ -62,10 +65,18 @@ class Reservation(Base):
         session.commit()
 
     def update(self, **argv):
+        o_time= argv.get('o_time', None)
+        if o_time:
+           o_time = [int(x) for x in o_time.split('/')]
+           o_time = dt(o_time[2], o_time[0], o_time[1])
         self.user_id = argv.get('user', self.user_id)
         self.is_complete = argv.get('is_complete', self.is_complete)
         self.discount = argv.get('discount', self.discount)
+        self.o_time = o_time if o_time else self.o_time 
         session.commit()
+
+    def total_price(self):
+        return sum([x.total_price() for x in self.reservation_items])
 
 class ReservationItem(Base):
     __tablename__ = 'reservation_item'
@@ -88,6 +99,7 @@ class ReservationItem(Base):
 
     def to_dict(self):
         td = obj2dict(self)
+        td['res_total_price'] = self.reservation.total_price()
         return td
 
     @staticmethod
@@ -120,4 +132,8 @@ class ReservationItem(Base):
         self.num = argv.get('num', self.num)
         self.product_id = argv.get('product', self.product_id)
         self.reservation_id = argv.get('reservation', self.reservation_id)
+        print self.id
         session.commit()
+
+    def total_price(self):
+        return self.num * self.product.price 

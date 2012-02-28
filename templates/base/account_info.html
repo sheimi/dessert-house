@@ -71,6 +71,7 @@ $(document).ready(function() {
         $("ul#top-account-info").html(data);
       });
       success.top_message('Logout Success')
+      refresh_sidetool()
     });
   });
 
@@ -109,11 +110,13 @@ $(document).ready(function() {
 $("#signin_link").click(function(e) {
   e.preventDefault();
   $.fancy_ajax('/ajax/signin');
+  refresh_sidetool()
 });
 
 $("#register_link").click(function(e) {
   e.preventDefault();
   $.fancy_ajax('/ajax/register');
+  refresh_sidetool()
 });
 
 });

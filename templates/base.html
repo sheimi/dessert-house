@@ -5,12 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block page_title %}{% endblock %}</title>
     <link type="text/css" rel="stylesheet" href="/static/bootstrap/css/bootstrap.min.css" />
-    <link type="text/css" rel="stylesheet" href="/static/bootstrap/css/bootstrap-responsive.min.css" />
+    <!--<link type="text/css" rel="stylesheet" href="/static/bootstrap/css/bootstrap-responsive.min.css" />-->
     <link type="text/css" rel="stylesheet" href="/static/css/core.css" />
     <link type="text/css" rel="stylesheet" href="/static/fb/jquery.fancybox.css" />
     <link type="text/css" rel="stylesheet" href="/static/fb/helpers/jquery.fancybox-buttons.css" />
     <link type="text/css" rel="stylesheet" href="/static/fb/helpers/jquery.fancybox-thumbs.css" />
-    {%block additional_css%}{% endblock %}
     <script type="text/javascript" src="/static/js/jquery-1.7.1.js"></script>
     <script type="text/javascript" src="/static/fb/jquery.fancybox.js"></script>
     <script type="text/javascript" src="/static/js/jquery.upload-1.0.2.js"></script>
@@ -18,10 +17,7 @@
     <script type="text/javascript" src="/static/fb/helpers/jquery.fancybox-thumbs.js"></script>
     <script type="text/javascript" src="/static/js/jquery.tablesorter.min.js"></script>
     <script type="text/javascript" src="/static/bootstrap/js/bootstrap.js"></script>
-    <script type="text/javascript" src="/static/js/mine/core.js"></script>
-    <script type="text/javascript" src="/static/js/mine/obj.js"></script>
-    <script type="text/javascript" src="/static/js/mine/helper.js"></script>
-    {% block additional_script %}{% endblock %}
+    {%block additional_css%}{% endblock %}
   </head>
   <body>
     <div class="navbar navbar-fixed-top">
@@ -94,6 +90,10 @@
       {%block container%} 
       {%endblock%}
     </div>
-  {% block body_script %}{% endblock %}
+    <script type="text/javascript" src="/static/bootstrap/js/bootstrap-datepicker.js"></script>
+    <script type="text/javascript" src="/static/js/mine/core.js"></script>
+    <script type="text/javascript" src="/static/js/mine/obj.js"></script>
+    <script type="text/javascript" src="/static/js/mine/helper.js"></script>
+    {% block body_script %}{% endblock %}
 </body>
 </html>
