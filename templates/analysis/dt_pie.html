@@ -1,0 +1,56 @@
+<script type="text/javascript" src="/static/js/jquery-1.7.1.js"></script>
+<script type="text/javascript" src="/static/hc/js/highcharts.js"></script>
+<script type="text/javascript" src="/static/hc/js/modules/exporting.js"></script>
+<div id="dtpie-chart-container" style="width: 800px; height: 400px; margin: 0 auto"></div>
+<script>
+  var chart;
+  $(document).ready(function() {
+      chart = new Highcharts.Chart({
+        chart:  {
+                  renderTo: 'dtpie-chart-container',
+                  plotBackgroundColor: null,
+                  plotBorderWidth: null,
+                  plotShadow: false
+                },
+        title:  {
+                  text: 'Dessert Share Chart',
+                },
+        tooltip: {
+                  formatter: function() {
+                      return '<b>'+ this.point.name +'</b>: '
+                          + this.percentage + ' %';
+                  }
+                },
+        plotOptions:  {
+          pie: {
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    dataLabels: {
+                                    enabled: true,
+                                    color: '#000000',
+                                    connectorColor: '#000000',
+                                    formatter: function() {
+                                      return '<b>'+ this.point.name 
+                                        +'</b>: '
+                                        + this.percentage +' %';
+                                    }
+                                }
+               }
+                      },
+      series: [{
+                  type: 'pie',
+                  name: 'Dessert Share',
+                  data: [
+                            ['Ice Cream', 34.0],
+                            ['Cake',        33.0],
+                            {  
+                                name : 'Fruit',
+                                y: 33.0,
+                                sliced: true,
+                                selected: true
+                            }
+                        ]
+              }]
+      })
+})
+</script>

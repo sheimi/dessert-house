@@ -118,7 +118,7 @@ def testdb():
     Session.query(member.User).all()
 
 def run():
-    from views import auth, user, rest, member, admin, base
+    from views import auth, user, rest, member, admin, base, analysis
     from util.plugins import set_user
     from bottle import install 
 
