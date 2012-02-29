@@ -31,20 +31,19 @@ $(document).ready(function() {
   }
 }(reservation)
 
-window.refresh_sidetool = function() {
+
+
+$("#item-rec-list-container").load('/index/dessert_rec_list')
+
+window.load_dlist = function() {
+  $("#item-list-container").load('/index/dessert_list')
+}
+window.refresh = function() {
   order.refresh_cart()
   reservation.refresh_r()
+  load_dlist()
 }
-
-refresh_sidetool()
-
-$.get('/index/dessert_rec_list', function(data) {
-  $("#item-rec-list-container").append(data)
-})
-
-$.get('/index/dessert_list', function(data) {
-  $("#item-list-container").append(data)
-})
+refresh()
 
 })
 </script>

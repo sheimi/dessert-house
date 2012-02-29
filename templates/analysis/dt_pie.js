@@ -1,13 +1,9 @@
-<script type="text/javascript" src="/static/js/jquery-1.7.1.js"></script>
-<script type="text/javascript" src="/static/hc/js/highcharts.js"></script>
-<script type="text/javascript" src="/static/hc/js/modules/exporting.js"></script>
-<div id="dtpie-chart-container" style="width: 800px; height: 400px; margin: 0 auto"></div>
-<script>
   $(document).ready(function() {
      var  chart = new Highcharts.Chart({
         chart:  {
-                  renderTo: 'dtpie-chart-container',
+                  renderTo: 'chart-container',
                   plotBackgroundColor: null,
+                  backgroundColor: null,
                   plotBorderWidth: null,
                   plotShadow: false
                 },
@@ -60,4 +56,3 @@
               }]
       })
 })
-</script>

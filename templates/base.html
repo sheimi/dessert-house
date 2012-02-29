@@ -59,9 +59,7 @@
                 {% elif register %}
                 url += '?register=true';
                 {% endif %}
-                $.get(url).done(function(data) {
-                  $("ul#top-account-info").html(data);
-                });
+                $('ul#top-account-info').load(url)
               });
             </script>
           </div>

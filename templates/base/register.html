@@ -74,9 +74,8 @@ $('#register-submit').click(function(e) {
     method: 'POST'
   }).done(function(result) {
     if (result.success) {
-      $.get('/ajax/account').done(function(data) {
-        $("ul#top-account-info").html(data);
-      });
+      $("ul#top-account-info").load('/ajax/account')
+      refresh()
       $.fancybox.close();
     } else {
       $(".control-group").each(function() {

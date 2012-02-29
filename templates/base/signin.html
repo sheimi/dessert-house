@@ -47,12 +47,9 @@ $('#signin-submit').click(function(e) {
     method: 'POST'
   }).done(function(result) {
     if (result.success) {
-      $.get('/ajax/account').done(function(data) {
-        $("ul#top-account-info").html(data)
-      })
+      $("ul#top-account-info").load('/ajax/account')
       success.top_message('Login Success')
-      order.refresh_cart()
-      reservation.refresh_r()
+      refresh()
       $.fancybox.close()
     } else {
       $(".control-group").each(function() {
