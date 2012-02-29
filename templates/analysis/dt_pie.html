@@ -3,9 +3,8 @@
 <script type="text/javascript" src="/static/hc/js/modules/exporting.js"></script>
 <div id="dtpie-chart-container" style="width: 800px; height: 400px; margin: 0 auto"></div>
 <script>
-  var chart;
   $(document).ready(function() {
-      chart = new Highcharts.Chart({
+     var  chart = new Highcharts.Chart({
         chart:  {
                   renderTo: 'dtpie-chart-container',
                   plotBackgroundColor: null,
@@ -41,6 +40,7 @@
                   type: 'pie',
                   name: 'Dessert Share',
                   data: [
+                    /*
                             ['Ice Cream', 34.0],
                             ['Cake',        33.0],
                             {  
@@ -49,6 +49,13 @@
                                 sliced: true,
                                 selected: true
                             }
+                            */
+{% for key, value  in datas.data.iteritems() %}
+  ['{{key}}', {{value * 100 / datas.sum}}]
+  {%if not loop.last %}
+  ,
+  {%endif%}
+{% endfor %}
                         ]
               }]
       })

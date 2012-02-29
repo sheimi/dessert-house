@@ -8,7 +8,28 @@
 {% endblock %}
 
 {% block content %}
-Hello
+<div class="tabbable tabs-right">
+  <ul class="nav nav-tabs">
+    <li class="active"><a data-toggle="tab" href="#General">General Chart</a></li>
+    <li><a href="#Share" data-toggle="tab">Share Chart</a></li>
+    <!--<li><a href="#" data-toggle="tab"></a></li>-->
+  </ul>
+  <div class="tab-content">
+    <div class="tab-pane active fade" id="General">
+      <div id="dessert-type-share">
+      </div>
+    </div>
+    <div class="tab-pane fade" id="Share">
+      <script>
+        $(document).ready(function() {
+            $.get('http://sheimi.com:8080/analysis/dt-pie').done(function(data) {
+              $("#dessert-type-share").html(data)
+            })
+        })
+      </script>
+    </div>
+  </div>
+</div>
 {% endblock %}
 
 {% block body_script %}
