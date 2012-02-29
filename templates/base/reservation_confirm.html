@@ -7,12 +7,12 @@
     <div class="control-group" id="res-date-ctr">
       <label for="res-date" class="control-label">Date: </label>
       <div class="controls">
-        <input type="text" data-datepicker="datepicker" class="date" id="res-date" value="{{o_time}}" name="date" placeholder="Reserve date"/>
+        <input type="text" data-datepicker="datepicker" class="date" id="res-date" value="{{send_date}}" name="date" placeholder="Reserve date"/>
       </div>
     </div>
   </div>
   <hr/>
-  {% for re in res.reservation_items %}
+  {% for re in res.order_items %}
   <div class="row">
     <a class="close" data-id="{{re.id}}">
       &times; 
@@ -45,8 +45,8 @@ $(document).ready(function() {
   show_price({{res.total_price()}})
 
   $(".res-item-num").change(function() {
-    reservation_item.update(parseInt($(this).attr('data-id')), {num: parseInt($(this).val())}).done(function(data) {
-      show_price(data.reservationitem.res_total_price)
+    order_item.update(parseInt($(this).attr('data-id')), {num: parseInt($(this).val())}).done(function(data) {
+      show_price(data.orderitem.order_total_price)
     })
   })
 
@@ -54,7 +54,7 @@ $(document).ready(function() {
       var id = $(this).attr("data-id") 
       $('#hr-'+id).fadeOut()
       $(this).parent().fadeOut()
-      reservation_item.delete(parseInt(id))
+      order_item.delete(parseInt(id))
       reservation.refresh_cart()
   })
   var pattern = /^[01][0-9]\/[0-3][0-9]\/[0-9]{4}$/
@@ -78,8 +78,9 @@ $(document).ready(function() {
   $('#res-date').change(function() {
       if (!pattern.exec($(this).val())) {
         error.top_message('Please input a correct date')
+        return
       }
-      reservation.update({{res.id}}, {o_time: $(this).val()})
+      reservation.update({{res.id}}, {send_date: $(this).val()})
   })
 })
 </script>

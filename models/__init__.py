@@ -10,7 +10,6 @@ from models.usertype import UserType
 from models.role import Role
 from models.perm import Permission
 from models.order import Order, OrderItem
-from models.reservation import Reservation, ReservationItem
 from models.product import Dessert, DessertType, Product
 
 def init_model(engine):
@@ -25,8 +24,6 @@ modules = {
     'perm'          :       'Permission',
     'order'         :       'Order',
     'order_item'    :       'OrderItem',
-    'reservation'   :       'Reservation',
-    'reservation_item' :    'ReservationItem',
     'dessert'       :       'Dessert',
     'dtype'         :       'DessertType',
     'product'       :       'Product',

@@ -3,6 +3,8 @@ from bottle import request, response, redirect
 from transaction.auth import authenticate, register
 from util.plugins import signin_required, has_perm
 from models import *
+from datetime import datetime as dt
+from util.util import date2str
 
 @app.get('/ajax/account')
 def account_info():
@@ -58,7 +60,7 @@ def user_cart():
         return ""
     user = request.user  
     orders = user.orders
-    order = [ x for x in orders if not x.is_complete]
+    order = [ x for x in orders if not x.is_complete and x.is_order]
     if order:
         order = order[0]
     else:
@@ -78,7 +80,7 @@ def check_out_post(order_id):
     order = Order.get(order_id)
     if not order.order_items:
         return { "success": False}
-    order.update(is_complete=True)
+    order.update(is_confirmed=True, confirm_date=date2str(dt.today()))
     return {"success": True}
 
 @app.get('/ajax/reserve')
@@ -86,35 +88,34 @@ def user_reserve():
     if not request.user:
         return ""
     user = request.user
-    reservations = user.reservations
-    res = [ x for x in reservations if not x.is_complete]
+    res = user.orders
+    res = [ x for x in res if not x.is_confirmed and not x.is_order]
     if res:
         res = res[0]
     else:
-        res = Reservation(user.id)
+        res = Order(user.id, is_order=False)
         res.add()
     user.res = res
-    return render('base/reservation.html')(user=user, num=len(res.reservation_items))
+    return render('base/reservation.html')(user=user, num=len(res.order_items))
 
 @app.get('/ajax/reserve/<res_id:int>')
 def confirm_reserve(res_id):
     user = request.user
-    res = Reservation.get(res_id)
-    o_time = res.o_time
-    if o_time:
-        year, month, day = str(o_time.year), str(o_time.month), str(o_time.day)
-        month = month if len(month) == 2 else '0' + month
-        day = day if len(day) == 2 else '0' + day
-        o_time = '%s/%s/%s' % (month, day, year)
-    return render('base/reservation_confirm.html')(user=user, res=res, o_time=o_time)
+    res = Order.get(res_id)
+    if res.send_date:
+        send_date= date2str(res.send_date)
+    else:
+        send_date= None
+    return render('base/reservation_confirm.html')(
+            user=user, res=res, send_date=send_date)
 
 @app.post('/ajax/reserve/<res_id:int>')
 def confirm_reserve_post(res_id):
-    res = Reservation.get(res_id)
-    if not res.reservation_items:
+    res = Order.get(res_id)
+    if not res.order_items:
         return { "success": False}
-    if not res.o_time:
+    if not res.send_date:
         return { "success": False}
-    res.update(is_complete=True)
+    res.update(is_confirmed=True, confirm_date=date2str(dt.today()))
     return {"success": True}
 

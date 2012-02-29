@@ -7,30 +7,46 @@ from meta import session
 
 from models.user import User
 from models.product import Product
+from util.util import str2date 
 
 class Order(Base):
     __tablename__ = 'order'
 
     id = Column(Integer, primary_key=True)
-    o_time = Column(DateTime)
+
+    create_date  = Column(DateTime)     #date the order created
+    confirm_date = Column(DateTime)     #date the order confirmed 
+    send_date    = Column(DateTime)     #date the order will be sent
+
     user_id = Column(Integer, ForeignKey('user.id'))
     discount = Column(Integer)
-    is_complete = Column(Boolean)
+
+    is_order     = Column(Boolean)      #order: true   reservation: false
+    is_confirmed = Column(Boolean)      #is confirmed
+    is_complete  = Column(Boolean)      #is the order conplete
+
 
     user = relation(User, backref='orders')
 
-    def __init__(self, user, discount=100):
-        self.o_time = dt.now()
+    def __init__(self, user, discount=100, is_order=True):
+
+        self.create_date = dt.now()
+
         self.user_id = user
         self.discount = discount
-        self.is_complete = False
+
+        self.is_order       = is_order
+        self.is_complete    = False
+        self.is_confirmed   = False
 
     def __repr__(self):
         return "<Order %d>" % self.id
 
     def to_dict(self):
         td = obj2dict(self)
-        td['o_time'] = str(self.o_time)
+        td['create_date']   = str(self.create_date)
+        td['confirm_date']  = str(self.confirm_date)
+        td['send_date']     = str(self.send_date)
         td['total_price'] = self.total_price()
         return td
 
@@ -40,8 +56,13 @@ class Order(Base):
         return order
 
     @staticmethod
-    def get_all():
-        orders = session.query(Order).all()
+    def get_all(order_type=None):
+        if order_type == 'order':
+            order = session.query(Order).filter(is_order=True).all()
+        elif order_type == 'reservation':
+            reservation = session.query(Order).filter(is_order=False).all()
+        else:
+            orders = session.query(Order).all()
         return orders
 
     @staticmethod
@@ -61,9 +82,23 @@ class Order(Base):
         session.commit()
 
     def update(self, **argv):
-        self.user_id = argv.get('user', self.user_id)
-        self.discount = argv.get('discount', self.discount)
-        self.is_complete= argv.get('is_complete', self.is_complete)
+
+        self.user_id        = argv.get('user', self.user_id)
+        self.discount       = argv.get('discount', self.discount)
+
+        self.is_complete    = argv.get('is_complete', self.is_complete)
+        self.is_order       = argv.get('is_order', self.is_order) 
+        self.is_confirmed   = argv.get('is_confirmed', self.is_confirmed)
+
+        confirm_date = argv.get('confirm_date', None)
+        send_date    = argv.get('send_date', None)   
+        if send_date:
+            self.send_date = str2date(send_date)
+        if confirm_date:
+            self.confirm_date = str2date(confirm_date)
+            if self.is_order:
+                self.send_date = self.confirm_date
+                self.is_complete = self.is_confirmed
         session.commit()
 
     def total_price(self):

@@ -83,7 +83,7 @@ $(".btn-reserve").click(function() {
   }
   num = parseInt(num)
   id = parseInt(id)
-  reservation_item.create({num: num, product:id, reservation: reservation.id})
+  order_item.create({num: num, product:id, order: reservation.id})
   reservation.refresh_r()
   $("#num-"+id).val("")
   success.top_message('Dessert Added To Your Reservation')
