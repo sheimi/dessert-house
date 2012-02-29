@@ -12,7 +12,7 @@
 {% block body_script %}
 <script>
 $(document).ready(function() {
-  $.get('/analysis/tooltip').done(function(data) {
+  $.get('/analysis/chart-nav').done(function(data) {
     $('body').append(data)
   })
 })

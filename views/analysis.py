@@ -3,9 +3,9 @@ from bottle import request, response, redirect
 from models import *
 from transaction.analysis import *
 
-@app.get('/analysis/tooltip')
+@app.get('/analysis/chart-nav')
 def tooltip():
-    return render('analysis/tooltip.html')()
+    return render('analysis/chart_nav.html')()
 
 @app.get('/analysis/overview.js')
 def overview():
