@@ -56,6 +56,13 @@ class Role(Base):
         roles = session.query(Role).filter(q).all()
         return roles 
 
+    @staticmethod
+    def count(ft=None):
+        if not ft:
+            return session.query(Role).count()
+        else:
+            return session.query(Role).filter(ft).count()
+        
     def delete(self):
         session.delete(self)
         session.commit()

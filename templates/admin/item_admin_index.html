@@ -18,6 +18,8 @@
 <div class="admin-content">
   <div id="table-position">
   </div>
+  <div id="pagination-position">
+  </div>
 </div>
 {% endblock %}
 
@@ -25,10 +27,7 @@
 <script>
 $(document).ready(function() {
 
-$.get('/admin/{{module}}/table', function(data) {
-  $('#table-position').html(data);
-});
-
+$('#table-position').load('/admin/{{module}}/table')
 
 $("#admin-op").click(function() {
   $.fancy_ajax('/admin/{{module}}/add');

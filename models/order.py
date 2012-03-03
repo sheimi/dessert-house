@@ -73,6 +73,13 @@ class Order(Base):
         orders = session.query(Order).filter(q).all()
         return orders
 
+    @staticmethod
+    def count(ft=None):
+        if not ft:
+            return session.query(Order).count()
+        else:
+            return session.query(Order).filter(ft).count()
+
     def add(self):
         session.add(self)
         session.commit()
@@ -146,6 +153,14 @@ class OrderItem(Base):
         q = '(%s)' % q
         order_items = session.query(OrderItem).filter(q).all()
         return order_items 
+
+    @staticmethod
+    def count(ft=None):
+        if not ft:
+            return session.query(OrderItem).count()
+        else:
+            return session.query(OrderItem).filter(ft).count()
+
 
     def add(self):
         session.add(self)

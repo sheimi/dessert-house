@@ -45,6 +45,13 @@ class DessertType(Base):
         dtype = session.query(DessertType).filter(q).all()
         return dtype
 
+    @staticmethod
+    def count(ft=None):
+        if not ft:
+            return session.query(DessertType).count()
+        else:
+            return session.query(DessertType).filter(ft).count()
+        
     def add(self):
         session.add(self)
         session.commit()
@@ -103,6 +110,13 @@ class Dessert(Base):
         desserts = session.query(Dessert).filter(q).all()
         return desserts
 
+    @staticmethod
+    def count(ft=None):
+        if not ft:
+            return session.query(Dessert).count()
+        else:
+            return session.query(Dessert).filter(ft).count()
+        
     def add(self):
         session.add(self)
         session.commit()
@@ -165,6 +179,13 @@ class Product(Base):
         products = session.query(Product).filter(q).all()
         return products
 
+    @staticmethod
+    def count(ft=None):
+        if not ft:
+            return session.query(Product).count()
+        else:
+            return session.query(Product).filter(ft).count()
+        
     def add(self):
         session.add(self)
         session.commit()

@@ -14,3 +14,17 @@ def get_dtype_share():
 
 def set_dtype_share():
     pass
+
+def get_gender_share():
+    users = User.get_all()
+    render = {'male': 0, 'female':0, 'others':0}
+    for user in users:
+        gender = user.gender
+        if gender == 1:
+            render['male'] += 1
+        elif gender == 2:
+            render['female'] += 1
+        else:
+            render['others'] += 1
+    s = sum(render.values())
+    return {'data':render, 'sum': s}

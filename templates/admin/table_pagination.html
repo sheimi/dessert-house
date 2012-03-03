@@ -1,0 +1,20 @@
+<div class="pagination">
+<ul>
+  <li {% if page == 0 %} class="disabled" {%endif%}><a class="pag" href="/admin/{{module}}/table?page={{page-1}}">«</a></li>
+  {% for p in pages %}
+  <li {% if page == p %} class="active" {%endif%}><a class="pag" href="/admin/{{module}}/table?page={{p}}">{{p+1}}</a></li>
+  {% endfor %}
+  <li {% if page == page_max %} class="disabled" {%endif%}><a class="pag" href="/admin/{{module}}/table?page={{page+1}}">»</a></li>
+</ul>
+</div>
+<script>
+  $(document).ready(function() {
+      $(".pag").click(function(e) {
+        e.preventDefault()
+        if ($(this).parent().hasClass("disabled") || $(this).parent().hasClass("active"))
+          return
+        var url = $(this).attr('href')
+        $("#table-position").load(url)
+      });
+  });
+</script>

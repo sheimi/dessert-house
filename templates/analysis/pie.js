@@ -8,7 +8,7 @@
                   plotShadow: false
                 },
         title:  {
-                  text: 'Dessert Share Chart',
+                  text: '{{title}}',
                 },
         tooltip: {
                   formatter: function() {

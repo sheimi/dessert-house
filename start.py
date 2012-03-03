@@ -131,7 +131,22 @@ def run():
 
     bottle.install(set_user)
     bottle.debug(True)
-    bottle.run(app=sapp, reloader=True, server='tornado', host='0.0.0.0', port=8080)
+    bottle.run(app=sapp, reloader=True, host='0.0.0.0', port=8080)
+
+def random_data():
+    from transaction import random_model as rd
+    for i in range(30):
+        rd.random_dessert()
+    print "finished"
+    for i in range(100):
+        rd.random_user()
+    print "finished"
+    for i in range(1000):
+        rd.random_order()
+    print "finished"
+    for i in range(1000):
+        rd.random_res()
+    print "finished"
 
 if __name__ == '__main__':
     import sys

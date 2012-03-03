@@ -104,6 +104,13 @@ class User(Base):
             users = session.query(User).filter(q).filter_by(is_active=active).all()
         return users
 
+    @staticmethod
+    def count(ft=None):
+        if not ft:
+            return session.query(User).count()
+        else:
+            return session.query(User).filter(ft).count()
+
     def deactivate(self):
         self.is_active = False
         session.commit()

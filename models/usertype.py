@@ -49,6 +49,13 @@ class UserType(Base):
         types = session.query(UserType).filter(q).all()
         return types
 
+    @staticmethod
+    def count(ft=None):
+        if not ft:
+            return session.query(UserType).count()
+        else:
+            return session.query(UserType).filter(ft).count()
+        
     def add(self):
         session.add(self)
         session.commit()

@@ -4,6 +4,8 @@ from transaction.auth import authenticate, register
 from util.plugins import signin_required, has_perm
 from models import *
 
+table_count = 10 
+
 @app.get('/admin')
 @app.get('/admin/index')
 @has_perm('can_view_admin')
@@ -30,14 +32,15 @@ def user_item(user_id):
 
 @app.get('/admin/user/table')
 def user_table():
-    start = request.GET.get('start', 0);
-    end = request.GET.get('end', 20);
+    page = int(request.GET.get('page', '0'))
+    start = page * table_count + 1
+    end = (page + 1) * table_count + 1
     user_list = User.get_mul(range(start, end))
     render_argv = {
         'user_list' : user_list,
+        'page' : page,
     }
     return render('admin/user/item-table.html')(**render_argv)
-
 
 @app.get('/admin/role/<role_id:int>')
 @has_perm('can_view_admin')
@@ -99,11 +102,13 @@ def product_item(product_id):
 @app.get('/admin/product/table')
 @has_perm('can_view_admin')
 def product_table():
-    start = request.GET.get('start', 0);
-    end = request.GET.get('end', 20);
+    page = int(request.GET.get('page', '0'))
+    start = page * table_count + 1
+    end = (page + 1) * table_count + 1
     product_list = Product.get_mul(range(start, end))
     render_argv = {
         'product_list' : product_list,
+        'page'      : page,
     }
     return render('admin/product/item-table.html')(**render_argv)
 
@@ -111,11 +116,13 @@ def product_table():
 @app.get('/admin/dessert/table')
 @has_perm('can_view_admin')
 def dessert_table():
-    start = request.GET.get('start', 0);
-    end = request.GET.get('end', 20);
+    page = int(request.GET.get('page', '0'))
+    start = page * table_count + 1
+    end = (page + 1) * table_count + 1
     dessert_list = Dessert.get_mul(range(start, end))
     render_argv = {
         'dessert_list' : dessert_list,
+        'page'      : page,
     }
     return render('admin/dessert/item-table.html')(**render_argv)
 
@@ -144,13 +151,43 @@ def item_admin(module):
 @app.get('/admin/<module>/table')
 @has_perm('can_view_admin')
 def item_table(module):
-    start = request.GET.get('start', 0);
-    end = request.GET.get('end', 20);
+    page = int(request.GET.get('page', '0'))
+    start = page * table_count + 1
+    end = (page + 1) * table_count + 1
     obj = globals()[modules[module]]
     item_list= obj.get_mul(range(start, end))
     render_argv = {
         'item_list' : item_list,
         'table_show': obj.show,
         'module'    : module,
+        'page'      : page,
     }
     return render('admin/item_table.html')(**render_argv)
+
+
+@app.get('/admin/<module>/pagination')
+def item_pagination(module):
+    obj = globals()[modules[module]]
+
+    page = int(request.GET.get('page', '0'))
+    count = obj.count()
+    page_max = count / table_count
+    if page_max != 0 and count % table_count == 0:
+        page_max = page_max - 1
+    if page <= 5 and page_max > 9:
+        pages = range(0, 10)
+    elif page <= 5 and page_max <= 9:
+        pages = range(0, page_max + 1)
+    elif page >= 5 and page_max < page + 5:
+        pages = range(page_max - 9, page_max + 1)
+    else:
+        pages = range(page - 5, page + 5)
+    render_argv = {
+        'page' : page,
+        'pages': pages,
+        'page_max': page_max,
+        'module'    : module,
+    }
+    return render('admin/table_pagination.html')(**render_argv)
+    
+

@@ -4,7 +4,7 @@ from models import *
 from transaction.analysis import *
 
 @app.get('/analysis/chart-nav')
-def tooltip():
+def char_nav():
     return render('analysis/chart_nav.html')()
 
 @app.get('/analysis/overview.js')
@@ -16,6 +16,15 @@ def overview():
 @app.get('/analysis/dt-pie.js')
 def dt_pie():
     render_argv = {
+        'title'     : 'Dessert Share Chart',
         'datas'     : get_dtype_share(),
     }
-    return render('analysis/dt_pie.js')(**render_argv)
+    return render('analysis/pie.js')(**render_argv)
+
+@app.get('/analysis/gender-pie.js')
+def gender_pie():
+    render_argv = {
+        'title'     : 'Gender Share Chart',
+        'datas'     : get_gender_share(),
+    }
+    return render('analysis/pie.js')(**render_argv)

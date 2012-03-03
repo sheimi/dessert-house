@@ -46,6 +46,13 @@ class Permission(Base):
         perms = session.query(Permission).filter(q).all()
         return perms
 
+    @staticmethod
+    def count(ft=None):
+        if not ft:
+            return session.query(Permission).count()
+        else:
+            return session.query(Permission).filter(ft).count()
+
     def add(self):
         session.add(self)
         session.commit()
