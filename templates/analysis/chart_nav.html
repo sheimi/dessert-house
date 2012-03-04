@@ -1,37 +1,20 @@
+{% import 'imports/forms.html' as forms %}
 <div id="tooltip" style="position: fixed; right: -65px; top: 65px; width: 150px; border: solid #D2D2D2 1px; border-radius: 2px 0 0 2px; box-shadow: rgba(0, 0, 0, 0.0976563) 0px 0px 5px 0px;background-color:whiteSmoke;" class="well">
   <h6>Chart Navigate</h6>
   <hr/>
-  <div class="accordion" id="chart-tooltip">
-    <div class="accordion-group">
-      <div class="accordion-heading">
-        <a class="accordion-toggle" data-toggle="collapse" data-parent="#chart-tooltip" href="#General-Charts">
-          General
-        </a>
-      </div>
-      <div id="General-Charts" class="accordion-body collapse in">
-        <div class="accordion-inner">
-          <ul>
-            <li class="chart-item"><a href="/analysis/overview.js">Overview</a></li>
-          </ul>
-        </div>
-      </div>
-    </div>
-    <div class="accordion-group">
-      <div class="accordion-heading">
-        <a class="accordion-toggle" data-toggle="collapse" data-parent="#chart-tooltip" href="#Share-Charts">
-          Share
-        </a>
-      </div>
-      <div id="Share-Charts" class="accordion-body collapse">
-        <div class="accordion-inner">
-          <ul>
-            <li class="chart-item"><a href="/analysis/dt-pie.js">Dessert</a></li>
-            <li class="chart-item"><a href="/analysis/gender-pie.js">Gender</a></li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </div>
+  {% call forms.bs_accordion('chart-tooltip') %}
+    {% call forms.bs_accordion_item('chart-tooltip', 'General-Charts', 'General', in=True) %}
+    <ul>
+      <li class="chart-item"><a href="/analysis/overview.js">Overview</a></li>
+    </ul>
+    {% endcall %}
+    {% call forms.bs_accordion_item('chart-tooltip', 'Share-Charts', 'Share') %}
+    <ul>
+      <li class="chart-item"><a href="/analysis/dt-pie.js">Dessert</a></li>
+      <li class="chart-item"><a href="/analysis/gender-pie.js">Gender</a></li>
+    </ul>
+    {% endcall %}
+  {% endcall %}
 </div>
 <script>
   $(document).ready(function() {

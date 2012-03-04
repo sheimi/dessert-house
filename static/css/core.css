@@ -298,3 +298,33 @@ span.item-img {
   color: #ffffff;
 }
 
+
+/*signin*/
+#page #signin, #page #register {
+    margin: 10em auto;
+    width: 310px;
+}
+#page #signin form, #page #register form {
+    padding:15px;
+    border-radius:5px;
+    background:#fff;
+    border:1px solid #e5e5e5;
+    box-shadow:rgba(200, 200, 200, 1) 0 4px 18px;
+}
+#page label {
+    font-size:14px;
+    text-align: left;
+}
+#page #signin input[type='text'], #page #signin input[type='password'],
+#page #register input[type='text'], #page  #register input[type='password']{
+    padding:3px;
+    margin-top:2px;
+    margin-bottom:16px;
+    border:1px solid #e5e5e5;
+    background:#fbfbfb;
+}
+
+#page #id_username, #page #id_password,#page #id_passwordr {
+  width: 270px;
+}
+

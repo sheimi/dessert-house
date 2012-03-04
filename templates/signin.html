@@ -2,38 +2,11 @@
 {% block page_title %}Sign in{% endblock %}
 {% block additional_css %}
 <style>
-#signin, #register {
-    margin: 10em auto;
-    width: 310px;
-}
-#signin form, #register form {
-    padding:15px;
-    border-radius:5px;
-    background:#fff;
-    border:1px solid #e5e5e5;
-    box-shadow:rgba(200, 200, 200, 1) 0 4px 18px;
-}
-label {
-    font-size:14px;
-    text-align: left;
-}
-#signin input[type='text'], #signin input[type='password'],
-#register input[type='text'], #register input[type='password']{
-    padding:3px;
-    margin-top:2px;
-    margin-bottom:16px;
-    border:1px solid #e5e5e5;
-    background:#fbfbfb;
-}
-
-#id_username, #id_password, #id_passwordr {
-  width: 270px;
-}
-
 </style>
 {% endblock %}
 
 {% block container %}
+<div id="page">
 <div id='signin'>
   {% if error %}
   <div id="signin_error" class="alert alert-error alert-block">
@@ -55,8 +28,7 @@ label {
     <div class="clear"></div>
   </form>
 </div>
-{% endblock %}
-{% block body_script %}
+</div>
 <script>
 $(document).ready(function() {
   function focus() {
@@ -67,6 +39,4 @@ $(document).ready(function() {
 {% endif %}
 });
 </script>
-{% block body_script_2 %}
-{% endblock %}
 {% endblock %}

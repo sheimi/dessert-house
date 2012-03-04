@@ -1,7 +1,62 @@
-{% macro input(name, id, class='', value='', type='text') %}
-  <input type="{{type}}" value="{{ value|e }}" name="{{ name }}" id="{{id}}" class="{{class}}">
+{% macro input(name, id, class='', value='', type='text', other='') %}
+  <input type="{{type}}" value="{{ value|e }}" name="{{ name }}" id="{{id}}" class="{{class}}" {{other}}>
 {% endmacro %}
 
-{% macro input_num(name, value='', max='100', min='10') %}
-  <input type="number" value="{{ value|e }}" name="{{ name }}" id="{{id}}" class="{{class}}" max="{{max}}" min="{{min}}">
+{% macro input_num(name, id, class='', value='', max='100', min='0', ph='Number') %}
+  <input type="number" value="{{ value|e }}" name="{{ name }}" id="{{id}}" class="{{class}}" placeholder="{{ph}}" max="{{max}}" min="{{min}}">
+{% endmacro %}
+
+{% macro bs_control_group(label='', for='') %} 
+<div class="control-group">
+  <label for="{{for}}" class="control-label">{{label}}</label>
+  <div class="controls">
+    {{caller()}}
+  </div>
+</div>
+{% endmacro %}
+
+{% macro bs_img(src, href="", class="", id="") %}
+<a class="thumbnail {{class}}" {% if href %} href="{{href}}" {%endif%}>
+  <img src="{{src}}" {% if id %}id="{{id}}" {%endif%}/>
+</a>
+{% endmacro %}
+
+
+{% macro bs_ctrgroup(label) %}
+<div class="control-group">
+  <label class="control-label">{{label}} : </label>
+  <div class="controls">
+    {{caller()}}
+  </div>
+</div>
+{% endmacro %}
+
+{% macro bs_btn(text, btype="primary", class="", icolor="white", itype="", other="") %}
+<a class="btn btn-{{btype}} {{class}}" {{other}}>
+  {% if itype %}
+  <i class="icon-{{itype}} icon-{{icolor}}"></i> 
+  {% endif %}
+  {{text}}
+</a>
+{% endmacro %}
+
+{% macro bs_accordion(id) %}
+<div class="accordion" {% if id %} id="{{id}}" {% endif %}>
+    {{caller()}}
+</div>
+{% endmacro %}
+
+{% macro bs_accordion_item(parent, name, text="Header", in=False) %}
+<div class="accordion-group">
+  <div class="accordion-heading">
+    <a class="accordion-toggle" data-toggle="collapse" data-parent="#{{parent}}" href="#{{name}}">
+      {{text}}
+    </a>
+  </div>
+  <div id="{{name}}" class="accordion-body collapse {% if in %} in {%endif%}">
+    <div class="accordion-inner">
+      {{caller()}}
+    </div>
+  </div>
+</div>
 {% endmacro %}

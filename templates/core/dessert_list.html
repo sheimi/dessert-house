@@ -2,13 +2,7 @@
 <div id="dessert_list"> 
   {% for d in dessert_list%}
   <div class="row dessert-item">
-    <div class="dessert-img span3" id="item-{{d.id}}" data-id="{{d.id}}">
-      <span class="item-img">
-        <a class="thumbnail">
-          <img id="dessert-img-{{d.id}}" src='/static/img/dessert/{{d.img}}.png'/>
-        </a>
-      </span>
-    </div>
+    {{forms.bs_img('/static/img/dessert/'+d.img+'.png', href='/index/dessert/'+d.id|string, class='span3 dessert-img')}}
     <div class="span5">
       <h6>Dessert Name: <b>{{d.dname}}</b></h6>
       <hr/>
@@ -20,22 +14,15 @@
     </div>
     <div class="dessert-op span3">
       {% if user %}
-      <div class="control-group">
-        <label for="num-{{d.id}}" class="control-label">Number: </label>
-        <div class="controls">
-          <input type="number" id="num-{{d.id}}" name="num" placeholder="Number" max="{{d.num}}" min="0"/>
-        </div>
-      </div>
-      <div class="form-actions clear">
-        <a class="btn btn-success btn-buy" data-id="{{d.id}}" data-price="{{d.price}}">
-          <i class="icon-shopping-cart icon-white"></i> 
-          Buy
-        </a>
+      {% call forms.bs_control_group(for='num-'+d.id|string, label='Number: ')  %}
+        {{ forms.input_num("num", "num-"+d.id|string, max=d.num, ph="Number") }}
+      {% endcall %}
+      <div class="form-actions">
+        {{ forms.bs_btn('Buy', btype='success', class='btn-buy', itype='shopping-cart', 
+          other='data-id="'+d.id|string+'" data-price="'+d.price|string+'"')}}
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <a class="btn-reserve btn btn-info btn-reserve" data-id="{{d.id}}" data-price="{{d.price}}">
-          <i class="icon-inbox icon-white"></i> 
-          Reserve
-        </a>
+        {{ forms.bs_btn('Reserve', btype='info', class='btn-reserve', itype='inbox', 
+          other='data-id="'+d.id|string+'" data-price="'+d.price|string+'"')}}
       </div>
       {% endif %}
     </div>
@@ -49,14 +36,9 @@
 <script>
 $(document).ready(function() {
 
-$(".dessert-item").hover(function() {
-  $(this).addClass("hover")
-}, function() {
-  $(this).removeClass("hover")
-})
-
-$(".dessert-img").click(function() {
-  $.fancy_ajax('/index/dessert/' + $(this).attr('data-id'))
+$(".dessert-img").click(function(e) {
+  e.preventDefault()
+  $.fancy_ajax($(this).attr('href'))
 })
 
 function add_item(data) {

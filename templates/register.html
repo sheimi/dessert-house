@@ -1,6 +1,7 @@
 {% extends "signin.html" %}
 {% block page_title %}Register{% endblock %}
 {% block container %}
+<div id="page">
 <div id='register'>
   {% if error %}
   <div id="register_error" class="alert-message block-message error fade_in">
@@ -19,8 +20,7 @@
     <div class="clear"></div>
   </form>
 </div>
-{% endblock %}
-{% block body_script_2 %}
+</div>
 <script>
 $(document).ready(function() {
     
