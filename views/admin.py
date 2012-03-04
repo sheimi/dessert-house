@@ -89,30 +89,6 @@ def dtype_item(dtype_id):
     }
     return render('admin/dtype/item-detail.html')(**render_argv)
 
-@app.get('/admin/product/<product_id:int>')
-@has_perm('can_view_admin')
-def product_item(product_id):
-    render_argv = {
-        'product' : Product.get(product_id),
-        'dessert_list' : Dessert.get_all(),
-    }
-    return render('admin/product/item-detail.html')(**render_argv)
-
-
-@app.get('/admin/product/table')
-@has_perm('can_view_admin')
-def product_table():
-    page = int(request.GET.get('page', '0'))
-    start = page * table_count + 1
-    end = (page + 1) * table_count + 1
-    product_list = Product.get_mul(range(start, end))
-    render_argv = {
-        'product_list' : product_list,
-        'page'      : page,
-    }
-    return render('admin/product/item-table.html')(**render_argv)
-
-
 @app.get('/admin/dessert/table')
 @has_perm('can_view_admin')
 def dessert_table():

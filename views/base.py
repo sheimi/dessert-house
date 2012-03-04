@@ -83,6 +83,33 @@ def check_out_post(order_id):
     order.update(is_confirmed=True, confirm_date=date2str(dt.today()))
     return {"success": True}
 
+@app.post('/ajax/item/additem')
+def add_item():
+    json = request.json
+    try:
+        dessert = Dessert.get(json['dessert'])
+        dessert.num -= json['num']
+        dessert.update()
+        oi = OrderItem(**json) 
+        oi.add()
+    except:
+        return {"success" : False}
+    return {"success" : True}
+
+@app.post('/ajax/item/cnum/<item_id:int>')
+def change_num(item_id):
+    json = request.json
+    if "num" in json:
+        oi = OrderItem.get(item_id)
+        delta = oi.num - json['num']
+        oi.dessert.num -= delta
+        oi.num = json['num']
+        oi.update()
+        return {"success" : True, "orderitem": oi.to_dict()}
+    else:
+        return {"success" : False}
+
+
 @app.get('/ajax/reserve')
 def user_reserve():
     if not request.user:
@@ -97,6 +124,7 @@ def user_reserve():
         res.add()
     user.res = res
     return render('base/reservation.html')(user=user, num=len(res.order_items))
+
 
 @app.get('/ajax/reserve/<res_id:int>')
 def confirm_reserve(res_id):

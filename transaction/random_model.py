@@ -35,15 +35,11 @@ def random_dessert():
     d.des = des
     d.img = img
     d.type_id = dt
+    d.num = random.randint(50, 100)
+    d.price = random.randint(20, 100)
     d.add()
-    num = random.randint(50, 100)
-    price = random.randint(20, 100)
-    p = Product(num, price, d.id)
-    p.add()
     return d
 
-def random_product():
-    pass
 
 def random_utype():
     pass
@@ -71,23 +67,25 @@ def random_user():
     return u
 
 def random_order(min_item=1, max_item=20):
-    products = Product.get_all()
+    desserts = Dessert.get_all()
     user = random.choice(User.get_all()).id
     order = Order(user)
     order.add()
     for i in range(random.randint(min_item, max_item)):
-        oi = OrderItem(random.randint(1, 30), random.choice(products).id, order.id)
+        d = random.choice(desserts)
+        oi = OrderItem(random.randint(1, 30), d.id, order.id, d.price)
         oi.add()
     order.update(is_confirmed=True, confirm_date=util.date2str(dt.today()))
     return order
 
 def random_res(min_item=1, max_item=20):
-    products = Product.get_all()
+    desserts = Dessert.get_all()
     user = random.choice(User.get_all()).id
     order = Order(user, is_order=False)
     order.add()
     for i in range(random.randint(min_item, max_item)):
-        oi = OrderItem(random.randint(1, 30), random.choice(products).id, order.id)
+        d = random.choice(desserts)
+        oi = OrderItem(random.randint(1, 30), d.id, order.id, d.price)
         oi.add()
     order.update(is_confirmed=True, confirm_date=util.date2str(dt.today()), is_complete=True, send_date=util.date2str(dt.today()))
     return order

@@ -6,7 +6,7 @@ import uuid
 from meta import session
 
 from models.user import User
-from models.product import Product
+from models.dessert import Dessert
 from util.util import str2date 
 
 class Order(Base):
@@ -116,17 +116,19 @@ class OrderItem(Base):
     __tablename__ = 'order_item'
 
     id = Column(Integer, primary_key=True)
-    product_id = Column(Integer, ForeignKey('product.id'))
+    dessert_id = Column(Integer, ForeignKey('dessert.id'))
     order_id = Column(Integer, ForeignKey('order.id'))
     num = Column(Integer)
+    price = Column(Integer)
 
-    product = relation(Product, backref='order_items')
+    dessert = relation(Dessert, backref='order_items')
     order = relation(Order, backref='order_items')
 
-    def __init__(self, num, product, order):
+    def __init__(self, num, dessert, order, price):
         self.num = num
-        self.product_id = product
+        self.dessert_id = dessert 
         self.order_id = order
+        self.price = price
 
     def __repr__(self):
         return '<RItem>'
@@ -172,9 +174,10 @@ class OrderItem(Base):
 
     def update(self, **argv):
         self.num = argv.get('num', self.num)
-        self.product_id= argv.get('product', self.product_id)
+        self.dessert_id = argv.get('dessert', self.dessert_id)
         self.order_id = argv.get('order', self.order_id)
+        self.price = argv.get('price', self.price)
         session.commit()
 
     def total_price(self):
-        return self.num * self.product.price
+        return self.num * self.price

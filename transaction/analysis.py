@@ -4,7 +4,7 @@ def get_dtype_share():
     ois = OrderItem.get_all()
     render = {}
     for oi in ois:
-        name = oi.product.dessert.dessert_type.typename 
+        name = oi.dessert.dessert_type.typename 
         if name in render.keys():
             render[name] += oi.num 
         else:

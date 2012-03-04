@@ -1,0 +1,7 @@
+{% macro input(name, id, class='', value='', type='text') %}
+  <input type="{{type}}" value="{{ value|e }}" name="{{ name }}" id="{{id}}" class="{{class}}">
+{% endmacro %}
+
+{% macro input_num(name, value='', max='100', min='10') %}
+  <input type="number" value="{{ value|e }}" name="{{ name }}" id="{{id}}" class="{{class}}" max="{{max}}" min="{{min}}">
+{% endmacro %}

@@ -99,19 +99,6 @@ def syncdb():
 
     d = Dessert.get_all()
 
-    p0 = Product(100, 100, d[0].id)
-    p1 = Product(100, 100, d[1].id)
-    p2 = Product(100, 100, d[2].id)
-    p3 = Product(100, 100, d[3].id)
-    p4 = Product(100, 100, d[4].id)
-    p5 = Product(100, 100, d[5].id)
-    p6 = Product(100, 100, d[6].id)
-    p7 = Product(100, 100, d[7].id)
-    p8 = Product(100, 100, d[8].id)
-    p9 = Product(100, 100, d[9].id)
-    session.add_all([p0, p1, p2, p3, p4, p5, p6, p7, p8, p9])
-    session.commit()
-
 def testdb():
     from models import member
     from meta import Session
@@ -131,7 +118,7 @@ def run():
 
     bottle.install(set_user)
     bottle.debug(True)
-    bottle.run(app=sapp, reloader=True, host='0.0.0.0', port=8080)
+    bottle.run(server='tornado', app=sapp, reloader=True, host='0.0.0.0', port=8080)
 
 def random_data():
     from transaction import random_model as rd

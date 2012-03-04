@@ -11,14 +11,12 @@
           <label for="overview-dessertname" class="control-label">Dessert Name: </label>
           <div class="controls">
             <input value="{{dessert.dname}}" type="text" id="overview-dessertname" name="dessertname" placeholder="Dessert Name"/>
-            <span class="help-inline"></span>
           </div>
         </div>
         <div class="control-group" id="dessert-des-ctr">
           <label for="overview-des" class="control-label">Description: </label>
           <div class="controls">
             <textarea id="overview-des" name=dessert-des" placeholder="Description">{{dessert.des}}</textarea>
-            <span class="help-inline"></span>
           </div>
         </div>
         <div class="control-group" id="dessert-type-ctr">
@@ -30,7 +28,18 @@
               <option value="{{type.id}}" {% if type.id == dessert.dessert_type.id %} selected="selected" {% endif %}>{{type.typename}}</option>
               {% endfor %}
             </select>
-            <span class="help-inline"></span>
+          </div>
+        </div>
+        <div class="control-group" id="num-ctr">
+          <label for="overview-num" class="control-label">Num: </label>
+          <div class="controls">
+            <input value="{{dessert.num}}" type="number" name="num" min="0" id="overview-num" placeholder="Num" />
+        </div>
+        </div>
+        <div class="control-group" id="price-ctr">
+          <label for="overview-price" class="control-label">Price: </label>
+          <div class="controls">
+            <input value="{{dessert.price}}" type="number" name="price" min="0" id="overview-price" placeholder="Price" />
           </div>
         </div>
       </div>
@@ -69,7 +78,9 @@ $("#overview-submit").click(function() {
   var data = {
     dessert_name : $("#overview-dessertname").val(),
     type : $("#overview-dtype").val(),
-    des  : $("#overview-des").val()
+    des  : $("#overview-des").val(),
+    num  : $("#overview-num").val(), 
+    price: $("#overview-price").val()
   };
   dessert.update({{dessert.id}}, data).done(function(json) {
     $.get('/admin/dessert/table', function(data) {

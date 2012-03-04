@@ -19,13 +19,13 @@
     </a>
     <div class="span2">
       <a class="thumbnail">
-        <img id="dessert-img-{{re.id}}" src='/static/img/dessert/{{re.product.dessert.img}}.png'/>
+        <img id="dessert-img-{{re.id}}" src='/static/img/dessert/{{re.dessert.img}}.png'/>
       </a>
     </div>
     <div class="span4">
-      Dessert Name: <b>{{re.product.dessert.dname}}</b>
+      Dessert Name: <b>{{re.dessert.dname}}</b>
       <hr/>
-      <input type="number" value="{{re.num}}" data-id="{{re.id}}" class="res-item-num"/> &times;<b><i>${{re.product.price}}</i></b>
+      <input max="{{re.dessert.num}}" min="1" type="number" value="{{re.num}}" data-id="{{re.id}}" class="res-item-num"/> &times;<b><i>${{re.price}}</i></b>
     </div>
   </div>
   <hr id="hr-{{re.id}}"/>
@@ -45,8 +45,17 @@ $(document).ready(function() {
   show_price({{res.total_price()}})
 
   $(".res-item-num").change(function() {
-    order_item.update(parseInt($(this).attr('data-id')), {num: parseInt($(this).val())}).done(function(data) {
-      show_price(data.orderitem.order_total_price)
+    send_json({
+      url: '/ajax/item/cnum/' + $(this).attr('data-id'),
+      data: {num: parseInt($(this).val())},
+      method: 'POST'
+    }).done(function(json) {
+      if (json.success) {
+        success.top_message("change success") 
+        show_price(json.orderitem.order_total_price)
+      } else {
+        error.top_message("change error")
+      }
     })
   })
 

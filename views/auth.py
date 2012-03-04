@@ -22,9 +22,6 @@ def index_item(dessert_id):
 @app.get('/index/dessert_list')
 def index_item_list():
     desserts = Dessert.get_all()
-    for d in desserts:
-        if d.products:
-            d.price = d.products[0].price
     render_info = {
         'user'    :   request.user,
         'dessert_list' : desserts, 

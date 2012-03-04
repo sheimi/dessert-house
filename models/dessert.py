@@ -78,12 +78,16 @@ class Dessert(Base):
     des = Column(String)
     img = Column(String)
     type_id = Column(Integer, ForeignKey('dtype.id'))
+    num = Column(Integer)
+    price = Column(Integer)
 
     dessert_type = relation(DessertType, backref='desserts')
 
-    def __init__(self, dessert_name):
+    def __init__(self, dessert_name, num=100, price=100):
         self.dname = dessert_name 
         self.img = str(uuid.uuid4())
+        self.num = num 
+        self.price = price
 
     def __repr__(self):
         return "<Dessert ('%s')>" % (self.dname)
@@ -129,73 +133,7 @@ class Dessert(Base):
         self.dname = argv.get('dessert_name', self.dname)
         self.type_id = argv.get('type', self.type_id)
         self.des = argv.get('des', self.des)
-        session.commit()
-
-class Product(Base):
-    __tablename__ = 'product'
-
-    show = {
-        'header' : ['Dessert Name'],
-        'show'   : [('name', 'dname')],
-        }
-      
-    id = Column(Integer, primary_key=True)
-    dessert_id = Column(Integer, ForeignKey('dessert.id'))
-    date = Column(DateTime)
-    num = Column(Integer)
-    price = Column(Integer)
-
-    dessert = relation(Dessert, backref='products')
-
-    def __init__(self, num, price, dessert):
-        self.date = dt.now()
-        self.num = num
-        self.price = price
-        self.dessert_id = dessert
-
-    def __repr__(self):
-        return "<Product of (%s)" % (self.dessert.dname)
-
-    def to_dict(self):
-        td = obj2dict(self)
-        td['date'] = str(self.date)
-        return td
-
-    @staticmethod
-    def get(p_id):
-        product = session.query(Product).filter_by(id=p_id).first()
-        return product
-
-    @staticmethod
-    def get_all():
-        products = session.query(Product).all()
-        return products
-
-    @staticmethod
-    def get_mul(ids):
-        nodes = ['product.id=%s' % i for i in ids]
-        q = ' or '.join(nodes)
-        q = '(%s)' % q
-        products = session.query(Product).filter(q).all()
-        return products
-
-    @staticmethod
-    def count(ft=None):
-        if not ft:
-            return session.query(Product).count()
-        else:
-            return session.query(Product).filter(ft).count()
-        
-    def add(self):
-        session.add(self)
-        session.commit()
-
-    def delete(self):
-        session.delete(self)
-        session.commit()
-
-    def update(self, **argv):
         self.num = argv.get('num', self.num)
         self.price = argv.get('price', self.price)
-        self.dessert_id = argv.get('dessert', self.dessert)
         session.commit()
+

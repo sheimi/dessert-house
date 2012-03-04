@@ -1,3 +1,4 @@
+{% import 'imports/forms.html' as forms %}
 <div id="dessert_list"> 
   {% for d in dessert_list%}
   <div class="row dessert-item">
@@ -22,16 +23,16 @@
       <div class="control-group">
         <label for="num-{{d.id}}" class="control-label">Number: </label>
         <div class="controls">
-          <input type="number" id="num-{{d.id}}" name="num" placeholder="Number"/>
+          <input type="number" id="num-{{d.id}}" name="num" placeholder="Number" max="{{d.num}}" min="0"/>
         </div>
       </div>
       <div class="form-actions clear">
-        <a class="btn btn-success btn-buy" data-id="{{d.id}}">
+        <a class="btn btn-success btn-buy" data-id="{{d.id}}" data-price="{{d.price}}">
           <i class="icon-shopping-cart icon-white"></i> 
           Buy
         </a>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <a class="btn-reserve btn btn-info btn-reserve" data-id="{{d.id}}">
+        <a class="btn-reserve btn btn-info btn-reserve" data-id="{{d.id}}" data-price="{{d.price}}">
           <i class="icon-inbox icon-white"></i> 
           Reserve
         </a>
@@ -58,35 +59,58 @@ $(".dessert-img").click(function() {
   $.fancy_ajax('/index/dessert/' + $(this).attr('data-id'))
 })
 
+function add_item(data) {
+  send_json({
+    url : '/ajax/item/additem', 
+    method: 'POST', 
+    data: data.data,
+    }).done(function(json) {
+      if (json.success) {
+        success.top_message(data.s_msg)
+      } else {
+        error.top_message('Add Failed')
+      }
+    })
+}
+
 $(".btn-buy").click(function() {
   var id = $(this).attr("data-id")
   var num = $("#num-"+id).val()
-  if (!num) {
-    error.top_message('No Dessert Number')
+  var price = $(this).attr("data-price")
+  if (!num || num == '0') {
+    error.top_message('Dessert Number Error')
     return
   }
   num = parseInt(num)
   id = parseInt(id)
-  order_item.create({num: num, product:id, order: order.id})
+  add_item({
+    data : {num: num, dessert:id, order: order.id, price: price},
+    s_msg: "Dessert Has Add To Your Cart"
+  })
   order.refresh_cart()
   $("#num-"+id).val("")
-  success.top_message('Dessert Added To Your Cart')
+  var max = parseInt($("#num-"+id).attr("max"))
+  $("#num-"+id).attr("max", max-num)
 })
 
 
 $(".btn-reserve").click(function() {
   var id = $(this).attr("data-id")
   var num = $("#num-"+id).val()
-  if (!num) {
-    error.top_message('No Dessert Number')
+  var price = $(this).attr("data-price")
+  if (!num || num == '0') {
+    error.top_message('Dessert Number Error')
     return
   }
   num = parseInt(num)
   id = parseInt(id)
-  order_item.create({num: num, product:id, order: reservation.id})
+
+  add_item({  
+    data : {num: num, dessert:id, order: reservation.id, price: price},  
+    s_msg: "Dessert Added To Your Reservation"
+  })
   reservation.refresh_r()
   $("#num-"+id).val("")
-  success.top_message('Dessert Added To Your Reservation')
 })
 
 })

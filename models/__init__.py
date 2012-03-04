@@ -10,7 +10,7 @@ from models.usertype import UserType
 from models.role import Role
 from models.perm import Permission
 from models.order import Order, OrderItem
-from models.product import Dessert, DessertType, Product
+from models.dessert import Dessert, DessertType 
 
 def init_model(engine):
   """Call me before using any of the tables or classes in the model"""
@@ -26,5 +26,4 @@ modules = {
     'order_item'    :       'OrderItem',
     'dessert'       :       'Dessert',
     'dtype'         :       'DessertType',
-    'product'       :       'Product',
 }
