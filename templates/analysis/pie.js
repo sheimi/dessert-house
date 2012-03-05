@@ -36,16 +36,6 @@
                   type: 'pie',
                   name: 'Dessert Share',
                   data: [
-                  /*
-                            ['Ice Cream', 33.0],
-                            ['Cake',        33.0],
-                            {  
-                                name : 'Fruit',
-                                y: 33.0,
-                                sliced: true,
-                                selected: true
-                            }
-                            */
 {% for key, value  in datas.data.iteritems() %}
   {% if loop.first %}
   {
