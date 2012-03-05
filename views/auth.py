@@ -25,6 +25,7 @@ def index_item_list():
     render_info = {
         'user'    :   request.user,
         'dessert_list' : desserts, 
+        'dtypes'    : DessertType.get_all(),
     }
     return render('core/dessert_list.html')(**render_info) 
 

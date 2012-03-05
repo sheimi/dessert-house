@@ -9,8 +9,19 @@ def get_dtype_share():
             render[name] += oi.num 
         else:
             render[name] = oi.num 
-    s = sum(render.values())
-    return {'data':render, 'sum': s}
+    return {'data':render}
+
+def get_dessert_share():
+    ois = OrderItem.get_all()
+    render = {}
+    for oi in ois:
+        name = oi.dessert.dname
+        if name in render.keys():
+            render[name] += oi.num 
+        else:
+            render[name] = oi.num 
+    return {'data':render}
+
 
 def set_dtype_share():
     pass
@@ -26,5 +37,4 @@ def get_gender_share():
             render['female'] += 1
         else:
             render['others'] += 1
-    s = sum(render.values())
-    return {'data':render, 'sum': s}
+    return {'data':render}

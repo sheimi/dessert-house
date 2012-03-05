@@ -1,12 +1,9 @@
+{% import 'imports/forms.html' as forms %}
 <div id='signin'>
   <form class="form-horizontal" id="signinform">
-    <div class="control-group" id="username_ctr">
-      <label for="id_username" class="control-label">Username: </label>
-      <div class="controls">
-        <input type="text" id="id_username" name="username" placeholder="User Name"/>
-        <span class="help-inline"></span>
-      </div>
-    </div>
+    {% call forms.bs_ctrgroup('Username') %}
+      {{forms.input('username', 'id_username', other='placeholder="User Name"')}}
+    {% endcall %}
     <div class="control-group" id="password_ctr">
       <label for="id_password" class="control-label">Password: </label>
       <div class="controls">
@@ -14,15 +11,14 @@
         <span class="help-inline"></span>
       </div>
     </div>
-    <a id="signin-submit" type="submit" class='btn primary right'>
-      <i class="icon-leaf"></i>
-      Sign In
-    </a>
+    {{ forms.bs_btn('Sign In', btype='primary', class='right', itype='leaf', 
+          other='id="signin-submit"')}}
     <div class="clear"></div>
   </form>
 </div>
 <script>
 $(document).ready(function() {
+
 
 $('#signin-submit').click(function(e) {
   e.preventDefault()
@@ -63,6 +59,7 @@ $('#signin-submit').click(function(e) {
     }
   })
 })
+$('#id_username').focus()
 
 })
 </script>

@@ -40,8 +40,12 @@ window.refresh = function() {
   reservation.refresh_r()
   load_dlist()
 }
-refresh()
 
+window.refresh_sidetool = function() {
+  order.refresh_cart()
+  reservation.refresh_r()
+}
+refresh()
 })
 </script>
 {% endblock %}

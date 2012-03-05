@@ -1,40 +1,115 @@
 {% import 'imports/forms.html' as forms %}
+<div id="filter">
+    {% call forms.bs_pills() %}
+      {{forms.bs_pills_item("All", class="pill active", other='data-type="0"')}}
+      {% for dtype in dtypes %}
+        {{forms.bs_pills_item(dtype.typename, class="pill", other='data-type="'+dtype.typename+'"')}}
+      {% endfor %}
+    {% endcall %}
+</div>
+<hr/>
 <div id="dessert_list"> 
   {% for d in dessert_list%}
-  <div class="row dessert-item">
-    {{forms.bs_img('/static/img/dessert/'+d.img+'.png', href='/index/dessert/'+d.id|string, class='span3 dessert-img')}}
-    <div class="span5">
-      <h6>Dessert Name: <b>{{d.dname}}</b></h6>
-      <hr/>
-      <p>
-      {{d.des}}
-      </p>
-      <hr/>
-      Price: <b>${{d.price}}</b>
-    </div>
-    <div class="dessert-op span3">
-      {% if user %}
-      {% call forms.bs_control_group(for='num-'+d.id|string, label='Number: ')  %}
-        {{ forms.input_num("num", "num-"+d.id|string, max=d.num, ph="Number") }}
-      {% endcall %}
-      <div class="form-actions">
-        {{ forms.bs_btn('Buy', btype='success', class='btn-buy', itype='shopping-cart', 
-          other='data-id="'+d.id|string+'" data-price="'+d.price|string+'"')}}
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        {{ forms.bs_btn('Reserve', btype='info', class='btn-reserve', itype='inbox', 
-          other='data-id="'+d.id|string+'" data-price="'+d.price|string+'"')}}
+  <div class="dessert-item" data-name="{{d.dname}}" data-type="{{d.dessert_type.typename}}" data-hide="false">
+    <div class="row">
+      {{forms.bs_img('/static/img/dessert/'+d.img+'.png', href='/index/dessert/'+d.id|string, class='span3 dessert-img')}}
+      <div class="span5">
+        <h6>Dessert Name: <b>{{d.dname}}</b></h6>
+        <hr/>
+        <p>
+        {{d.des}}
+        </p>
+        <hr/>
+        Price: <b>${{d.price}}</b>
       </div>
-      {% endif %}
+      <div class="dessert-op span3">
+        {% if user %}
+        {% call forms.bs_control_group(for='num-'+d.id|string, label='Number: ')  %}
+          {{ forms.input_num("num", "num-"+d.id|string, max=d.num, ph="Number") }}
+        {% endcall %}
+        <div class="form-actions">
+          {{ forms.bs_btn('Buy', btype='success', class='btn-buy', itype='shopping-cart', 
+            other='data-id="'+d.id|string+'" data-price="'+d.price|string+'"')}}
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          {{ forms.bs_btn('Reserve', btype='info', class='btn-reserve', itype='inbox', 
+            other='data-id="'+d.id|string+'" data-price="'+d.price|string+'"')}}
+        </div>
+        {% endif %}
+      </div>
     </div>
+    {% if not loop.last %}
+    <hr/>
+    {% endif %}
   </div>
-  {% if not loop.last %}
-  <hr/>
-  {% endif %}
   {% endfor %}
 </div>
 
 <script>
 $(document).ready(function() {
+
+$("#global_search").typeahead({
+  source : [
+            {% for dessert in dessert_list %}
+              '{{dessert.dname}}'
+              {% if not loop.last %}
+              ,
+              {% endif %}
+            {% endfor %}
+          ],
+  onselect: function(obj) {
+    obj = obj.toLowerCase()
+    $(".dessert-item").each(function() {
+      var dname = $(this).attr('data-name').toLowerCase()
+      var is_hide = $(this).attr('data-hide')
+      if (obj == dname) {
+        if (is_hide='true') {
+          $(this).fadeIn()
+          $(this).attr('data-hide', 'false') 
+        }
+      } else {
+        if (is_hide='false') {
+          $(this).fadeOut()
+          $(this).attr('data-hide', 'true')
+        }
+      } 
+    })
+  }
+})
+
+$(".pill").click(function() {
+  $(".pill").each(function() {
+    $(this).removeClass("active")
+  })
+  $(this).addClass("active")
+  var dtype = $(this).attr('data-type')
+  if (dtype == '0') {
+    $(".dessert-item").each(function() {
+      var is_hide = $(this).attr('data-hide')
+      if (is_hide='true') {
+        $(this).fadeIn()
+        $(this).attr('data-hide', 'false')
+        return
+      }
+    })
+  } else {
+    $(".dessert-item").each(function() {
+      var item_type = $(this).attr('data-type')
+      var is_hide = $(this).attr('data-hide')
+      if (item_type == dtype) {
+        if (is_hide='true') {
+          $(this).fadeIn()
+          $(this).attr('data-hide', 'false')
+          return
+        }
+      } else {
+        if (is_hide='false') {
+          $(this).fadeOut()
+          $(this).attr('data-hide', 'true')
+        }
+      }
+    })
+  }
+})
 
 $(".dessert-img").click(function(e) {
   e.preventDefault()

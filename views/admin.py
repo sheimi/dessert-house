@@ -12,7 +12,6 @@ table_count = 10
 def index_admin():
     render_argv = {
         'user'  : request.user,
-        'member_center' : True,
         'admin_index': True,
     }
     return render('admin/index.html')(**render_argv)

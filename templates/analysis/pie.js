@@ -13,7 +13,7 @@
         tooltip: {
                   formatter: function() {
                       return '<b>'+ this.point.name +'</b>: '
-                          + this.percentage + ' %';
+                          + Math.round(this.percentage) + ' %';
                   }
                 },
         plotOptions:  {
@@ -27,7 +27,7 @@
                                     formatter: function() {
                                       return '<b>'+ this.point.name 
                                         +'</b>: '
-                                        + this.percentage +' %';
+                                        + Math.round(this.percentage) +' %';
                                     }
                                 }
                }
@@ -36,8 +36,8 @@
                   type: 'pie',
                   name: 'Dessert Share',
                   data: [
-                    /*
-                            ['Ice Cream', 34.0],
+                  /*
+                            ['Ice Cream', 33.0],
                             ['Cake',        33.0],
                             {  
                                 name : 'Fruit',
@@ -47,7 +47,16 @@
                             }
                             */
 {% for key, value  in datas.data.iteritems() %}
-  ['{{key}}', {{value * 100 / datas.sum}}]
+  {% if loop.first %}
+  {
+    name : '{{key}}', 
+    y : {{value}},
+    sliced: true,
+    selected: true
+  }
+  {% else %}
+  ['{{key}}', {{value}}]
+  {% endif %}
   {%if not loop.last %}
   ,
   {%endif%}

@@ -16,8 +16,16 @@ def overview():
 @app.get('/analysis/dt-pie.js')
 def dt_pie():
     render_argv = {
-        'title'     : 'Dessert Share Chart',
+        'title'     : 'Dessert Type Share Chart',
         'datas'     : get_dtype_share(),
+    }
+    return render('analysis/pie.js')(**render_argv)
+
+@app.get('/analysis/dst-pie.js')
+def dst_pie():
+    render_argv = {
+        'title'     : 'Dessert Share Chart',
+        'datas'     : get_dessert_share(),
     }
     return render('analysis/pie.js')(**render_argv)
 

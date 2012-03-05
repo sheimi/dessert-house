@@ -60,3 +60,15 @@
   </div>
 </div>
 {% endmacro %}
+
+{% macro bs_pills(class="") %}
+<ul class="nav nav-pills {{class}}">
+  {{caller()}}
+</ul>
+{% endmacro %}
+
+{% macro bs_pills_item(text, href="", id="", class="", other="") %}
+<li class="{{class}}" {% if id %}id="{{id}}"{%endif%} {{other}}>
+  <a {% if href %}href="{{href}}"{%endif%} style="cursor:pointer">{{text}}</a>
+</li>
+{% endmacro %}
