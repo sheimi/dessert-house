@@ -36,3 +36,20 @@ def gender_pie():
         'datas'     : get_gender_share(),
     }
     return render('analysis/pie.js')(**render_argv)
+
+@app.get('/analysis/age-pie.js')
+def age_pie():
+    render_argv = {
+        'title'     : 'Age Share Chart',
+        'datas'     : get_age_share(),
+    }
+    return render('analysis/pie.js')(**render_argv)
+
+@app.get('/analysis/activate-pie.js')
+def activate_pie():
+    render_argv = {
+        'title'     : 'Activate Share Chart',
+        'datas'     : get_activate_share(),
+    }
+    return render('analysis/pie.js')(**render_argv)
+

@@ -1,0 +1,17 @@
+{% extends "admin/admin_base.html" %}
+
+{% block admin_title %}Orders{% endblock %}
+
+{% block content %}
+<div class="admin-content">
+  <div id="table-position">
+  </div>
+  <div id="pagination-position">
+  </div>
+</div>
+<script>
+$(document).ready(function() {
+   $("#table-position").load('/admin/order/table')
+})
+</script>
+{% endblock %}

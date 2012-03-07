@@ -28,9 +28,9 @@
 <script>
 $(document).ready(function() {
   $("#pagination-position").load('/admin/{{module}}/pagination?page={{page}}')
-$(".edit").live('click', function() {
-  var id = $(this).parents('tr').find(".item-id").text(); 
-  $.fancy_ajax('/admin/{{module}}/' + id);
-});
+  $(".edit").live('click', function() {
+    var id = $(this).parents('tr').find(".item-id").text(); 
+    $.fancy_ajax('/admin/{{module}}/' + id);
+  });
 });
 </script>

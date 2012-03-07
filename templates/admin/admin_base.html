@@ -50,6 +50,12 @@
             Dessert Type
           </a>
         </li>
+        <li class="nav-item {% if admin_order%}active{% endif %}">
+          <a href="/admin/order">
+            <i class="icon-shopping-cart{% if admin_order%}icon-white{% endif %}"></i>
+            Orders
+          </a>
+        </li>
       {% block admin_side %}
       {% endblock %}
       </ul>

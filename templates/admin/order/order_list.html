@@ -1,0 +1,42 @@
+{% import 'imports/forms.html' as forms %}
+{% call forms.bs_accordion('order-accordion') %}
+  {% for order in orders%}
+    {% call forms.bs_accordion_item('order-accordion', 'orderid'+order.id|string, 'Order No. : '+order.id|string, in=False) %}
+      <h4>Order No. : #{{order.id}}</h4>
+      <table cellspacing="0" class="table table-striped">
+        <thead>
+          <tr>
+            <th style="width: 40%;">Dessert</th>
+            <th style="width: 20%;">Price</th>
+            <th style="width: 20%;">Num</th>
+            <th style="width: 20%;">Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for oi in order.order_items %}
+          <tr>
+            <td>{{oi.dessert.dname}}</td>
+            <td>{{oi.price}}</td>
+            <td>{{oi.num}}</td>
+            <td>{{oi.total_price()}}</td>
+          </tr>
+          {% endfor %}
+          <tr>
+            <td><h5>Order Type</h5></td>
+            <td>{% if order.is_order %} <span class="label label-success">Order</span>{%else%}<span class="label label-warning">Reservation</span>{%endif%}</td>
+            <td><h5>Total Price</h5></td>
+            <td><span class="label label-info">${{order.total_price()}}</span></td>
+          </tr>
+        </tbody>
+      </table>
+      {% if not loop.last %}
+      <hr/>
+      {% endif %}
+    {% endcall %}
+  {% endfor %}
+{% endcall %}
+<script>
+$(document).ready(function() {
+  $("#pagination-position").load('/admin/order/pagination?page={{page}}')
+});
+</script>

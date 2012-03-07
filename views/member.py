@@ -19,6 +19,10 @@ def member_center():
 def member_center_stuff():
   return render('member/stuff.html')(user=request.user)
 
+@app.get('/member/index/orders')
+@signin_required
+def member_center_stuff():
+  return render('member/orders.html')(user=request.user)
 
 @app.post('/member/profile/img')
 def up_load_image():

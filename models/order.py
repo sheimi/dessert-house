@@ -67,7 +67,7 @@ class Order(Base):
 
     @staticmethod
     def get_mul(ids):
-        nodes = ['order.id=%s' % i for i in ids]
+        nodes = ['"order".id=%s' % i for i in ids]
         q = ' or '.join(nodes)
         q = '(%s)' % q
         orders = session.query(Order).filter(q).all()

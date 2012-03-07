@@ -1,11 +1,11 @@
 {% import 'imports/forms.html' as forms %}
 <div id="filter">
-    {% call forms.bs_pills() %}
-      {{forms.bs_pills_item("All", class="pill active", other='data-type="0"')}}
-      {% for dtype in dtypes %}
-        {{forms.bs_pills_item(dtype.typename, class="pill", other='data-type="'+dtype.typename+'"')}}
-      {% endfor %}
-    {% endcall %}
+  {% call forms.bs_pills() %}
+    {{forms.bs_pills_item("All", class="pill active", other='data-type="0"')}}
+    {% for dtype in dtypes %}
+      {{forms.bs_pills_item(dtype.typename, class="pill", other='data-type="'+dtype.typename+'"')}}
+    {% endfor %}
+  {% endcall %}
 </div>
 <hr/>
 <div id="dessert_list"> 

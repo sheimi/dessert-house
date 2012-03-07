@@ -4,13 +4,41 @@
 
 {% block container%}
 <div id="main-content" class="well container">
+  <div id="user-pills">
+    {% call forms.bs_pills() %}
+      {{forms.bs_pills_item("Account", class="pill active", other='id="member-account-pill"')}}
+      {{forms.bs_pills_item("Orders", class="pill", other='id="member-order-pill"')}}
+    {% endcall %}
+  </div>
+  <div id="member-account">
+  </div>
+  <div id="member-orders">
+  </div>
 </div>
 <script>
 $(document).ready(function() {
 
-$.get('/member/index/stuff').done(function(data) {
-  $("#main-content").html(data)
+$("#member-account-pill").click(function(data) {
+  if (!$(this).hasClass("active")) {
+    $(this).addClass("active")
+    $("#member-order-pill").removeClass("active")
+    $("#member-orders").fadeOut()
+    $("#member-account").fadeIn()
+  }
 })
+
+$("#member-order-pill").click(function(data) {
+  if (!$(this).hasClass("active")) {
+    $(this).addClass("active")
+    $("#member-account-pill").removeClass("active")
+    $("#member-orders").fadeIn()
+    $("#member-account").fadeOut()
+  }
+})
+
+$("#member-orders").hide()
+$("#member-account").load('/member/index/stuff')
+$("#member-orders").load('/member/index/orders')
 
 })
 </script>

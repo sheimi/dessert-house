@@ -118,7 +118,7 @@ def run():
 
     bottle.install(set_user)
     bottle.debug(True)
-    bottle.run(server='tornado', app=sapp, reloader=True, host='0.0.0.0', port=8080)
+    bottle.run(app=sapp, reloader=True, host='0.0.0.0', port=8080)
 
 def random_data():
     from transaction import random_model as rd

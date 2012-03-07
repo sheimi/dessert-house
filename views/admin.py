@@ -102,6 +102,27 @@ def dessert_table():
     return render('admin/dessert/item-table.html')(**render_argv)
 
 
+@app.get('/admin/order')
+@has_perm('can_view_admin')
+def order_admin_index():
+    render_argv = {
+        'user' : request.user,
+        'admin_order' : True,
+    }
+    return render('admin/order/index.html')(**render_argv)
+
+@app.get('/admin/order/table')
+def order_table():
+    page = int(request.GET.get('page', '0'))
+    start = page * table_count + 1
+    end = (page + 1) * table_count + 1
+    item_list= Order.get_mul(range(start, end))
+    render_argv = {
+        'orders' : item_list,
+        'page'      : page,
+    }
+    return render('admin/order/order_list.html')(**render_argv)
+
 @app.get('/admin/<module>/add')
 @has_perm('can_view_admin')
 def item_add(module):
@@ -165,4 +186,3 @@ def item_pagination(module):
     }
     return render('admin/table_pagination.html')(**render_argv)
     
-
