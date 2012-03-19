@@ -58,9 +58,9 @@ class Order(Base):
     @staticmethod
     def get_all(order_type=None):
         if order_type == 'order':
-            order = session.query(Order).filter(is_order=True).all()
+            orders = session.query(Order).filter('is_order=1').all()
         elif order_type == 'reservation':
-            reservation = session.query(Order).filter(is_order=False).all()
+            orders = session.query(Order).filter('is_order=0').all()
         else:
             orders = session.query(Order).all()
         return orders

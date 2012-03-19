@@ -1,5 +1,48 @@
 from models import *
 
+def get_month(month):
+    month_list = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+                  'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+    return month_list[month-1]
+
+
+def get_order_line_month(order_type='order'):
+    orders = Order.get_all(order_type=order_type)
+    render = {} 
+    for order in orders:
+        if not order.confirm_date:
+            continue
+        month = order.confirm_date.month
+        if month in render.keys():
+            render[month]['num'] += 1 
+        else:
+            render[month] = {
+                'key' :   get_month(month),
+                'num'   :   1,
+            }
+    so = render.items()
+    return sorted(so, key=lambda a: a[0])
+    
+def get_order_line_day(order_type='order'):
+    orders = Order.get_all(order_type=order_type)
+    render = {} 
+    for order in orders:
+        if not order.confirm_date:
+            continue
+        month = order.confirm_date.month
+        day = order.confirm_date.day
+        key = month * 40 + day / 3
+        if key in render.keys():
+            render[key]['num'] += 1 
+        else:
+            render[key] = {
+                'key'   :   "%s %d" % (get_month(month), day),
+                'num'   :   1,
+            }
+    so = render.items()
+    return sorted(so, key=lambda a: a[0])
+    
+
 def get_dtype_share():
     ois = OrderItem.get_all()
     render = {}
@@ -61,3 +104,17 @@ def get_activate_share():
         else:
             render['inactivated'] += 1
     return {'data':render}
+
+def get_address_share():
+    users = User.get_all()
+    render = {}
+    for user in users:
+        address = user.address
+        if not address:
+            continue
+        if address in render.keys():
+            render[address] += 1
+        else:
+            render[address] = 1
+    return {'data':render}
+

@@ -6,6 +6,10 @@
     {% call forms.bs_accordion_item('chart-tooltip', 'General-Charts', 'General', in=True) %}
     <ul>
       <li class="chart-item"><a href="/analysis/overview.js">Overview</a></li>
+      <li class="chart-item"><a href="/analysis/order-month-line.js">Order(Month)</a></li>
+      <li class="chart-item"><a href="/analysis/order-day-line.js">Order(Day)</a></li>
+      <li class="chart-item"><a href="/analysis/res-month-line.js">Reservation(Month)</a></li>
+      <li class="chart-item"><a href="/analysis/res-day-line.js">Reservation(Day)</a></li>
     </ul>
     {% endcall %}
     {% call forms.bs_accordion_item('chart-tooltip', 'Share-Charts', 'Share') %}
@@ -15,6 +19,7 @@
       <li class="chart-item"><a href="/analysis/gender-pie.js">Gender</a></li>
       <li class="chart-item"><a href="/analysis/age-pie.js">Age</a></li>
       <li class="chart-item"><a href="/analysis/activate-pie.js">Activate</a></li>
+      <li class="chart-item"><a href="/analysis/address-pie.js">Address</a></li>
     </ul>
     {% endcall %}
   {% endcall %}
@@ -24,6 +29,11 @@
       $("li.chart-item a").click(function(e){
         e.preventDefault()
         var url = $(this).attr('href')
+        /*
+        $.get(url).done(function(data) {
+          eval(data)
+        })
+        */
         $.getScript(url)
       })
       $.getScript('/analysis/overview.js')

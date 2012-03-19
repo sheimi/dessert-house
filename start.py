@@ -104,7 +104,7 @@ def testdb():
     from meta import Session
     Session.query(member.User).all()
 
-def run():
+def runserver():
     from views import auth, user, rest, member, admin, base, analysis
     from util.plugins import set_user
     from bottle import install 
@@ -128,19 +128,9 @@ def random_data():
     for i in range(100):
         rd.random_user()
     print "finished"
-    for i in range(1000):
-        rd.random_order()
-    print "finished"
-    for i in range(1000):
-        rd.random_res()
+    rd.random_order_g()
     print "finished"
 
 if __name__ == '__main__':
-    import sys
-    try:
-        cmd = sys.argv[1]
-        globals()[cmd]()
-    except:
-        print "unknown cmd" 
-        run()
+    runserver()
   

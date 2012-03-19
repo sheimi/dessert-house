@@ -40,13 +40,14 @@ def random_dessert():
     d.add()
     return d
 
+def random_address():
+    address_pool = ['Gulou', 'Qixia', 'XuanWu', 'Jiangling', 'Pukou']
+    return random.choice(address_pool)
 
 def random_utype():
     pass
 
 def random_user():
-    def random_address():
-        return ' '.join(random_name(3))
     uts = UserType.get_all()
     ut = random.choice(uts).id
     username = ' '.join(random_name(2))
@@ -66,7 +67,15 @@ def random_user():
     u.add()
     return u
 
-def random_order(min_item=1, max_item=20):
+
+from datetime import datetime, timedelta
+
+def daterange(start_date, end_date):
+    for n in range((end_date - start_date).days):
+        yield start_date + timedelta(n)
+
+def random_order(single_date, min_item=1, max_item=20):
+
     desserts = Dessert.get_all()
     user = random.choice(User.get_all()).id
     order = Order(user)
@@ -75,10 +84,10 @@ def random_order(min_item=1, max_item=20):
         d = random.choice(desserts)
         oi = OrderItem(random.randint(1, 30), d.id, order.id, d.price)
         oi.add()
-    order.update(is_confirmed=True, confirm_date=util.date2str(dt.today()))
+    order.update(is_confirmed=True, confirm_date=util.date2str(single_date))
     return order
 
-def random_res(min_item=1, max_item=20):
+def random_res(single_date, min_item=1, max_item=20):
     desserts = Dessert.get_all()
     user = random.choice(User.get_all()).id
     order = Order(user, is_order=False)
@@ -87,5 +96,17 @@ def random_res(min_item=1, max_item=20):
         d = random.choice(desserts)
         oi = OrderItem(random.randint(1, 30), d.id, order.id, d.price)
         oi.add()
-    order.update(is_confirmed=True, confirm_date=util.date2str(dt.today()), is_complete=True, send_date=util.date2str(dt.today()))
+    order.update(is_confirmed=True, confirm_date=util.date2str(single_date), is_complete=True, send_date=util.date2str(single_date))
     return order
+
+def random_order_g():
+    start_date = dt(2012, 1, 1) 
+    end_date = dt(2012, 3, 19)
+    for i, single_date in enumerate(daterange(start_date, end_date)):
+        for num in range(random.randint(i+20, i+40)): 
+            random_order(single_date)
+        for num in range(random.randint(i+10, i+40)): 
+            random_res(single_date)
+        print single_date
+
+
