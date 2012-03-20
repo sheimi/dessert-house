@@ -135,6 +135,7 @@ def random_data():
     print "finished"
 
 if __name__ == '__main__':
-    syncdb()
+    #syncdb()
+    #random_data()
     runserver()
   

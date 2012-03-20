@@ -3,6 +3,7 @@ import random
 import string
 from datetime import datetime as dt
 from util import util
+from meta import session
 
 def random_img():
     img = [ '13569b64-b9e3-4c3a-8a1d-5f794a723d8c',
@@ -74,34 +75,66 @@ def daterange(start_date, end_date):
     for n in range((end_date - start_date).days):
         yield start_date + timedelta(n)
 
-def random_order(single_date, min_item=1, max_item=20):
+order_buffer = []
+oi_buffer = []
+desserts = None
+users = None
 
-    desserts = Dessert.get_all()
-    user = random.choice(User.get_all()).id
+def random_order(single_date, min_item=1, max_item=20):
+    global order_buffer
+    global oi_buffer
+    global desserts
+    global users
+    if not desserts:
+        desserts = Dessert.get_all()
+    if not users:
+        users = User.get_all()
+    user = random.choice(users)
     order = Order(user)
-    order.add()
+    #order.add()
     for i in range(random.randint(min_item, max_item)):
         d = random.choice(desserts)
-        oi = OrderItem(random.randint(1, 30), d.id, order.id, d.price)
-        oi.add()
-    order.update(is_confirmed=True, confirm_date=util.date2str(single_date))
+        #oi = OrderItem(random.randint(1, 30), d.id, order.id, d.price)
+        oi = OrderItem(random.randint(1, 30), d, order, d.price)
+        oi_buffer.append(oi)
+        #oi.add()
+    #order.update(is_confirmed=True, confirm_date=util.date2str(single_date))
+    order.is_confirmed = True
+    order.confirm_date=single_date
+    order.is_complete = True
+    order_buffer.append(order)
     return order
 
 def random_res(single_date, min_item=1, max_item=20):
-    desserts = Dessert.get_all()
-    user = random.choice(User.get_all()).id
+    global order_buffer
+    global oi_buffer
+    global desserts
+    global users
+    if not desserts:
+        desserts = Dessert.get_all()
+    if not users:
+        users = User.get_all()
+    user = random.choice(users)
     order = Order(user, is_order=False)
-    order.add()
+    #order.add()
     for i in range(random.randint(min_item, max_item)):
         d = random.choice(desserts)
-        oi = OrderItem(random.randint(1, 30), d.id, order.id, d.price)
-        oi.add()
-    order.update(is_confirmed=True, confirm_date=util.date2str(single_date), is_complete=True, send_date=util.date2str(single_date))
+        oi = OrderItem(random.randint(1, 30), d, order, d.price)
+        oi_buffer.append(oi)
+        #oi.add()
+    #order.update(is_confirmed=True, confirm_date=util.date2str(single_date), is_complete=True, send_date=util.date2str(single_date))
+    order.is_confirmed = True
+    order.confirm_date=single_date
+    order.is_complete = True
+    order.send_date=single_date
+    order_buffer.append(order)
     return order
 
 def random_order_g():
+    global order_buffer
+    global oi_buffer
     start_date = dt(2012, 1, 1) 
-    end_date = dt(2012, 3, 19)
+    end_date = dt(2012, 4, 2)
     for i, single_date in enumerate(daterange(start_date, end_date)):
         for num in range(random.randint(i+20, i+40)): 
             random_order(single_date)
@@ -109,4 +142,6 @@ def random_order_g():
             random_res(single_date)
         print single_date
 
-
+    session.add_all(order_buffer)
+    session.add_all(oi_buffer)
+    session.commit()

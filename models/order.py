@@ -32,9 +32,12 @@ class Order(Base):
 
         self.create_date = dt.now()
 
-        self.user_id = user
         self.discount = discount
-
+        if isinstance(user, (int, long)):
+            self.user_id = user
+        else:
+            self.user = user
+            
         self.is_order       = is_order
         self.is_complete    = False
         self.is_confirmed   = False
@@ -126,8 +129,14 @@ class OrderItem(Base):
 
     def __init__(self, num, dessert, order, price):
         self.num = num
-        self.dessert_id = dessert 
-        self.order_id = order
+        if isinstance(dessert, (int, long)):
+            self.dessert_id = dessert 
+        else:
+            self.dessert = dessert
+        if isinstance(order, (int, long)):
+            self.order_id = order
+        else:
+            self.order = order
         self.price = price
 
     def __repr__(self):
