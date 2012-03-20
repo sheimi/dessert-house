@@ -65,6 +65,8 @@ def user_cart():
         order = order[0]
     else:
         order = Order(user.id)
+        if user.usertype:
+            order.discount = user.usertype.discount
         order.add()
     user.cart = order
     return render('base/cart.html')(user=user, num=len(order.order_items))
@@ -121,6 +123,8 @@ def user_reserve():
         res = res[0]
     else:
         res = Order(user.id, is_order=False)
+        if user.usertype:
+            res.discount = user.usertype.discount
         res.add()
     user.res = res
     return render('base/reservation.html')(user=user, num=len(res.order_items))

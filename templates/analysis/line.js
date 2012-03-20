@@ -54,6 +54,25 @@ $(document).ready(function() {
                 {% endfor %}
               ],
               marker: {symbol: 'square'}
-            }]
+            }
+        {% if linear %}
+        , {
+          type: 'line'
+          , name: 'Line'
+          , data: 
+            {{linear}}
+          , marker: {
+          }
+          , states: {
+            hover: {
+              lineWidth: 0
+            }
+          }
+          , enableMouseTracking: false
+        }
+        {% else %}
+        yyy
+        {% endif %}
+      ]
   })
 })

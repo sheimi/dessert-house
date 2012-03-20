@@ -9,23 +9,39 @@ def char_nav():
 
 @app.get('/analysis/overview.js')
 def overview():
-    return render('analysis/overview.js')()
+    items = get_order_line_day(delta=11)
+    return render('analysis/line.js')(title='Overview', 
+                                      items=items["result"], 
+                                      linear=items["linear"])
+
 
 @app.get('/analysis/order-month-line.js')
 def order_month_line():
-    return render('analysis/line.js')(title='Order Line', items=get_order_line_month())
+    items = get_order_line_month('order')
+    return render('analysis/line.js')(title='Order Line', 
+                                      items=items["result"], 
+                                      linear=items["linear"])
 
 @app.get('/analysis/order-day-line.js')
 def order_day_line():
-    return render('analysis/line.js')(title='Order Day Line', items=get_order_line_day())
+    items = get_order_line_day('order')
+    return render('analysis/line.js')(title='Order Day Line', 
+                                      items=items["result"], 
+                                      linear=items["linear"])
 
 @app.get('/analysis/res-month-line.js')
 def res_month_line():
-    return render('analysis/line.js')(title='Reservation Line', items=get_order_line_month('reservation'))
+    items=get_order_line_month('reservation')
+    return render('analysis/line.js')(title='Reservation Line', 
+                                      items=items["result"],
+                                      linear=items["linear"])
 
 @app.get('/analysis/res-day-line.js')
 def res_day_line():
-    return render('analysis/line.js')(title='Reservation Day Line', items=get_order_line_day('reservation'))
+    items=get_order_line_day('reservation')
+    return render('analysis/line.js')(title='Reservation Day Line', 
+                                      items=items["result"],
+                                      linear=items["linear"])
 
 @app.get('/analysis/dt-pie.js')
 def dt_pie():

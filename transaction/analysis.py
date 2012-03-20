@@ -1,4 +1,29 @@
 from models import *
+from numpy import *
+from scipy.optimize import leastsq
+
+
+def cal_linear(result):
+
+    def line(p, y, x):
+        def func(x, p):
+            a, b = p
+            return a * x + b
+        return y - func(x, p)
+
+    def line_func(a, b):
+        return lambda x: a * x + b
+
+    size = len(result)
+    x, y = zip(*enumerate(result))
+    x, y = x[:-1], y[:-1]
+    y = [i[1]['num'] for  i in y]
+    x, y = array(x), array(y)
+    r, null = leastsq(line, (0, 0), args=(y, x))
+    func = line_func(r[0], r[1])
+    return [[0, func(0)], [size, func(size)]]
+
+
 
 def get_month(month):
     month_list = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
@@ -6,7 +31,7 @@ def get_month(month):
     return month_list[month-1]
 
 
-def get_order_line_month(order_type='order'):
+def get_order_line_month(order_type=None):
     orders = Order.get_all(order_type=order_type)
     render = {} 
     for order in orders:
@@ -21,9 +46,14 @@ def get_order_line_month(order_type='order'):
                 'num'   :   1,
             }
     so = render.items()
-    return sorted(so, key=lambda a: a[0])
+    result = sorted(so, key=lambda a: a[0])
+    render = {
+        "linear" : cal_linear(result),
+        "result" : result,
+    }
+    return render 
     
-def get_order_line_day(order_type='order'):
+def get_order_line_day(order_type=None, delta=3):
     orders = Order.get_all(order_type=order_type)
     render = {} 
     for order in orders:
@@ -31,7 +61,7 @@ def get_order_line_day(order_type='order'):
             continue
         month = order.confirm_date.month
         day = order.confirm_date.day
-        key = month * 40 + day / 3
+        key = month * 40 + day / delta 
         if key in render.keys():
             render[key]['num'] += 1 
         else:
@@ -40,7 +70,12 @@ def get_order_line_day(order_type='order'):
                 'num'   :   1,
             }
     so = render.items()
-    return sorted(so, key=lambda a: a[0])
+    result = sorted(so, key=lambda a: a[0])
+    render = {
+        "linear" : cal_linear(result),
+        "result" : result,
+    }
+    return render 
     
 
 def get_dtype_share():
