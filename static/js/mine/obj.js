@@ -73,6 +73,7 @@ var dessert = new (rest_creator('Dessert'))()
 var order = new (rest_creator('Order'))()
 var order_item = new (rest_creator('OrderItem'))()
 var reservation = new (rest_creator('Reservation'))()
+var decision = new (rest_creator('Decision'))()
 
 //add user
 !function(user) {
@@ -120,5 +121,6 @@ window.order = order
 window.order_item = order_item
 window.reservation = reservation
 window.send_json = send_json
+window.decision = decision
 
 }(window);

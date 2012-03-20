@@ -1,0 +1,49 @@
+<ul class="nav nav-tabs" id="member-tab">
+  <li class="active">
+    <a href="#Prem" data-toggle="tab">Decision</a>
+  </li>
+</ul>
+<div class="tab-content popup">
+  <div id="Decision" class="tab-pane active">
+    <form class="form-horizontal" id="decision-form">
+      <div class="control-group" id="decision_name_ctr">
+        <label for="overview-decisionname" class="control-label">Decision Title: </label>
+        <div class="controls">
+          <input type="text" id="overview-decision-title" name="decisionname" placeholder="Decision Name"/>
+          <span class="help-inline"></span>
+        </div>
+      </div>
+      <div class="control-group" id="decision_content_ctr">
+        <label for="overview-decision-content" class="control-label">Decision Content: </label>
+        <div class="controls">
+          <textarea id="overview-decision-content" name="decision-content"></textarea>
+          <span class="help-inline"></span>
+        </div>
+      </div>
+      <div class="form-actions clear">
+        <a class="btn" id="overview-submit">
+          <i class="icon-plus"></i>
+          Add Decisionission 
+        </a>
+      </div>
+    </form>
+  </div>
+</div>
+<script>
+$(document).ready(function() {
+$("#overview-submit").click(function() {
+  var data = {
+    title: $("#overview-decision-title").val(),
+    content: $("#overview-decision-content").val()
+  }
+  console.log(data)
+  decision.create(data).done(function(json) {
+    $.get('/admin/decision/table', function(data) {
+      $('#table-position').html(data)
+    })
+    $.fancybox.close()
+  })
+
+})
+})
+</script>

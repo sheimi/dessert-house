@@ -94,8 +94,11 @@ def syncdb():
     d7.img = '59e46ac2-0193-4f57-ae10-3c00a1bf2d3b'
     d8.img = 'c549125d-0f4f-417a-9813-7ea208573681'
     d9.img = '2c70a62e-a09c-4b55-906b-ba7f4bba04e8'
+    
     session.add_all([d0, d1, d2, d3, d4, d5, d6, d7, d8, d9])
     session.commit()
+    decision = Decision(content="test", title="title")
+    decision.add()
 
     d = Dessert.get_all()
 
@@ -132,5 +135,6 @@ def random_data():
     print "finished"
 
 if __name__ == '__main__':
+    syncdb()
     runserver()
   

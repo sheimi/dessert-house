@@ -11,6 +11,7 @@ from models.role import Role
 from models.perm import Permission
 from models.order import Order, OrderItem
 from models.dessert import Dessert, DessertType 
+from models.decision import Decision
 
 def init_model(engine):
   """Call me before using any of the tables or classes in the model"""
@@ -18,6 +19,7 @@ def init_model(engine):
   meta.engine = engine
 
 modules = {
+    'decision'      :       'Decision',
     'user'          :       'User',
     'type'          :       'UserType',
     'role'          :       'Role',

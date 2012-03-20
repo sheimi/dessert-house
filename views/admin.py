@@ -80,6 +80,14 @@ def dessert_item(dessert_id):
     }
     return render('admin/dessert/item-detail.html')(**render_argv)
 
+@app.get('/admin/decision/<decision_id:int>')
+@has_perm('can_view_admin')
+def decision_item(decision_id):
+    render_argv = {
+        'decision' : Decision.get(decision_id),
+    }
+    return render('admin/decision/item-detail.html')(**render_argv)
+
 @app.get('/admin/dtype/<dtype_id:int>')
 @has_perm('can_view_admin')
 def dtype_item(dtype_id):
