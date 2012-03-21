@@ -36,9 +36,12 @@ def syncdb():
     #init data base
     #init perm
     perm_admin = Permission('can_view_admin')
+    perm_admin_edit = Permission('can_edit_admin')
+    perm_leader = Permission('can_decide')
     #init role
     role_admin = Role('admin')
     role_mem = Role('member')
+    role_leader = Role('leader')
     #init type
     utypea = UserType('memberA', 95, 100)
     utypeb = UserType('memberB', 90, 150)
@@ -47,12 +50,15 @@ def syncdb():
     user = User('sheimi', 'zhang')
     nuser = User('shaymin', 'zhang')
     session = Session()
-    session.add_all([role_admin, role_mem, user, nuser])
+    session.add_all([role_admin, role_mem, role_leader, user, nuser])
     session.commit()
     #config relation
     role_admin.perms.append(perm_admin)
+    role_leader.perms.append(perm_leader)
+    role_leader.perms.append(perm_admin)
+    role_admin.perms.append(perm_admin_edit)
     user.roles.append(role_admin)
-    nuser.roles.append(role_mem)
+    nuser.roles.append(role_leader)
     nuser.usertype = utypea
     session.commit()
     

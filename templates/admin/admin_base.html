@@ -14,6 +14,7 @@
             Index
           </a>
         </li>
+        {% if user.has_perm("can_edit_admin") %}
         <li class="nav-item {% if admin_user %}active{% endif %}">
           <a href="/admin/user">
             <i class="icon-user {% if admin_user %}icon-white{% endif %}"></i>
@@ -56,6 +57,7 @@
             Orders
           </a>
         </li>
+        {% endif %}
         <li class="nav-item {% if admin_decision%}active{% endif %}">
           <a href="/admin/decision">
             <i class="icon-resize-full {% if admin_decision%}icon-white{% endif %}"></i>

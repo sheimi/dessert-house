@@ -1,6 +1,7 @@
 {% import 'imports/forms.html' as forms %}
 {% call forms.bs_accordion('order-accordion') %}
   {% for order in user.orders | reverse%}
+    {% if order.is_confirmed %}
     {% call forms.bs_accordion_item('order-accordion', 'orderid'+order.id|string, 'Order No. : '+order.id|string, in=loop.first) %}
       <h4>Order No. : #{{order.id}}</h4>
       <table cellspacing="0" class="table table-striped">
@@ -33,5 +34,6 @@
       <hr/>
       {% endif %}
     {% endcall %}
+    {% endif %}
   {% endfor %}
 {% endcall %}

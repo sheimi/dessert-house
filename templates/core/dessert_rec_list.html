@@ -4,8 +4,8 @@
     <div class="well span12 {% if loop.index == 1 %} active {% endif %} item">
       <img class="offset2" src="/static/img/dessert/{{item.img}}.png" alt=""> 
       <div class="carousel-caption">
-        <h4>This is Label</h4>
-        <p>description</p>
+        <h4>{{item.dname}}</h4>
+        <p>{{item.des}}</p>
       </div>
     </div>
     {% endfor %}
