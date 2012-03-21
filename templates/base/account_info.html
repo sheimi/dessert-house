@@ -61,23 +61,6 @@
   });
 </script>
 {% endif %}
-<script>
-$(document).ready(function() {
-
-  $("#signout_link").click(function(e) {
-    e.preventDefault();
-    $.get('/ajax/signout').done(function() {
-      $.get('/ajax/account').done(function(data) {
-        $("ul#top-account-info").html(data);
-      });
-      refresh()
-      success.top_message('Logout Success')
-      refresh_sidetool()
-    });
-  });
-
-});
-</script>
 {% elif register %}
 <li>
   <a id="signin_link" href="/signin">

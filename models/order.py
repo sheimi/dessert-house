@@ -112,7 +112,7 @@ class Order(Base):
         session.commit()
 
     def total_price(self):
-        return sum([x.total_price() for x in self.order_items])
+        return sum([x.total_price() for x in self.order_items]) * self.discount / 100
 
 
 class OrderItem(Base):

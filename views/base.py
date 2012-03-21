@@ -52,6 +52,7 @@ def register_post():
 def sign_out():
     s = request.environ.get('beaker.session')
     s.delete()
+    return redirect('/')
     return {"success" : True}
 
 @app.get('/ajax/cart')

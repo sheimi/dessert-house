@@ -118,10 +118,10 @@ def get_age_share():
     users = User.get_all()
     render = {'None' : 0}
     for user in users:
-        if user.age:
+        if user.age and user.age != 'None':
             age = user.age
             group = age / 10 * 10
-            group = '%s-%s' % (group, group + 10)
+            group = '%d-%d' % (group, group + 10)
             if group in render.keys():
                 render[group] += 1
             else:
